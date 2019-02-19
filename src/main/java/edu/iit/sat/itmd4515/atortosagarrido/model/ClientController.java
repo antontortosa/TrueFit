@@ -98,7 +98,7 @@ public class ClientController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Client c = receiveClient(request);
+        Client c = receiveClient(request, response);
         LOG.log(Level.INFO, "Received client: {0}", c);
         if(c.getBirthDate()!=null){request.setAttribute("dateString", format.format(c.getBirthDate()));}
         request.setAttribute("client", c);
@@ -168,7 +168,7 @@ public class ClientController extends HttpServlet {
         }
     }
 
-    private Client receiveClient(HttpServletRequest request) {
+    private Client receiveClient(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("firstName").trim();
         String surname = request.getParameter("familyName").trim();
         String dateBrithParam = request.getParameter("birthDate");
@@ -183,6 +183,7 @@ public class ClientController extends HttpServlet {
                 dateBirth = format.parse(dateBrithParam);
             } catch (ParseException ex) {
                 Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("/atortosagarrido/error.jsp");
             }
         }
         if (request.getParameter("height").trim().equals("")) {
