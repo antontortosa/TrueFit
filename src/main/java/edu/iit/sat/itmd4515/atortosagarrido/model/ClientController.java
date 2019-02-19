@@ -37,7 +37,7 @@ public class ClientController extends HttpServlet {
     @Resource
     Validator validator;
     
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
     @Resource(lookup = "jdbc/itmd4515")
     DataSource ds;
@@ -150,7 +150,6 @@ public class ClientController extends HttpServlet {
     }
 
     private void insertNewClient(Connection con, Client c) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String query="INSERT INTO `clients`(`cl_name`,`cl_surname`,"
                 + "`cl_birthdate`,`cl_sign_date`,`membership_id`,"
                 + "`cl_height`,`cl_weight`)VALUES"
@@ -196,8 +195,7 @@ public class ClientController extends HttpServlet {
         } else {
             weight = Double.parseDouble(request.getParameter("weight"));
         }
-        Client c = new Client(name, surname, dateBirth, membershipType, height, weight);
-        return c;
+        return new Client(name, surname, dateBirth, membershipType, height, weight);
     }
 
 }
