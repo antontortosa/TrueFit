@@ -7,10 +7,12 @@ package edu.iit.sat.itmd4515.atortosagarrido.model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;;
+import java.util.Date;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +23,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -33,6 +36,11 @@ public class ClientController extends HttpServlet {
 
     @Resource
     Validator validator;
+    
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    
+    @Resource(lookup = "jdbc/itmd4515")
+    DataSource ds;
     
     private static final Logger LOG = Logger.getLogger(ClientController.class.getName());
     
@@ -49,7 +57,6 @@ public class ClientController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -91,6 +98,78 @@ public class ClientController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Client c = receiveClient(request);
+        LOG.log(Level.INFO, "Received client: {0}", c);
+        if(c.getBirthDate()!=null){request.setAttribute("dateString", format.format(c.getBirthDate()));}
+        request.setAttribute("client", c);
+        Set<ConstraintViolation<Client>> constraintViolations = validator.validate(c);
+        if(!constraintViolations.isEmpty()){
+            LOG.info("Constraints violated.");
+            for(ConstraintViolation<Client> bad : constraintViolations){
+                LOG.log(Level.INFO, "{0}: {1}", new Object[]{bad.getPropertyPath(), bad.getMessage()});
+            }
+            request.setAttribute("mistakes", constraintViolations);
+            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/clientform.jsp");
+            rd.forward(request, response);
+        }else{
+            LOG.info("Client validated. All good.");
+            String membershipString = "";
+            switch(c.getMembershipType()){
+                case 1:
+                    membershipString = "Standard";
+                    break;
+                case 2:
+                    membershipString = "Premium";
+                    break;
+                case 3:
+                    membershipString = "Gold";
+                    break;
+                default:
+                    membershipString = "VIP";
+            }
+            request.setAttribute("membership", membershipString);
+            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/clientconfirmation.jsp");
+            rd.forward(request, response);
+            
+            try(Connection con = ds.getConnection()){
+                insertNewClient(con, c);
+            } catch (SQLException ex) {
+                Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";  
+    }
+
+    private void insertNewClient(Connection con, Client c) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String query="INSERT INTO `clients`(`cl_name`,`cl_surname`,"
+                + "`cl_birthdate`,`cl_sign_date`,`membership_id`,"
+                + "`cl_height`,`cl_weight`)VALUES"
+                + "(?, ?, ?, ?,?,?,?);";
+        try(PreparedStatement ps = con.prepareStatement(query)){
+            ps.setString(1, c.getName());
+            ps.setString(2, c.getSurname());
+            ps.setString(3, format.format(c.getBirthDate()));
+            ps.setString(4, format.format(c.getSignDate()));
+            ps.setInt(5, c.getMembershipType());
+            ps.setDouble(6, c.getHeight());
+            ps.setDouble(7, c.getWeight());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private Client receiveClient(HttpServletRequest request) {
         String name = request.getParameter("firstName").trim();
         String surname = request.getParameter("familyName").trim();
         String dateBrithParam = request.getParameter("birthDate");
@@ -98,7 +177,6 @@ public class ClientController extends HttpServlet {
         int membershipType = Integer.parseInt(request.getParameter("membership"));
         double height = 0.0;
         double weight = 0.0;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         if(dateBrithParam.isEmpty()){
             LOG.info("Received empty Date");
         }else{
@@ -119,48 +197,7 @@ public class ClientController extends HttpServlet {
             weight = Double.parseDouble(request.getParameter("weight"));
         }
         Client c = new Client(name, surname, dateBirth, membershipType, height, weight);
-        LOG.log(Level.INFO, "Received client: {0}", c.toString());
-        if(dateBirth!=null){request.setAttribute("dateString", format.format(dateBirth));}
-        request.setAttribute("client", c);
-        Set<ConstraintViolation<Client>> constraintViolations = validator.validate(c);
-        if(constraintViolations.size()>0){
-            LOG.info("Constraints violated.");
-            constraintViolations.forEach((bad) -> {
-                LOG.log(Level.INFO, "{0}: {1}", new Object[]{bad.getPropertyPath(), bad.getMessage()});
-            });
-            request.setAttribute("mistakes", constraintViolations);
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/clientform.jsp");
-            rd.forward(request, response);
-        }else{
-            LOG.info("Client validated. All good.");
-            String membershipString = "";
-            switch(membershipType){
-                case 1:
-                    membershipString = "Standard";
-                    break;
-                case 2:
-                    membershipString = "Premium";
-                    break;
-                case 3:
-                    membershipString = "Gold";
-                    break;
-                default:
-                    membershipString = "VIP";
-            }
-            request.setAttribute("membership", membershipString);
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/clientconfirmation.jsp");
-            rd.forward(request, response);
-        }
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";  
+        return c;
     }
 
 }

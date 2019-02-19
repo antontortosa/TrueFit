@@ -7,6 +7,7 @@ package edu.iit.sat.itmd4515.atortosagarrido.model;
  
 import java.time.Instant;
 import java.util.Date;
+import java.util.Objects;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -302,10 +303,24 @@ public class Client {
             return false;
         }
         final Client other = (Client) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        return this.id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + this.id;
+        hash = 47 * hash + Objects.hashCode(this.name);
+        hash = 47 * hash + Objects.hashCode(this.surname);
+        hash = 47 * hash + Objects.hashCode(this.birthDate);
+        hash = 47 * hash + Objects.hashCode(this.signDate);
+        hash = 47 * hash + this.membershipType;
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.height) ^ (Double.doubleToLongBits(this.height) >>> 32));
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.weight) ^ (Double.doubleToLongBits(this.weight) >>> 32));
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.bodyFatPercentage) ^ (Double.doubleToLongBits(this.bodyFatPercentage) >>> 32));
+        hash = 47 * hash + this.trainingFocusId;
+        hash = 47 * hash + this.trainerId;
+        return hash;
     }
 
     

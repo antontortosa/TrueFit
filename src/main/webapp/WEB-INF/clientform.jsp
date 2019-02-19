@@ -19,7 +19,7 @@
         <c:if test="${not empty requestScope.mistakes}">
             <c:forEach items="${requestScope.mistakes}" var="mistake">   
                 <div class="isa_error">
-                    <i class="fa fa-times-circle"></i>
+                    <em class="fa fa-times-circle"></em>
                     Please correct this issue: ${mistake.message}
                 </div>
             </c:forEach>
