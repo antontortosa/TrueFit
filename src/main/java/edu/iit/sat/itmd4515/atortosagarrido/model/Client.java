@@ -8,6 +8,11 @@ package edu.iit.sat.itmd4515.atortosagarrido.model;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,44 +24,62 @@ import javax.validation.constraints.PositiveOrZero;
  *
  * @author antoniotortosa
  */
+
+@Entity
+@Table(name="client")
 public class Client {
     
-    private int id;
+    @Id
+    @Column(name = "id")
+    private Long id;
 
     @NotNull (message = "The name can't be a null value")
     @NotBlank (message = "The name can't be blank")
+    @Column(nullable = false, length = 20, name = "name_cl")
     private String name;
     
     @NotNull (message = "The surname can't be a null value")
     @NotBlank (message = "The surname can't be blank")
+    @Column(nullable = false, length = 50, name = "surname_cl")
     private String surname;
     
     
     @NotNull (message = "The birth date can't be a null value")
     @Past (message = "The birthdate has to be in the past")
+    @Column(nullable = false, name = "birthdate_cl")
     private Date birthDate;
     
     @NotNull (message = "The singing date can't be a null value")
     @PastOrPresent (message = "The signing date has to be either in the past or at the current time")
+    @Column(nullable = false, name = "signdate_cl")
     private Date signDate;
     
     @Positive (message = "The memebership type has to be a positive integer")
+    @Column(nullable = false, name = "membership_id")
+    //@ForeignKey(TODO)
     private int membershipType;
     
     @Positive (message = "The height must be a positive real number")
+    @Column(nullable = false, name = "height_cl")
     private double height;
     
     @Positive (message = "The weight must be a positive real number")
+    @Column(nullable = false, name = "weight_cl")
     private double weight;
     
     @PositiveOrZero (message = "The bodyfat percentage must be a positive real number")
     @Max(100)
+    @Column(name = "bodyfat_cl")
     private double bodyFatPercentage;
     
     @PositiveOrZero (message = "The training focus id has to be a positive integer")
+    @Column(name = "focus_id")
+    //@ForeignKey(TODO)
     private int trainingFocusId;
     
     @PositiveOrZero (message = "The trainer id has to be a positive integer")
+    @Column(name = "trainer_id")
+    //@ForeignKey(TODO)
     private int trainerId;
     
     
@@ -78,7 +101,7 @@ public class Client {
      *
      * @return the value of id
      */
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -87,7 +110,7 @@ public class Client {
      *
      * @param id new value of id
      */
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
@@ -309,7 +332,6 @@ public class Client {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + this.id;
         hash = 47 * hash + Objects.hashCode(this.name);
         hash = 47 * hash + Objects.hashCode(this.surname);
         hash = 47 * hash + Objects.hashCode(this.birthDate);

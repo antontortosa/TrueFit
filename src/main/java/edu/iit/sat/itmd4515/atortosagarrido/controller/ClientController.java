@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.iit.sat.itmd4515.atortosagarrido.model;
+package edu.iit.sat.itmd4515.atortosagarrido.controller;
 
+import edu.iit.sat.itmd4515.atortosagarrido.model.Client;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
