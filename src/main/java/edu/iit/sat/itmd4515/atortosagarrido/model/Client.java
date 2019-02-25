@@ -10,9 +10,12 @@ import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -30,6 +33,7 @@ import javax.validation.constraints.PositiveOrZero;
 public class Client {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -47,11 +51,13 @@ public class Client {
     @NotNull (message = "The birth date can't be a null value")
     @Past (message = "The birthdate has to be in the past")
     @Column(nullable = false, name = "birthdate_cl")
+    @Temporal(TemporalType.DATE)
     private Date birthDate;
     
     @NotNull (message = "The singing date can't be a null value")
     @PastOrPresent (message = "The signing date has to be either in the past or at the current time")
     @Column(nullable = false, name = "signdate_cl")
+    @Temporal(TemporalType.DATE)
     private Date signDate;
     
     @Positive (message = "The memebership type has to be a positive integer")
