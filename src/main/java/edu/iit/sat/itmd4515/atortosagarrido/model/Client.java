@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package edu.iit.sat.itmd4515.atortosagarrido.model;
- 
+
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
@@ -13,24 +14,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.PositiveOrZero; 
 /**
  *
  * @author antoniotortosa
  */
 
 @Entity
-@Table(name="client")
-public class Client {
+@NamedQuery(name = "Client.findByFullName", query = "SELECT c FROM Client c WHERE c.name = :name AND c.surname = :surname")
+@Table(
+        name="client", 
+        uniqueConstraints = @UniqueConstraint(columnNames = {"name_cl","surname_cl"})
+)
+public class Client implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -303,6 +310,17 @@ public class Client {
      */
     public void setName(String name) {
         this.name = name;
+    }
+    
+    /**
+     * Convenient method for retrieving the full name of the client
+     * 
+     * @return name + surname properly formated
+     */
+    public String getFullName(){
+        String n = this.name.trim();
+        String s = this.surname.trim();
+        return n + " " + s;
     }
 
     @Override
