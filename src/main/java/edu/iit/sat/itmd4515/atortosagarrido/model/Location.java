@@ -23,7 +23,7 @@ import javax.validation.constraints.Positive;
  */
 
 @Entity
-@NamedQuery(name = "Location.findByFullName", query = "SELECT l FROM Location l WHERE l.name = :name")
+@NamedQuery(name = "Location.findByName", query = "SELECT l FROM Location l WHERE l.name = :name")
 @Table(
         name="location"
 )
@@ -45,6 +45,14 @@ public class Location extends AbstractNamedEntity{
     @OneToMany(mappedBy = "location")
     private List<Employee> employees = new ArrayList<>();
 
+    public Location(){}
+
+    public Location(String name, String address, short zip) {
+        super(name);
+        this.address = address;
+        this.zip = zip;
+    }
+    
     /**
      * Get the value of zip
      *

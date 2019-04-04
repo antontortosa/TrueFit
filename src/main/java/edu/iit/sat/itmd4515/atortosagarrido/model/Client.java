@@ -294,11 +294,13 @@ public class Client extends AbstractNamedEntity {
      * @param mainLocation new value of mainLocation
      */
     public void setMainLocation(Location mainLocation) {
-        if(this.mainLocation != null){
-            this.mainLocation.removeClient(this);
-        }
+        if(!mainLocation.equals(this.mainLocation)){
+            if(this.mainLocation != null){
+                this.mainLocation.removeClient(this);
+            }
         this.mainLocation = mainLocation;
         mainLocation.addClient(this);
+        }
     }
     
     public void removeMainLocation(Location mainLocation) {

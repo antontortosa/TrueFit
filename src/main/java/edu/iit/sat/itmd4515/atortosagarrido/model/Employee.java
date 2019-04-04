@@ -149,7 +149,7 @@ public class Employee extends AbstractNamedEntity{
      * @param location new value of location
      */
     public void setLocation(Location location) {
-        if(this.location == location){
+        if(!location.equals(this.location)){
             if(this.location != null){
              this.location.removeEmployee(this);
             }
