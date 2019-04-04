@@ -5,15 +5,13 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.model;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,25 +33,14 @@ import javax.validation.constraints.PositiveOrZero;
 @NamedQuery(name = "Client.findByFullName", query = "SELECT c FROM Client c WHERE c.name = :name AND c.surname = :surname")
 @Table(
         name="client", 
-        uniqueConstraints = @UniqueConstraint(columnNames = {"name_cl","surname_cl"})
+        uniqueConstraints = @UniqueConstraint(columnNames = {"name","surname_cl"})
 )
-public class Client implements Serializable {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @NotNull (message = "The name can't be a null value")
-    @NotBlank (message = "The name can't be blank")
-    @Column(nullable = false, length = 20, name = "name_cl")
-    private String name;
+public class Client extends AbstractNamedEntity {
     
     @NotNull (message = "The surname can't be a null value")
     @NotBlank (message = "The surname can't be blank")
     @Column(nullable = false, length = 50, name = "surname_cl")
     private String surname;
-    
     
     @NotNull (message = "The birth date can't be a null value")
     @Past (message = "The birthdate has to be in the past")
@@ -85,6 +72,10 @@ public class Client implements Serializable {
     @Column(name = "bodyfat_cl")
     private double bodyFatPercentage;
     
+    @ManyToOne
+    @JoinColumn(name = "main_location_id")
+    private Location mainLocation;
+    
     @PositiveOrZero (message = "The training focus id has to be a positive integer")
     @Column(name = "focus_id")
     //@ForeignKey(TODO)
@@ -107,24 +98,6 @@ public class Client implements Serializable {
         this.height = height;
         this.weight = weight;
         this.signDate = Date.from(Instant.now());
-    }
-    
-    /**
-     * Get the value of id
-     *
-     * @return the value of id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     * @param id new value of id
-     */
-    public void setId(Long id) {
-        this.id = id;
     }
     
     /**
@@ -294,23 +267,6 @@ public class Client implements Serializable {
         this.birthDate = birthDate;
     }
 
-    /**
-     * Get the value of name
-     *
-     * @return the value of name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Set the value of name
-     *
-     * @param name new value of name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
     
     /**
      * Convenient method for retrieving the full name of the client
@@ -321,6 +277,35 @@ public class Client implements Serializable {
         String n = this.name.trim();
         String s = this.surname.trim();
         return n + " " + s;
+    }
+    
+    /**
+     * Get the value of mainLocation
+     *
+     * @return the value of mainLocation
+     */
+    public Location getMainLocation() {
+        return mainLocation;
+    }
+
+    /**
+     * Set the value of mainLocation
+     *
+     * @param mainLocation new value of mainLocation
+     */
+    public void setMainLocation(Location mainLocation) {
+        if(this.mainLocation != null){
+            this.mainLocation.removeClient(this);
+        }
+        this.mainLocation = mainLocation;
+        mainLocation.addClient(this);
+    }
+    
+    public void removeMainLocation(Location mainLocation) {
+        if(this.mainLocation != null){
+           this.mainLocation=null;
+           mainLocation.removeClient(this);
+       }
     }
 
     @Override
@@ -360,15 +345,6 @@ public class Client implements Serializable {
         hash = 47 * hash + Objects.hashCode(this.surname);
         hash = 47 * hash + Objects.hashCode(this.birthDate);
         hash = 47 * hash + Objects.hashCode(this.signDate);
-        hash = 47 * hash + this.membershipType;
-        hash = 47 * hash + (int) (Double.doubleToLongBits(this.height) ^ (Double.doubleToLongBits(this.height) >>> 32));
-        hash = 47 * hash + (int) (Double.doubleToLongBits(this.weight) ^ (Double.doubleToLongBits(this.weight) >>> 32));
-        hash = 47 * hash + (int) (Double.doubleToLongBits(this.bodyFatPercentage) ^ (Double.doubleToLongBits(this.bodyFatPercentage) >>> 32));
-        hash = 47 * hash + this.trainingFocusId;
-        hash = 47 * hash + this.trainerId;
         return hash;
-    }
-
-    
-    
+    } 
 }

@@ -5,12 +5,14 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.model;
 
+import static edu.iit.sat.itmd4515.atortosagarrido.model.AbstractJPATest.em;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import javax.persistence.NoResultException;
 import javax.persistence.RollbackException;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -20,10 +22,35 @@ public class ClientCRUDTest extends AbstractJPATest {
 
     public ClientCRUDTest() {
     }
+    
+    @Before
+    public void setUp() throws ParseException {
+        em = ef.createEntityManager();
+        et = em.getTransaction();
+        Client c = new Client("Iam", "Nobody", format.parse("1944-6-6"), 1, 1.76, 80);
+        et.begin();
+        em.persist(c);
+        et.commit();
+    }
+
+    @After
+    public void tearDown() {
+        Client c = em.createNamedQuery("Client.findByFullName",Client.class)
+                .setParameter("name", "Iam")
+                .setParameter("surname", "Nobody")
+                .getSingleResult();
+        if (em != null) {
+            if (et != null) {   
+                et.begin();
+                em.remove(c);
+                et.commit();  
+            }
+            em.close();
+        }
+    }
 
     @Test
     public void createNewValidClient() throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Client c = new Client("Antoio", "Tortosa", format.parse("1994-11-17"), 3, 1.8, 77);
         et.begin();
         em.persist(c);
@@ -34,7 +61,6 @@ public class ClientCRUDTest extends AbstractJPATest {
 
     @Test(expected = RollbackException.class)
     public void createInvalidClient() throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Client c = new Client(null, "Tortosa", format.parse("1994-11-17"), 3, 1.8, 77);
         et.begin();
         em.persist(c);
@@ -64,7 +90,6 @@ public class ClientCRUDTest extends AbstractJPATest {
     @Test(expected = NoResultException.class)
     @SuppressWarnings("UnusedAssignment")
     public void testRemoveExistingClient() throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Client c = new Client("Emilia", "Rosales", format.parse("1998-7-10"), 3, 1.51, 43);
         et.begin();
         em.persist(c);
