@@ -18,6 +18,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -40,9 +48,16 @@ public class ClientController extends HttpServlet {
     
     private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
-    @Resource(lookup = "jdbc/itmd4515")
-    DataSource ds;
+    //@Resource(lookup = "jdbc/itmd4515")
+    //DataSource ds;
     
+    @PersistenceContext(name = "itmd4515PU")
+    EntityManager em;
+    
+    @Resource
+    UserTransaction tx;
+            
+            
     private static final Logger LOG = Logger.getLogger(ClientController.class.getName());
     
     /**
@@ -131,10 +146,11 @@ public class ClientController extends HttpServlet {
             request.setAttribute("membership", membershipString);
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/clientconfirmation.jsp");
             rd.forward(request, response);
-            
-            try(Connection con = ds.getConnection()){
-                insertNewClient(con, c);
-            } catch (SQLException ex) {
+            try {
+                tx.begin();
+                em.persist(c);
+                tx.commit();
+            } catch (Exception ex) {
                 Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

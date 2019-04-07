@@ -56,6 +56,9 @@ public class TechnicianCRUDTest extends AbstractJPATest {
         assertNull("ID should be null before object is commited to the database", t.getId());
         et.commit();
         assertTrue("ID should have a value so far", t.getId() > 0);
+        et.begin();
+        em.remove(t);
+        et.commit();
     }
     
     @Test(expected = RollbackException.class)
@@ -80,6 +83,10 @@ public class TechnicianCRUDTest extends AbstractJPATest {
                 .setParameter("name", "Chief Technician")
                 .getSingleResult();
         assertTrue(p.getEmployees().contains(t));
+        et.begin();
+        em.remove(t);
+        em.remove(p);
+        et.commit();
     }
     
     @Test
@@ -94,6 +101,10 @@ public class TechnicianCRUDTest extends AbstractJPATest {
                 .setParameter("name", "Rack_1")
                 .getSingleResult();
         assertTrue(eq.getTechnicians().contains(t));
+        et.begin();
+        em.remove(t);
+        em.remove(eq);
+        et.commit();
     }
     
 }
