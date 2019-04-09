@@ -8,6 +8,7 @@ package edu.iit.sat.itmd4515.atortosagarrido.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
@@ -39,10 +40,10 @@ public class Location extends AbstractNamedEntity{
     @Column(nullable = false, length = 255, name = "zip_loc")
     private short zip;
     
-    @OneToMany(mappedBy = "mainLocation")
+    @OneToMany(mappedBy = "mainLocation", cascade = { CascadeType.MERGE })
     private List<Client> clients = new ArrayList<>();
     
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location", cascade = { CascadeType.MERGE })
     private List<Employee> employees = new ArrayList<>();
 
     public Location(){}

@@ -8,6 +8,7 @@ package edu.iit.sat.itmd4515.atortosagarrido.model;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -54,10 +55,9 @@ public class Client extends AbstractNamedEntity {
     @Temporal(TemporalType.DATE)
     private Date signDate;
     
-    @Positive (message = "The memebership type has to be a positive integer")
-    @Column(nullable = false, name = "membership_id")
-    //@ForeignKey(TODO)
-    private int membershipType;
+    @ManyToOne
+    @JoinColumn(name = "membership_id")
+    private Membership membership;
     
     @Positive (message = "The height must be a positive real number")
     @Column(nullable = false, name = "height_cl")
@@ -90,14 +90,16 @@ public class Client extends AbstractNamedEntity {
     public Client() {
     }
 
-    public Client(String name, String surname, Date birthDate, int membershipType, double height, double weight) {
+    public Client(String name, String surname, Date birthDate, double height, double weight) {
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
-        this.membershipType = membershipType;
         this.height = height;
         this.weight = weight;
         this.signDate = Date.from(Instant.now());
+        if(membership!=null){
+            membership.addClient(this);
+        }
     }
     
     /**
@@ -160,19 +162,9 @@ public class Client extends AbstractNamedEntity {
      *
      * @return the value of membershipType
      */
-    public int getMembershipType() {
-        return membershipType;
+    public Membership getMembership() {
+        return membership;
     }
-
-    /**
-     * Set the value of membershipType
-     *
-     * @param membershipType new value of membershipType
-     */
-    public void setMembershipType(int membershipType) {
-        this.membershipType = membershipType;
-    }
-
 
     /**
      * Get the value of trainingFocusId
@@ -309,6 +301,27 @@ public class Client extends AbstractNamedEntity {
            mainLocation.removeClient(this);
        }
     }
+    
+    /**
+     * Set the value of membership
+     *
+     * @param membership new value of mainLocation
+     */
+    public void setMembership(Membership membership) {
+        if(!membership.equals(this.membership)){
+            if(this.membership != null){
+                this.membership.removeClient(this);
+            }
+        this.membership = membership;
+        membership.addClient(this);
+        }
+    }
+    public void removeMembership(Membership membership) {
+        if(this.membership != null){
+           this.membership=null;
+           membership.removeClient(this);
+       }
+    }
 
     @Override
     public String toString() {
@@ -317,7 +330,7 @@ public class Client extends AbstractNamedEntity {
                 "\t\nsurname=" + surname + 
                 "\t\nbirthDate=" + birthDate + 
                 "\t\nsignDate=" + signDate + 
-                "\t\nmembershipType=" + membershipType + 
+                "\t\nmembershipType=" + membership + 
                 "\t\nheight=" + height + 
                 "\t\nweight=" + weight + 
                 "\t\nbodyFatPercentage=" + bodyFatPercentage + 

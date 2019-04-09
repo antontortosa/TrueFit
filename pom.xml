@@ -81,6 +81,7 @@
                 <version>2.3</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
             <plugin>

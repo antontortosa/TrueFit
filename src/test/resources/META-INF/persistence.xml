@@ -8,6 +8,7 @@
     <class>edu.iit.sat.itmd4515.atortosagarrido.model.Location</class>
     <class>edu.iit.sat.itmd4515.atortosagarrido.model.Position</class>
     <class>edu.iit.sat.itmd4515.atortosagarrido.model.Technician</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.model.Membership</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/itmd4515?zeroDateTimeBehavior=convertToNull"/>

@@ -5,7 +5,7 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.model;
 
-import java.time.Instant;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**

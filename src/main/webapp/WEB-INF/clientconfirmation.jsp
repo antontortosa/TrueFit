@@ -17,7 +17,7 @@
         <div>
             <p><strong>Full name:</strong> ${requestScope.client.name} ${requestScope.client.surname}</p>
             <p><strong>Birth date:</strong> ${requestScope.dateString}</p>
-            <p><strong>Type of membership:</strong>${requestScope.membership}</p>
+            <p><strong>Type of membership:</strong>${requestScope.client.membership.name}</p>
             <p><strong>Height:</strong> ${requestScope.client.height}m</p>
             <p><strong>Weight:</strong> ${requestScope.client.weight}kg</p>
         </div>

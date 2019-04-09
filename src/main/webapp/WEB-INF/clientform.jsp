@@ -41,10 +41,11 @@
             <div>
                 <label for="membership">Choose a membership</label><br>
                 <select name="membership" id="membership">
-                    <option <c:if test="${requestScope.client.membershipType == 1}"> selected="selected"</c:if> value="1">Standard</option>
-                    <option <c:if test="${requestScope.client.membershipType == 2}"> selected="selected"</c:if> value="2">Premium</option>
-                    <option <c:if test="${requestScope.client.membershipType == 3}"> selected="selected"</c:if> value="3">Gold</option>
-                    <option <c:if test="${requestScope.client.membershipType == 4}"> selected="selected"</c:if> value="4">VIP</option>
+                    <c:forEach items="${requestScope.memtypes}" var="memtype">
+                        <option 
+                            <c:if test="${requestScope.client.membership.equals(type)}"> selected="selected"</c:if>
+                                                                                         value="${memtype.name}">${memtype.name} - \$${memtype.monthlyPrice}</option>
+                    </c:forEach>
                 </select>
             </div>
             <div>
