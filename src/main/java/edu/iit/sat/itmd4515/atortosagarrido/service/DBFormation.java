@@ -20,9 +20,6 @@ import javax.persistence.PersistenceContext;
 @Startup
 @Singleton
 public class DBFormation {
-
-    @PersistenceContext(name = "itmd4515PU")
-    private EntityManager em;
     
     @EJB
     protected MembershipService memSv;
