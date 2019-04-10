@@ -25,6 +25,7 @@ import javax.validation.constraints.Positive;
 
 @Entity
 @NamedQuery(name = "Location.findByName", query = "SELECT l FROM Location l WHERE l.name = :name")
+@NamedQuery(name = "Location.findAll", query = "SELECT l FROM Location l")
 @Table(
         name="location"
 )

@@ -23,7 +23,7 @@ import javax.validation.constraints.Positive;
  */
 @Entity
 @NamedQuery(name = "Membership.findByName", query = "SELECT m FROM Membership m WHERE m.name = :name")
-@NamedQuery(name = "Membership.getAll", query = "SELECT m FROM Membership m")
+@NamedQuery(name = "Membership.findAll", query = "SELECT m FROM Membership m")
 @Table(name="membership",
         uniqueConstraints = @UniqueConstraint(columnNames = {"name"})
 )

@@ -7,6 +7,7 @@ package edu.iit.sat.itmd4515.atortosagarrido.service;
 
 import edu.iit.sat.itmd4515.atortosagarrido.model.Membership;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
@@ -23,6 +24,9 @@ public class DBFormation {
     @PersistenceContext(name = "itmd4515PU")
     private EntityManager em;
     
+    @EJB
+    protected MembershipService memSv;
+    
     public DBFormation() {
     }
     
@@ -37,9 +41,9 @@ public class DBFormation {
         Membership m2  = new Membership("Premium", 75.0);
         Membership m3  = new Membership("Gold", 100.0);
         Membership m4  = new Membership("VIP", 150.0);
-        em.persist(m1);
-        em.persist(m2);
-        em.persist(m3);
-        em.persist(m4);
+        memSv.create(m1);
+        memSv.create(m2);
+        memSv.create(m3);
+        memSv.create(m4);
     }
 }

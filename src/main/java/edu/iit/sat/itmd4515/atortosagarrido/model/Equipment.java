@@ -23,6 +23,7 @@ import javax.persistence.Table;
 
 @Entity
 @NamedQuery(name = "Equipment.findByName", query = "SELECT e FROM Equipment e WHERE e.name = :name")
+@NamedQuery(name = "Equipment.findAll", query = "SELECT e FROM Equipment e")
 @Table(
         name="equipment"
 )

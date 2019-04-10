@@ -92,7 +92,7 @@ public class ClientController extends HttpServlet {
         
         Client c = new Client();
         request.setAttribute("client", c);
-        List<Membership> membershipAll = em.createNamedQuery("Membership.getAll",Membership.class)
+        List<Membership> membershipAll = em.createNamedQuery("Membership.findAll",Membership.class)
                 .getResultList();
         request.setAttribute("memtypes", membershipAll.toArray());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/clientform.jsp");
@@ -114,7 +114,7 @@ public class ClientController extends HttpServlet {
         LOG.log(Level.INFO, "Received client: {0}", c);
         if(c.getBirthDate()!=null){request.setAttribute("dateString", format.format(c.getBirthDate()));}
         request.setAttribute("client", c);
-        List<Membership> memberships = em.createNamedQuery("Membership.getAll",Membership.class).getResultList();
+        List<Membership> memberships = em.createNamedQuery("Membership.findAll",Membership.class).getResultList();
         request.setAttribute("memtypes", memberships);
         Set<ConstraintViolation<Client>> constraintViolations = validator.validate(c);
         if(!constraintViolations.isEmpty()){

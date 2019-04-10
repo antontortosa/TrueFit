@@ -32,6 +32,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 @NamedQuery(name = "Client.findByFullName", query = "SELECT c FROM Client c WHERE c.name = :name AND c.surname = :surname")
+@NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")
 @Table(
         name="client", 
         uniqueConstraints = @UniqueConstraint(columnNames = {"name","surname_cl"})

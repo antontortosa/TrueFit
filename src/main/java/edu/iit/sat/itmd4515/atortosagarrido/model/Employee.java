@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -31,8 +32,11 @@ import javax.validation.constraints.PastOrPresent;
 
 @Entity
 @NamedQuery(name = "Employee.findByFullName", query = "SELECT e FROM Employee e WHERE e.name = :name AND e.surname = :surname")
+@NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")
 @Table(
-        name="employee"
+        name="employee",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"name","surname_emp"})
+        
 )
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type_emp",length = 21)

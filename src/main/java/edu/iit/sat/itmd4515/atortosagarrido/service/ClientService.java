@@ -6,33 +6,35 @@
 package edu.iit.sat.itmd4515.atortosagarrido.service;
 
 import edu.iit.sat.itmd4515.atortosagarrido.model.Client;
+import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author antoniotortosa
  */
 @Stateless
-public class ClientService {
-
-    @PersistenceContext(name = "itmd4515PU")
-    private EntityManager em;
-    
+public class ClientService extends AbstractService<Client> {
+        
     public ClientService() {
+        super(Client.class);
     }
     
-    public void create(Client c){
-        em.persist(c);
-    }
-    
-    public void update(Client c){
-        em.merge(c);
-    }
-    
+    @Override
     public void remove(Client c){
         c.getMembership().removeClient(c);
         em.remove(c);
-    }     
+    }
+    
+    /**
+     * Find all clients
+     * 
+     * @return all the Client in the Data Base
+     */
+    @Override
+    public List<Client> findAll(){
+        return em.createNamedQuery("Client.findAll",Client.class)
+                .getResultList();
+    }
+    
 }

@@ -5,6 +5,8 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.service;
 
+import edu.iit.sat.itmd4515.atortosagarrido.model.Location;
+import java.util.List;
 import javax.ejb.Stateless;
 
 /**
@@ -13,9 +15,21 @@ import javax.ejb.Stateless;
  */
 
 @Stateless
-public class LocationService {
-
+public class LocationService extends AbstractService<Location>{
+    
     public LocationService() {
+        super(Location.class);
+    }
+    
+    /**
+     * Find all clients
+     * 
+     * @return all the Client in the Data Base
+     */
+    @Override
+    public List<Location> findAll(){
+        return em.createNamedQuery("Location.findAll",Location.class)
+                .getResultList();
     }
     
 }
