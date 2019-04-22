@@ -6,7 +6,9 @@
 package edu.iit.sat.itmd4515.atortosagarrido.model;
 
 import static edu.iit.sat.itmd4515.atortosagarrido.model.AbstractJPATest.em;
+//import edu.iit.sat.itmd4515.atortosagarrido.service.ClientService;
 import java.text.ParseException;
+//import javax.ejb.EJB;
 import javax.persistence.NoResultException;
 import javax.persistence.RollbackException;
 import org.junit.After;
@@ -19,6 +21,9 @@ import org.junit.Before;
  * @author antoniotortosa
  */
 public class ClientCRUDTest extends AbstractJPATest {
+    
+    //@EJB
+    //private ClientService clSv;
     
     public ClientCRUDTest() {
     }

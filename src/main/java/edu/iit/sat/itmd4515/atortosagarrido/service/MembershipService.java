@@ -19,6 +19,12 @@ public class MembershipService extends AbstractService<Membership>{
     public MembershipService() {
         super(Membership.class);
     }
+    
+    public Membership findByName(String name){
+        return em.createNamedQuery("Membership.findByName",Membership.class)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
 
     @Override
     public List<Membership> findAll() {
