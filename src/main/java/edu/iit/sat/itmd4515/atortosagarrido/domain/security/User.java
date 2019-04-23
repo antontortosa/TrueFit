@@ -7,7 +7,9 @@ package edu.iit.sat.itmd4515.atortosagarrido.domain.security;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,13 +22,17 @@ import javax.persistence.Table;
  * @author antoniotortosa
  */
 @Entity
+@EntityListeners(UserListener.class )
 @Table(name = "sec_user")
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User {
     
     @Id    
+    @Column(name = "username")
     private String userName;
+    @Column(name = "password")
     private String password;
+    @Column(name = "enabled")
     private boolean enabled;
     @ManyToMany
     @JoinTable(

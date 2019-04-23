@@ -49,7 +49,7 @@ public class ClientController {
         LOG.info("inside executeSaveClient" + client.toString());
         client.setSignDate(Date.from(Instant.now()));
         clSvc.create(client);
-        return "/employees/clientok.xhtml";
+        return "/clients/clientok.xhtml";
     }
 
     public List<Membership> getMemberships(){

@@ -8,6 +8,9 @@ package edu.iit.sat.itmd4515.atortosagarrido.config;
 import javax.annotation.security.DeclareRoles;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
+import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
+import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
+import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 
 
 /**
@@ -16,6 +19,16 @@ import javax.inject.Named;
  */
 @Named
 @ApplicationScoped
+@DatabaseIdentityStoreDefinition(
+        dataSourceLookup = "jdbc/itmd4515DS",
+        callerQuery = "select password from sec_user where username = ?",
+        groupsQuery = "select groupname from sec_user_groups where username = ?"
+)
+@CustomFormAuthenticationMechanismDefinition(
+        loginToContinue = @LoginToContinue(
+                loginPage = "/login.xhtml",
+                errorPage = "/error.xhtml")
+)
 @DeclareRoles({"ADMIN_ROLE","CLIENT_ROLE","TRAINER_ROLE","TECH_ROLE"})
 public class SecurityConfig {
     

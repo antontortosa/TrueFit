@@ -1,12 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Client successfully created</title>
-    </h:head>
-    <h:body>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/templates/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Client successfully created
+    </ui:define>
+
+    <ui:define name="content">
         <h1>Your information is good and saved!</h1>
         <div>
             <p><strong>Full name:</strong> #{clientController.client.fullName}</p>
@@ -19,9 +22,8 @@
             <p><strong>Height:</strong> #{clientController.client.height}m</p>
             <p><strong>Weight:</strong> #{clientController.client.weight}kg</p>
             
-            <h:link outcome="/employees/welcome.xhtml" value="Return to welcome page"/>
+            <h:link outcome="/clients/user/welcome.xhtml" value="Return to welcome page"/>
         </div>
-        
-    </h:body>
-</html>
+    </ui:define>
 
+</ui:composition>

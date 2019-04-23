@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/templates/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="title">
+        Client form
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>Client sign-in</h1>
+
+        <h:form> 
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel value="Name:" for="name"/>
+                <h:inputText class="form-control" id="name" value="#{clientController.client.name}"/>
+                <h:message for="name" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel value="Surname:" for="surname"/>
+                <h:inputText class="form-control" id="surname" value="#{clientController.client.surname}"/>
+                <h:message for="surname" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel value="Birth date:" for="birthDate"/>
+                <h:inputText class="form-control" p:type="date" id="birthDate" value="#{clientController.client.birthDate}">
+                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                </h:inputText>
+                <h:message for="birthDate" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel value="Membership: " for="membership"/>
+                <h:selectOneMenu class="form-control" id="membership" value="#{clientController.client.membership}">
+                    <f:converter binding="#{membershipConverter}" />
+                    <f:selectItems value="#{clientController.memberships}" var="mem" itemLabel="#{mem.name}" itemValue="#{mem}"/>
+                </h:selectOneMenu>
+                <h:message for="membership" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel value="Height:" for="height"/>
+                <h:inputText class="form-control" id="height" value="#{clientController.client.height}"/>
+                <h:message for="height" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel value="Weight:" for="weight"/>
+                <h:inputText class="form-control" id="weight" value="#{clientController.client.weight}"/>
+                <h:message for="weight" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:commandButton value="Create New Client" class="btn btn-primary" action="#{clientController.executeSaveClient()}"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

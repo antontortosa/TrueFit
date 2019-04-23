@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/templates/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">
+        Login Page
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h:outputLabel for="username" value="Username: "/>
+            <h:inputText class="form-control" id="username" value="#{loginController.username}"/>
+            <h:message for="username" errorClass="text-danger"/>
+            
+            <h:outputLabel for="username" value="Password: "/>
+            <h:inputSecret class="form-control" id="password" value="#{loginController.password}"/>
+            <h:message for="password" errorClass="text-danger"/>
+            
+            <h:commandButton class="btn btn-primary" value="Log-in" action="#{loginController.doLogin()}"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

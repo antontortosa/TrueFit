@@ -7,6 +7,7 @@ package edu.iit.sat.itmd4515.atortosagarrido.domain.security;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -23,7 +24,9 @@ import javax.persistence.Table;
 public class Group {
     
     @Id     
+    @Column(name = "groupname")
     private String groupName;
+    @Column(name = "group_desc")
     private String groupDesc;
     
     @ManyToMany(mappedBy = "groups")

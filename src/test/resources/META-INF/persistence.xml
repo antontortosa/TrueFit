@@ -2,13 +2,6 @@
 <persistence version="2.2" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
   <persistence-unit name="itmd4515testPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>edu.iit.sat.itmd4515.atortosagarrido.model.Client</class>
-    <class>edu.iit.sat.itmd4515.atortosagarrido.model.Employee</class>
-    <class>edu.iit.sat.itmd4515.atortosagarrido.model.Equipment</class>
-    <class>edu.iit.sat.itmd4515.atortosagarrido.model.Location</class>
-    <class>edu.iit.sat.itmd4515.atortosagarrido.model.Position</class>
-    <class>edu.iit.sat.itmd4515.atortosagarrido.model.Technician</class>
-    <class>edu.iit.sat.itmd4515.atortosagarrido.model.Membership</class>
     <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Administrative</class>
     <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Client</class>
     <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Employee</class>
