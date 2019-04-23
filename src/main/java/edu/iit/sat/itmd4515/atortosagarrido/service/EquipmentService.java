@@ -5,7 +5,7 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.service;
 
-import edu.iit.sat.itmd4515.atortosagarrido.model.Equipment;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment;
 import java.util.List;
 import javax.ejb.Stateless;
 

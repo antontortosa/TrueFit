@@ -5,6 +5,11 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.model;
 
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Position;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Employee;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Technician;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.EqStatus;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment;
 import static edu.iit.sat.itmd4515.atortosagarrido.model.AbstractJPATest.et;
 import java.text.ParseException;
 import javax.persistence.RollbackException;

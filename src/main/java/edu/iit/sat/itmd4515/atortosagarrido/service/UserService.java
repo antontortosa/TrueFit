@@ -5,7 +5,7 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.service;
 
-import edu.iit.sat.itmd4515.atortosagarrido.domain.Employee;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import java.util.List;
 import javax.ejb.Stateless;
 
@@ -13,22 +13,18 @@ import javax.ejb.Stateless;
  *
  * @author antoniotortosa
  */
-
 @Stateless
-public class EmployeeService extends AbstractService<Employee> {
-   
-    public EmployeeService() {
-        super(Employee.class);
-    }
+public class UserService extends AbstractService<User>{
+
     
-    /**
-     * Find all employees
-     * 
-     * @return all the Emmployees in the Data Base
-     */
+    public UserService() {
+        super(User.class);
+    }
+
+    
     @Override
-    public List<Employee> findAll(){
-        return em.createNamedQuery("Employee.findAll",Employee.class)
+    public List<User> findAll() {
+        return em.createNamedQuery("User.findAll",User.class)
                 .getResultList();
     }
     

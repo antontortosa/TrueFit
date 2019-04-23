@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.iit.sat.itmd4515.atortosagarrido.model;
+package edu.iit.sat.itmd4515.atortosagarrido.domain;
 
+import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -82,11 +83,12 @@ public class Client extends AbstractNamedEntity {
     //@ForeignKey(TODO)
     private int trainingFocusId;
     
-    @PositiveOrZero (message = "The trainer id has to be a positive integer")
-    @Column(name = "trainer_id")
-    //@ForeignKey(TODO)
-    private int trainerId;
+    @ManyToOne
+    private Trainer trainer;
     
+    @OneToOne
+    @JoinColumn(name = "username")
+    private User user;
     
     public Client() {
     }
@@ -104,21 +106,42 @@ public class Client extends AbstractNamedEntity {
     }
     
     /**
+     * Get the value of user
+     *
+     * @return the value of user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @param user new value of user
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    /**
      * Get the value of trainerId
      *
      * @return the value of trainerId
      */
-    public int getTrainerId() {
-        return trainerId;
+    public Trainer getTrainer() {
+        return trainer;
     }
 
     /**
-     * Set the value of trainerId
+     * Set the value of trainer
      *
-     * @param trainerId new value of trainerId
+     * @param trainer new value of trainer
      */
-    public void setTrainerId(int trainerId) {
-        this.trainerId = trainerId;
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+        if(!trainer.getClients().contains(this)){
+            this.trainer.getClients().add(this);
+        }
     }
     
     /**
@@ -336,7 +359,7 @@ public class Client extends AbstractNamedEntity {
                 "\t\nweight=" + weight + 
                 "\t\nbodyFatPercentage=" + bodyFatPercentage + 
                 "\t\ntrainingFocusId=" + trainingFocusId + 
-                "\t\ntrainerId=" + trainerId + '}';
+                "\t\ntrainerId=" + trainer + '}';
     }
 
     @Override

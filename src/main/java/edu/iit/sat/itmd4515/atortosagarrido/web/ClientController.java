@@ -3,11 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.iit.sat.itmd4515.atortosagarrido.controller;
+package edu.iit.sat.itmd4515.atortosagarrido.web;
 
-import edu.iit.sat.itmd4515.atortosagarrido.model.Client;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Client;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Membership;
+import edu.iit.sat.itmd4515.atortosagarrido.service.ClientService;
+import edu.iit.sat.itmd4515.atortosagarrido.service.MembershipService;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -23,6 +30,11 @@ public class ClientController {
 
     private Client client;
 
+    @EJB 
+    private MembershipService memSvc;
+    
+    @EJB 
+    private ClientService clSvc;
     
     public ClientController() {
     }
@@ -35,9 +47,19 @@ public class ClientController {
     
     public String executeSaveClient(){
         LOG.info("inside executeSaveClient" + client.toString());
-        return "/admin/welcome.xhtml";
+        client.setSignDate(Date.from(Instant.now()));
+        clSvc.create(client);
+        return "/employees/clientok.xhtml";
     }
 
+    public List<Membership> getMemberships(){
+        return memSvc.findAll();
+    }
+    
+    public List<Client> getAllClients(){
+        return clSvc.findAll();
+    }
+    
     public Client getClient() {
         return client;
     }

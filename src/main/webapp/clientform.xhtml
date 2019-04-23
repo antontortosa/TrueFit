@@ -77,9 +77,11 @@
                         <h:message for="birthDate" errorClass="text-danger"/>
                     </h:panelGroup>
                     <h:panelGroup layout="block" class="form-group">
-                        <label for="membership">Choose a membership</label><br></br>
-                        <select name="membership" id="membership">
-                        </select>
+                        <h:outputLabel value="Membership: " for="membership"/>
+                        <h:selectOneMenu class="form-control" id="membership" value="#{clientController.client.membership}">
+                             <f:converter binding="#{membershipConverter}" />
+                            <f:selectItems value="#{clientController.memberships}" var="mem" itemLabel="#{mem.name}" itemValue="#{mem}"/>
+                        </h:selectOneMenu>
                         <h:message for="membership" errorClass="text-danger"/>
                     </h:panelGroup>
                     <h:panelGroup layout="block" class="form-group">

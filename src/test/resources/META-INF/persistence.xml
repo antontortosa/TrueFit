@@ -9,6 +9,17 @@
     <class>edu.iit.sat.itmd4515.atortosagarrido.model.Position</class>
     <class>edu.iit.sat.itmd4515.atortosagarrido.model.Technician</class>
     <class>edu.iit.sat.itmd4515.atortosagarrido.model.Membership</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Administrative</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Client</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Employee</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Location</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Membership</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Position</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Technician</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.Trainer</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.security.Group</class>
+    <class>edu.iit.sat.itmd4515.atortosagarrido.domain.security.User</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/itmd4515?zeroDateTimeBehavior=convertToNull"/>

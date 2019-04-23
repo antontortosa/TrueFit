@@ -5,6 +5,7 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.model;
 
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Client;
 import static edu.iit.sat.itmd4515.atortosagarrido.model.AbstractJPATest.em;
 //import edu.iit.sat.itmd4515.atortosagarrido.service.ClientService;
 import java.text.ParseException;

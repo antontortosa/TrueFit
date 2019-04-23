@@ -5,6 +5,9 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.model;
 
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Client;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Employee;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Location;
 import static edu.iit.sat.itmd4515.atortosagarrido.model.AbstractJPATest.em;
 import java.text.ParseException;
 import javax.persistence.RollbackException;

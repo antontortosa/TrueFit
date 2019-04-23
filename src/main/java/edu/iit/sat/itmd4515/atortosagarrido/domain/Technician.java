@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.iit.sat.itmd4515.atortosagarrido.model;
+package edu.iit.sat.itmd4515.atortosagarrido.domain;
 
 
+import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -35,6 +37,10 @@ public class Technician extends Employee{
     )
     Set<Equipment> equipments = new HashSet<>();
 
+    @OneToOne
+    @JoinColumn(name = "username")    
+    private User user;
+    
     public Technician(){
     }
     
@@ -42,10 +48,38 @@ public class Technician extends Employee{
         super(name,surname,birthDate);
     }
     
+    /**
+     * Get the value of user
+     *
+     * @return the value of user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @param user new value of user
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    /**
+     * Get the value of equipments
+     *
+     * @return the value of equipments
+     */
     public Set<Equipment> getEquipments() {
         return equipments;
     }
-
+    
+    /**
+     * Set the value of equipments
+     *
+     * @param equipments new value of equipments
+     */
     public void setEquipments(Set<Equipment> equipments) {
         this.equipments = equipments;
     }
