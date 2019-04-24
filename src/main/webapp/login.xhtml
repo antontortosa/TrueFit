@@ -10,15 +10,19 @@
 
     <ui:define name="content">
         <h:form>
-            <h:outputLabel for="username" value="Username: "/>
-            <h:inputText class="form-control" id="username" value="#{loginController.username}"/>
-            <h:message for="username" errorClass="text-danger"/>
-            
-            <h:outputLabel for="username" value="Password: "/>
-            <h:inputSecret class="form-control" id="password" value="#{loginController.password}"/>
-            <h:message for="password" errorClass="text-danger"/>
-            
-            <h:commandButton class="btn btn-primary" value="Log-in" action="#{loginController.doLogin()}"/>
+            <div>
+                <h:outputLabel for="username" value="Username: "/>
+                <h:inputText class="form-control" id="username" value="#{loginController.username}"/>
+                <h:message for="username" errorClass="text-danger"/>
+            </div>
+            <div>
+                <h:outputLabel for="username" value="Password: "/>
+                <h:inputSecret class="form-control" id="password" value="#{loginController.password}"/>
+                <h:message for="password" errorClass="text-danger"/>
+            </div>
+            <div>
+                <h:commandButton class="btn btn-primary" value="Log-in" action="#{loginController.doLogin()}"/>
+            </div>
         </h:form>
     </ui:define>
 
