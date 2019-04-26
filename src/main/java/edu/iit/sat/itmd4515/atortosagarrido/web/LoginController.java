@@ -32,10 +32,10 @@ import javax.validation.constraints.NotEmpty;
 public class LoginController {
 
     //login form fields
-    @NotBlank(message = "Username can't be lesft in blank")
+    @NotBlank(message = "Username can't be left in blank")
     @NotEmpty(message = "Username can't be empty")
     private String username;
-    @NotBlank(message = "Password can't be lesft in blank")
+    @NotBlank(message = "Password can't be left in blank")
     @NotEmpty(message = "Password can't be empty")
     private String password;
 
