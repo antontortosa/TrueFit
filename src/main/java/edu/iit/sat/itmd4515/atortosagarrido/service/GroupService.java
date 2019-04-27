@@ -22,8 +22,14 @@ public class GroupService extends AbstractService<Group>{
 
     @Override
     public List<Group> findAll() {
-        return em.createNamedQuery("User.findAll",Group.class)
+        return em.createNamedQuery("Group.findAll",Group.class)
                 .getResultList();
+    }
+
+    public Group findByName(String groupname) {
+        return em.createNamedQuery("Group.findByName",Group.class)
+                .setParameter("groupName", groupname)
+                .getSingleResult();
     }
     
 }

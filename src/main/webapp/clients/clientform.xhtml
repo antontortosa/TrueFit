@@ -10,7 +10,17 @@
         Client form
     </ui:define>
 
-    <ui:define name="content">
+    <ui:define name="dummyHeader">
+        Hello #{loginController.remoteUser}!
+    </ui:define>
+
+    <ui:define name="ListMenu">
+        <li>
+            <h:link value = "Home" outcome = "user/welcome.xhtml" p:data-toggle="collapse" p:aria-expanded="false"/>
+        </li>
+    </ui:define>
+
+    <ui:define name="mainContent">
         <h1>Client sign-in</h1>
 
         <h:form> 

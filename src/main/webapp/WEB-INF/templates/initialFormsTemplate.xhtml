@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!-- Custom styles for this template -->
+        <h:outputStylesheet library="css" name="login-style.css"/>
+    </h:head>
+    <h:body>
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+                <!-- Tabs Titles -->
+
+                <!-- Icon -->
+                <div>
+                    <h:graphicImage id="icon" name="images/logo.png" />
+                </div>
+
+                <!-- Login Form -->
+                <ui:insert name="mainForm">Default Main Form</ui:insert>
+                <!-- Remind Passowrd -->
+                <div id="formFooter">
+                    <ui:insert name="footer">Default footer</ui:insert>
+                </div>
+
+            </div>
+        </div>
+    </h:body>
+</html>
+

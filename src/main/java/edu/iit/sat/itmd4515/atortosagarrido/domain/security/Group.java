@@ -21,6 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "sec_group")
 @NamedQuery(name = "Group.findAll", query = "SELECT g FROM Group g")
+@NamedQuery(name = "Group.findByName", query = "SELECT g FROM Group g where g.groupName = :groupName")
 public class Group {
     
     @Id     

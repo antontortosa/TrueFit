@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-        <title>Collapsible sidebar using Bootstrap 4</title>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
 
         <!-- Bootstrap CSS CDN -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"/>
@@ -18,55 +19,18 @@
         <!-- Font Awesome JS -->
         <h:outputScript name="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" target="body" />
         <h:outputScript name="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" target="body" />
-
     </h:head>
     <h:body>
         <div class="wrapper">
             <!-- Sidebar  -->
             <nav id="sidebar">
                 <div class="sidebar-header">
-                    <h3>Bootstrap Sidebar</h3>
+                    <h3>Main Menu</h3>
                 </div>
 
                 <ul class="list-unstyled components">
-                    <p>Dummy Heading</p>
-                    <li class="active">
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
-                            <li>
-                                <a href="#">Home 1</a>
-                            </li>
-                            <li>
-                                <a href="#">Home 2</a>
-                            </li>
-                            <li>
-                                <a href="#">Home 3</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu">
-                            <li>
-                                <a href="#">Page 1</a>
-                            </li>
-                            <li>
-                                <a href="#">Page 2</a>
-                            </li>
-                            <li>
-                                <a href="#">Page 3</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Portfolio</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
+                    <p><ui:insert name="dummyHeader">Default Header</ui:insert></p>
+                    <ui:insert name="ListMenu">Default Menu</ui:insert>
                 </ul>
 
                 <ul class="list-unstyled CTAs">
@@ -89,15 +53,7 @@
                         </button>
                     </div>
                 </nav>
-
-                <h2>MAIN PLACE FOR CONTENT</h2>
-
-                <div class="line"></div>                
-
-                <div class="line"></div>
-
-                <div class="line"></div>
-
+                <ui:insert name="mainContent">Default Content</ui:insert>
             </div>
         </div>
 

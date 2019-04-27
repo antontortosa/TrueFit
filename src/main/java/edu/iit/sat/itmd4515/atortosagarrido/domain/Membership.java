@@ -34,7 +34,7 @@ public class Membership extends AbstractNamedEntity{
     @NotNull
     private double monthlyPrice;
     
-    @OneToMany(mappedBy = "membership", cascade = { CascadeType.MERGE })
+    @OneToMany(mappedBy = "membership", cascade = { CascadeType.MERGE,CascadeType.PERSIST })
     private List<Client> clients = new ArrayList<>();;
     
     public Membership() {

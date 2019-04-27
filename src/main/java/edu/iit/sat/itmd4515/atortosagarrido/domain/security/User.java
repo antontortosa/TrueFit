@@ -25,6 +25,7 @@ import javax.persistence.Table;
 @EntityListeners(UserListener.class )
 @Table(name = "sec_user")
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+@NamedQuery(name = "User.findByName", query = "SELECT u FROM User u where u.userName = :userName")
 public class User {
     
     @Id    

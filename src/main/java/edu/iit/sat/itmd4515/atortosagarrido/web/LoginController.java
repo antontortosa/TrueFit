@@ -5,8 +5,14 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.web;
 
+import edu.iit.sat.itmd4515.atortosagarrido.domain.security.Group;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
+import edu.iit.sat.itmd4515.atortosagarrido.service.GroupService;
+import edu.iit.sat.itmd4515.atortosagarrido.service.UserService;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -47,6 +53,12 @@ public class LoginController {
     private SecurityContext securityContext;
     @Inject
     private FacesContext facesContext;
+    
+    @EJB 
+    private UserService usrSvc;
+    
+    @EJB 
+    private GroupService grpSvc;
     
     public LoginController() {
     }
@@ -90,7 +102,12 @@ public class LoginController {
                 LOG.info("NOT_DONE on Login");
                 return "/error.xhtml";
         }
-        return "/welcome.xhtml?faces-redirect=true";
+        if(userIsAdmin()){
+            return "employees/admin/welcome.xhtml?faces-redirect=true";
+        }else{
+            return "clients/user/welcome.xhtml?faces-redirect=true";
+        }
+        
     }
     
     public String doLogout(){
@@ -138,6 +155,12 @@ public class LoginController {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    private boolean userIsAdmin() {
+        User userLoged = usrSvc.findByName(getRemoteUser());
+        LOG.log(Level.INFO, "Checking if {0} is admin", userLoged.getUserName());
+        return userLoged.getGroups().stream().anyMatch((gr) -> (gr.getGroupName().equals("ADMIN_GROUP")));
     }
 
 }

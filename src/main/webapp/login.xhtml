@@ -1,54 +1,35 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
-    <h:head>
-        <title>Login</title>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <!-- Custom styles for this template -->
-        <h:outputStylesheet library="css" name="login-style.css"/>
-    </h:head>
-    <h:body>
-        <div class="wrapper fadeInDown">
-            <div id="formContent">
-                <!-- Tabs Titles -->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/templates/initialFormsTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
-                <!-- Icon -->
-                <div class="fadeIn first">
-                    <img src="resources/images/logo.png" id="icon" alt="User Icon" />
-                </div>
+    <ui:define name="title">
+        Log In
+    </ui:define>
 
-                <!-- Login Form -->
-                <h:form>
-                    <div>
-                        <h:inputText class="fadeIn second" 
-                                     id="login" 
-                                     p:placeholder="username" 
-                                     value="#{loginController.username}"/>
-                        <h:message for="login" errorClass="alert alert-danger"/>
-                    </div>
-                    <div>
-                        <h:inputSecret class="fadeIn third" 
-                                       id="password" 
-                                       p:placeholder="password" 
-                                       value="#{loginController.password}"/>
-                        <h:message for="password" errorClass="alert alert-danger"/>
-                    </div>
-                    <div>
-                        <h:commandButton class="fadeIn fourth" value="Log In" action="#{loginController.doLogin()}"/>
-                    </div>
-                </h:form>
-
-                <!-- Remind Passowrd -->
-                <div id="formFooter">
-                    <a class="underlineHover" href="#">Forgot Password?</a>
-                </div>
-
+    <ui:define name="mainForm">
+        <h:form>
+            <div>
+                <h:inputText id="login" 
+                             p:placeholder="username" 
+                             value="#{loginController.username}"/>
+                <h:message for="login" errorClass="text-danger"/>
             </div>
-        </div>
-    </h:body>
-</html>
+            <div>
+                <h:inputSecret id="password" 
+                               p:placeholder="password" 
+                               value="#{loginController.password}"/>
+                <h:message for="password" errorClass="text-danger"/>
+            </div>
+            <div>
+                <h:commandButton value="Log In" action="#{loginController.doLogin()}"/>
+            </div>
+        </h:form>
+    </ui:define>
+    <ui:define name="footer">
+        <h:link value = "New Client? Sign in" outcome = "newUser"/>
+    </ui:define>
 
+</ui:composition>

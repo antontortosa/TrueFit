@@ -21,6 +21,11 @@ public class UserService extends AbstractService<User>{
         super(User.class);
     }
 
+    public User findByName(String username){
+        return em.createNamedQuery("User.findByName",User.class)
+                .setParameter("userName", username)
+                .getSingleResult();
+    }
     
     @Override
     public List<User> findAll() {

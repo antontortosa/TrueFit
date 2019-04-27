@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/templates/adminMainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        All Clients
+    </ui:define>
+    <ui:define name="mainContent">
+        <h:dataTable class="table table-striped table-hover" value="#{clientController.allClients}" var="client">
+            <h:column>
+                <h:outputText value="#{client.id}"/>
+                <f:facet name="header"><h:outputText value="ID"/></f:facet>
+            </h:column>
+            <h:column>
+                <h:outputText value="#{client.name}"/>
+                <f:facet name="header"><h:outputText value="Name"/></f:facet>
+            </h:column>
+            <h:column>
+                <h:outputText value="#{client.birthDate}">
+                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                </h:outputText>
+                <f:facet name="header"><h:outputText value="Birth date"/></f:facet>
+            </h:column>
+            <h:column>
+                <h:outputText value="#{client.signDate}">
+                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                </h:outputText>
+                <f:facet name="header"><h:outputText value="Sign date"/></f:facet>
+            </h:column>
+            <h:column>
+                <h:outputText value="#{client.membership.name}"/>
+                <f:facet name="header"><h:outputText value="Membership"/></f:facet>
+            </h:column>
+            <h:column>
+                <h:outputText value="#{client.height}"/>
+                <f:facet name="header"><h:outputText value="Height"/></f:facet>
+            </h:column>
+            <h:column>
+                <h:outputText value="#{client.weight}"/>
+                <f:facet name="header"><h:outputText value="Weight"/></f:facet>
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+
+</ui:composition>
