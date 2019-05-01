@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="tech" required="true" type="edu.iit.sat.itmd4515.atortosagarrido.domain.Technician"/>
+        <cc:attribute name="readonly" required="false" default="true" type="java.lang.Boolean" />
+        <cc:attribute name="action" required="false" method-signature="java.lang.String action()" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h2>
+            <h:outputText rendered="#{cc.attrs.readonly}" value="View Client #{cc.attrs.tech.fullName}"/>
+            <h:outputText rendered="#{not cc.attrs.readonly and empty cc.attrs.tech.id}" value="Create New Client"/>
+            <h:outputText rendered="#{not cc.attrs.readonly and not empty cc.attrs.tech.id}" value="Update Client #{cc.attrs.tech.fullName}"/>
+        </h2>
+        <h:form id="mainForm" class="form-horizontal">
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" 
+                               value="ID #{cc.attrs.tech.id}" 
+                               for="techId"
+                               rendered="#{cc.attrs.readonly or not empty cc.attrs.tech.id}"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputHidden class="form-control" id="techId" value="#{cc.attrs.tech.id}"/>
+                    <h:inputHidden class="form-control" id="techVersion" value="#{cc.attrs.tech.version}"/>
+                    <h:message for="techId" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Name: " for="techName"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputText class="form-control" 
+                                 id="techName" 
+                                 value="#{cc.attrs.tech.name}"
+                                 readonly="#{cc.attrs.readonly ? 'true' : 'false'}"/>
+                    <h:message for="techName" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:outputLabel class="col-lg-3 control-label" value="Surname: " for="techSurname"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputText class="form-control" 
+                                 id="surname" 
+                                 value="#{cc.attrs.tech.surname}"
+                                 readonly="#{cc.attrs.readonly ? 'true' : 'false'}"/>
+                    <h:message for="surname" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:outputLabel class="col-lg-3 control-label" value="Birthdate: " for="birthDate"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputText p:type="date" 
+                                 id="birthDate" 
+                                 readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                 disabled="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                 class="form-control"
+                                 value="#{cc.attrs.tech.birthDate}">
+                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                    </h:inputText>
+                    <h:message for="birthDate" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <ui:fragment rendered="#{not cc.attrs.readonly}">
+                <h:commandButton value="Save Technician" class="btn btn-info btn-lg" action="#{cc.attrs.action}"/>
+            </ui:fragment>
+        </h:form>
+    </cc:implementation>
+</html>

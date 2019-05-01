@@ -22,14 +22,20 @@ public class LocationService extends AbstractService<Location>{
     }
     
     /**
-     * Find all clients
+     * Find all locations
      * 
-     * @return all the Client in the Data Base
+     * @return all the locations in the Data Base
      */
     @Override
     public List<Location> findAll(){
         return em.createNamedQuery("Location.findAll",Location.class)
                 .getResultList();
+    }
+
+    public Location findByName(String name) {
+        return em.createNamedQuery("Location.findByName",Location.class)
+                .setParameter("name", name)
+                .getSingleResult();
     }
     
 }

@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -29,8 +30,86 @@
                 </div>
 
                 <ul class="list-unstyled components">
-                    <p><ui:insert name="dummyHeader">Default Header</ui:insert></p>
-                    <ui:insert name="ListMenu">Default Menu</ui:insert>
+                    <p> Welcome #{loginController.remoteUser} </p>
+                    <li>
+                        <h:link value = "Home" outcome = "./welcome.xhtml"/>
+                    </li>
+                    <ui:fragment id="adminsNav" rendered="#{loginController.admin}">
+                        <li>
+                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">People</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu">
+                                <li>
+                                    <h:link value = "Clients" outcome = "allClients"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Administrators" outcome = "allAdmins"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Trainers" outcome = "allTrainers"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Technicians" outcome = "allTechnicians"/>
+                                </li>
+                            </ul>
+                        </li>
+                    </ui:fragment>
+                    <ui:fragment id="clientsNav" rendered="#{loginController.client}">
+                        <li>
+                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Training</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu">
+                                <li>
+                                    <h:link value = "Program" outcome = "allClients"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Trainers" outcome = "allAdmins"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Exercises" outcome = "allTrainers"/>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h:link value = "Profile" outcome = "profile.xhtml"/>
+                        </li>
+                    </ui:fragment>
+                    <ui:fragment id="trainersNav" rendered="#{loginController.trainer}">
+                        <li>
+                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">People</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu">
+                                <li>
+                                    <h:link value = "Clients" outcome = "allClients"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Administrators" outcome = "allAdmins"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Trainers" outcome = "allTrainers"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Technicians" outcome = "allTechnicians"/>
+                                </li>
+                            </ul>
+                        </li>
+                    </ui:fragment>
+                    <ui:fragment id="techNav" rendered="#{loginController.tech}">
+                        <li>
+                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">People</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu">
+                                <li>
+                                    <h:link value = "Clients" outcome = "allClients"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Administrators" outcome = "allAdmins"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Trainers" outcome = "allTrainers"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Technicians" outcome = "allTechnicians"/>
+                                </li>
+                            </ul>
+                        </li>
+                    </ui:fragment>
                 </ul>
 
                 <ul class="list-unstyled CTAs">

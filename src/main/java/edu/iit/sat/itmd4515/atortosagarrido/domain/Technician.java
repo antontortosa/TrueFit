@@ -6,7 +6,6 @@
 package edu.iit.sat.itmd4515.atortosagarrido.domain;
 
 
-import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -27,6 +26,7 @@ import javax.persistence.Table;
 @Table(
         name="technician"
 )
+@NamedQuery(name = "Technician.findAll", query = "SELECT t FROM Technician t")
 public class Technician extends Employee{
     
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -36,34 +36,13 @@ public class Technician extends Employee{
         inverseJoinColumns = { @JoinColumn(name = "equipment_id") }
     )
     Set<Equipment> equipments = new HashSet<>();
-
-    @OneToOne
-    @JoinColumn(name = "username")    
-    private User user;
     
     public Technician(){
+        super();
     }
     
     public Technician(String name, String surname, Date birthDate) {
         super(name,surname,birthDate);
-    }
-    
-    /**
-     * Get the value of user
-     *
-     * @return the value of user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Set the value of user
-     *
-     * @param user new value of user
-     */
-    public void setUser(User user) {
-        this.user = user;
     }
     
     /**

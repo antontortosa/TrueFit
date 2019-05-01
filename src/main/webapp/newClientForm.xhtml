@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/templates/initialFormsTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="title">
+        Client form
+    </ui:define>
+
+    <ui:define name="mainForm">
+        <h:form id="mainForm">
+            <h:panelGroup layout="block">
+                <h:inputText id="login"
+                             p:placeholder="new username"
+                             value="#{clientController.user.userName}"/>
+                <h:message for="login" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:inputSecret id="password" 
+                               p:placeholder="new password"
+                               value="#{clientController.user.password}"/>
+                <h:message for="password" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:inputText id="name" p:placeholder="First Name" value="#{clientController.client.name}"/>
+                <h:message for="name" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:inputText id="surname" p:placeholder="Surname" value="#{clientController.client.surname}"/>
+                <h:message for="surname" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:inputText p:type="date" 
+                             id="birthDate" 
+                             p:placeholder="Date of Birth"
+                             p:onClick="$(this).removeClass('placeholderclass')"
+                             class="dateclass placeholderclass"
+                             value="#{clientController.client.birthDate}">
+                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                </h:inputText>
+                <h:message for="birthDate" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:selectOneMenu class="custom-select" id="membership" p:placeholder="Choose membership" value="#{clientController.client.membership}">
+                    <f:converter binding="#{membershipConverter}" />
+                    <f:selectItems value="#{clientController.memberships}" var="mem" itemLabel="#{mem.name}" itemValue="#{mem}"/>
+                </h:selectOneMenu>
+                <h:message for="membership" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:inputText id="height" p:placeholder="Enter your height" value="#{clientController.client.height}"/>
+                <h:message for="height" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:inputText id="weight" p:placeholder="Enter your weight" value="#{clientController.client.weight}"/>
+                <h:message for="weight" errorClass="text-danger"/>
+            </h:panelGroup>
+            <h:commandButton value="Create New Client" class="btn btn-primary" action="#{clientController.clientCreatesClient()}"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="footer">
+        <p></p>
+    </ui:define>
+
+</ui:composition>

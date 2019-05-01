@@ -7,16 +7,20 @@ package edu.iit.sat.itmd4515.atortosagarrido.web;
 
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Client;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Membership;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import edu.iit.sat.itmd4515.atortosagarrido.service.ClientService;
+import edu.iit.sat.itmd4515.atortosagarrido.service.GroupService;
 import edu.iit.sat.itmd4515.atortosagarrido.service.MembershipService;
-import java.time.Instant;
-import java.util.Date;
+import edu.iit.sat.itmd4515.atortosagarrido.service.UserService;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.security.enterprise.SecurityContext;
 
 /**
  *
@@ -27,14 +31,28 @@ import javax.inject.Named;
 public class ClientController {
 
     private static final Logger LOG = Logger.getLogger(ClientController.class.getName());
-
+    
     private Client client;
-
+    
+    private User user;
+    
+    @Inject
+    private LoginController loginController;
+    
+    @Inject
+    private SecurityContext securityContext;
+    
     @EJB 
     private MembershipService memSvc;
     
     @EJB 
     private ClientService clSvc;
+    
+    @EJB
+    private UserService usrSvc;
+    
+    @EJB
+    private GroupService grpSvc;
     
     public ClientController() {
     }
@@ -42,14 +60,24 @@ public class ClientController {
     @PostConstruct
     private void postConstruct(){
         LOG.info("inside PostConstruct");
-        client = new Client();
+        if(loginController.getRemoteUser()!=null && securityContext.isCallerInRole("CLIENT_ROLE")){
+            client = clSvc.findByUsername(loginController.getRemoteUser());
+            user = client.getUser();
+        }else{
+            user = new User();
+            client = new Client();
+        }
     }
     
-    public String executeSaveClient(){
-        LOG.info("inside executeSaveClient" + client.toString());
-        client.setSignDate(Date.from(Instant.now()));
+    public String clientCreatesClient(){
+        LOG.log(Level.INFO, "inside executeSaveClient{0}", client.toString());
+        //HttpServletRequest req =(HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        //username  = facesContext.getExternalContext().getRequestParameterMap().get("user");
+        user.addGroup(grpSvc.findByName("CLIENT_GROUP"));
+        usrSvc.create(user);
+        client.setUser(user);
         clSvc.create(client);
-        return "/clients/clientok.xhtml";
+        return "clientok.xhtml";
     }
 
     public List<Membership> getMemberships(){
@@ -60,14 +88,40 @@ public class ClientController {
         return clSvc.findAll();
     }
     
+    /**
+     * Get the value of client
+     *
+     * @return the value of client
+     */
     public Client getClient() {
         return client;
     }
 
+    /**
+     * Set the value of client
+     *
+     * @param client new value of client
+     */
     public void setClient(Client client) {
         this.client = client;
     }
     
-    
+    /**
+     * Get the value of user
+     *
+     * @return the value of user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @param user new value of user
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
     
 }

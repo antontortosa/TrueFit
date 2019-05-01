@@ -5,15 +5,13 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.domain;
 
-import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Positive;
 
@@ -25,6 +23,7 @@ import javax.validation.constraints.Positive;
 @Table(
         name="trainer"
 )
+@NamedQuery(name = "Trainer.findAll", query = "SELECT t FROM Trainer t")
 public class Trainer extends Employee{
     
     @OneToMany(mappedBy = "trainer")
@@ -33,35 +32,14 @@ public class Trainer extends Employee{
     @Column(nullable = false, name = "cost_per_hour")
     @Positive (message = "The cost must be a positive real number")
     private double costPerHour;
-    
-    @OneToOne
-    @JoinColumn(name = "username")    
-    private User user;
 
     public Trainer() {
+        super();
     }
 
     public Trainer(String name, String surname, Date birthDate,double costPerHour) {
         super(name,surname,birthDate);
         this.costPerHour = costPerHour;
-    }
-
-    /**
-     * Get the value of user
-     *
-     * @return the value of user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Set the value of user
-     *
-     * @param user new value of user
-     */
-    public void setUser(User user) {
-        this.user = user;
     }
     
     /**

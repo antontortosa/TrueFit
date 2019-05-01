@@ -5,11 +5,8 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.web;
 
-import edu.iit.sat.itmd4515.atortosagarrido.domain.security.Group;
-import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import edu.iit.sat.itmd4515.atortosagarrido.service.GroupService;
 import edu.iit.sat.itmd4515.atortosagarrido.service.UserService;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -73,6 +70,22 @@ public class LoginController {
         return facesContext.getExternalContext().getRemoteUser();
     }
     
+    public boolean isAdmin() {
+         return securityContext.isCallerInRole("ADMIN_ROLE");
+    }
+    
+    public boolean isClient() {
+         return securityContext.isCallerInRole("CLIENT_ROLE");
+    }
+    
+    public boolean isTrainer() {
+         return securityContext.isCallerInRole("TRAINER_ROLE");
+    }
+    
+    public boolean isTech() {
+         return securityContext.isCallerInRole("TECH_ROLE");
+    }
+    
     //Action methods
     
     /**
@@ -102,12 +115,18 @@ public class LoginController {
                 LOG.info("NOT_DONE on Login");
                 return "/error.xhtml";
         }
-        if(userIsAdmin()){
+        if(isAdmin()){
             return "employees/admin/welcome.xhtml?faces-redirect=true";
-        }else{
+        }
+        else if(isClient()){
             return "clients/user/welcome.xhtml?faces-redirect=true";
         }
-        
+        else if(isTrainer()){
+         return "employees/train/welcome.xhtml?faces-redirect=true";
+        }
+        else{
+          return "employees/tech/welcome.xhtml?faces-redirect=true";
+        }
     }
     
     public String doLogout(){
@@ -157,10 +176,6 @@ public class LoginController {
         this.username = username;
     }
 
-    private boolean userIsAdmin() {
-        User userLoged = usrSvc.findByName(getRemoteUser());
-        LOG.log(Level.INFO, "Checking if {0} is admin", userLoged.getUserName());
-        return userLoged.getGroups().stream().anyMatch((gr) -> (gr.getGroupName().equals("ADMIN_GROUP")));
-    }
+    
 
 }

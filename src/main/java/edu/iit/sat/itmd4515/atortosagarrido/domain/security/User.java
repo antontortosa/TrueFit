@@ -135,5 +135,16 @@ public class User {
         this.userName = userName;
     }
 
+    @Override
+    public String toString() {
+        return "User{" + "userName=" + userName + ", password=" + password + ", enabled=" + enabled + ", groups=" + groupsToString() + '}';
+    }
+
+    private String groupsToString(){
+        String toRet = "{\n";
+        toRet = groups.stream().map((gr) -> gr.toString() + "\n").reduce(toRet, String::concat);
+        toRet += "}";
+        return toRet;
+    }
     
 }

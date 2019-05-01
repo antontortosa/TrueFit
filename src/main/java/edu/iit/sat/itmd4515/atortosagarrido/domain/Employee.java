@@ -5,6 +5,7 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.domain;
 
+import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,6 +35,7 @@ import javax.validation.constraints.PastOrPresent;
 @Entity
 @NamedQuery(name = "Employee.findByFullName", query = "SELECT e FROM Employee e WHERE e.name = :name AND e.surname = :surname")
 @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")
+@NamedQuery(name = "Employee.findByUsername", query = "SELECT e FROM Employee e WHERE e.user.userName = :username")
 @Table(
         name="employee",
         uniqueConstraints = @UniqueConstraint(columnNames = {"name","surname_emp"})
@@ -67,8 +70,13 @@ public class Employee extends AbstractNamedEntity{
     @ManyToOne
     @JoinColumn(name = "position_id")
     protected Position position;
+    
+    @OneToOne
+    @JoinColumn(name = "username")    
+    private User user;
 
     public Employee() {
+        this.signDate = Date.from(Instant.now());
     }
     
     public Employee(String name,String surname, Date birthDate) {
@@ -78,6 +86,23 @@ public class Employee extends AbstractNamedEntity{
         this.signDate = Date.from(Instant.now());
     }
 
+      /**
+     * Get the value of user
+     *
+     * @return the value of user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @param user new value of user
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
     
     
     /**
@@ -239,7 +264,15 @@ public class Employee extends AbstractNamedEntity{
                 "\n positionId=" + position + '}';
     }
     
-    
-    
-    
-}
+    /**
+     * Convenient method for retrieving the full name of the employee
+     * 
+     * @return name + surname properly formated
+     */
+    public String getFullName(){
+        String n = this.name.trim();
+        String s = this.surname.trim();
+        return n + " " + s;
+    }
+   
+ }

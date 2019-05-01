@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -27,7 +28,8 @@ import javax.validation.constraints.Positive;
 @NamedQuery(name = "Location.findByName", query = "SELECT l FROM Location l WHERE l.name = :name")
 @NamedQuery(name = "Location.findAll", query = "SELECT l FROM Location l")
 @Table(
-        name="location"
+        name="location",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"name"})
 )
 public class Location extends AbstractNamedEntity{
     
@@ -38,8 +40,8 @@ public class Location extends AbstractNamedEntity{
 
     @NotNull (message = "The zip can't be a null value")
     @Positive
-    @Column(nullable = false, length = 255, name = "zip_loc")
-    private short zip;
+    @Column(nullable = false, name = "zip_loc")
+    private int zip;
     
     @OneToMany(mappedBy = "mainLocation", cascade = { CascadeType.MERGE })
     private List<Client> clients = new ArrayList<>();
@@ -49,7 +51,7 @@ public class Location extends AbstractNamedEntity{
 
     public Location(){}
 
-    public Location(String name, String address, short zip) {
+    public Location(String name, String address, int zip) {
         super(name);
         this.address = address;
         this.zip = zip;
@@ -60,7 +62,7 @@ public class Location extends AbstractNamedEntity{
      *
      * @return the value of zip
      */
-    public short getZip() {
+    public int getZip() {
         return zip;
     }
 
@@ -69,7 +71,7 @@ public class Location extends AbstractNamedEntity{
      *
      * @param zip new value of zip
      */
-    public void setZip(short zip) {
+    public void setZip(int zip) {
         this.zip = zip;
     }
 

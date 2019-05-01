@@ -6,6 +6,7 @@
 package edu.iit.sat.itmd4515.atortosagarrido.service;
 
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Client;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Membership;
 import java.util.List;
 import javax.ejb.Stateless;
 
@@ -22,8 +23,11 @@ public class ClientService extends AbstractService<Client> {
     
     @Override
     public void remove(Client c){
-        c.getMembership().removeClient(c);
-        em.remove(c);
+        Client cDB = em.getReference(Client.class, c.getId());
+        Membership m = cDB.getMembership();
+        m.removeClient(cDB);
+        em.merge(m);
+        em.remove(cDB);
     }
     
     /**
@@ -37,4 +41,9 @@ public class ClientService extends AbstractService<Client> {
                 .getResultList();
     }
     
+    public Client findByUsername(String username) {
+        return em.createNamedQuery("Client.findByUsername",Client.class)
+                .setParameter("username", username)
+                .getSingleResult();
+    }
 }

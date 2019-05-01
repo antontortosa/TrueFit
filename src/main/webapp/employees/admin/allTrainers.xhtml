@@ -1,46 +1,49 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../../WEB-INF/templates/adminMainTemplate.xhtml"
+                template="./../../WEB-INF/templates/mainTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">
-        All Clients
+        All Trainers
     </ui:define>
     <ui:define name="mainContent">
-        <h:dataTable class="table table-striped table-hover" value="#{clientController.allClients}" var="client">
+        <h:dataTable class="table table-striped table-hover" value="#{trainerController.allTrainers}" var="trainer">
             <h:column>
-                <h:outputText value="#{client.id}"/>
+                <h:outputText value="#{trainer.id}"/>
                 <f:facet name="header"><h:outputText value="ID"/></f:facet>
             </h:column>
             <h:column>
-                <h:outputText value="#{client.name}"/>
+                <h:outputText value="#{trainer.name}"/>
                 <f:facet name="header"><h:outputText value="Name"/></f:facet>
             </h:column>
             <h:column>
-                <h:outputText value="#{client.birthDate}">
+                <h:outputText value="#{trainer.birthDate}">
                     <f:convertDateTime pattern="MM-dd-yyyy" />
                 </h:outputText>
                 <f:facet name="header"><h:outputText value="Birth date"/></f:facet>
             </h:column>
             <h:column>
-                <h:outputText value="#{client.signDate}">
+                <h:outputText value="#{trainer.signDate}">
                     <f:convertDateTime pattern="MM-dd-yyyy" />
                 </h:outputText>
                 <f:facet name="header"><h:outputText value="Sign date"/></f:facet>
             </h:column>
             <h:column>
-                <h:outputText value="#{client.membership.name}"/>
-                <f:facet name="header"><h:outputText value="Membership"/></f:facet>
+                <h:outputText value="#{trainer.costPerHour}"/>
+                <f:facet name="header"><h:outputText value="Cost/Hour"/></f:facet>
             </h:column>
             <h:column>
-                <h:outputText value="#{client.height}"/>
-                <f:facet name="header"><h:outputText value="Height"/></f:facet>
+                <h:outputText value="#{trainer.location.name}"/>
+                <f:facet name="header"><h:outputText value="Location"/></f:facet>
             </h:column>
             <h:column>
-                <h:outputText value="#{client.weight}"/>
-                <f:facet name="header"><h:outputText value="Weight"/></f:facet>
+                <h:form>
+                    <h:commandLink action="#{administrativeController.prepareViewTrainer(trainer)}" value="View "/>
+                    <h:commandLink action="#{administrativeController.prepareEditTrainer(trainer)}" value="Edit "/>
+                    <h:commandLink  onclick="if (! confirm('Really want to do that?')) return false" action="#{administrativeController.doDeleteTrainer(trainer)}" value="Delete"/>
+                </h:form>
             </h:column>
         </h:dataTable>
     </ui:define>

@@ -34,6 +34,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Entity
 @NamedQuery(name = "Client.findByFullName", query = "SELECT c FROM Client c WHERE c.name = :name AND c.surname = :surname")
 @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")
+@NamedQuery(name = "Client.findByUsername", query = "SELECT c FROM Client c WHERE c.user.userName = :username")
 @Table(
         name="client", 
         uniqueConstraints = @UniqueConstraint(columnNames = {"name","surname_cl"})
@@ -86,11 +87,12 @@ public class Client extends AbstractNamedEntity {
     @ManyToOne
     private Trainer trainer;
     
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "username")
     private User user;
     
     public Client() {
+        this.signDate = Date.from(Instant.now());
     }
 
     public Client(String name, String surname, Date birthDate, double height, double weight) {
