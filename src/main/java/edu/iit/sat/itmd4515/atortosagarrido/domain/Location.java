@@ -113,26 +113,22 @@ public class Location extends AbstractNamedEntity{
     public void addClient(Client cl){
         if(!clients.contains(cl)){
             clients.add(cl);
-            cl.setMainLocation(this);
         }
     }
     public void removeClient(Client cl){
        if(clients.contains(cl)){
            clients.remove(cl);
-           cl.removeMainLocation(this);
        }
     }
     
     public void addEmployee(Employee em){
         if(!employees.contains(em)){
             employees.add(em);
-            em.setLocation(this);
         }
     }
     public void removeEmployee(Employee em){
        if(employees.contains(em)){
            employees.remove(em);
-           em.removeLocation(this);
        }
     }
 
@@ -178,7 +174,23 @@ public class Location extends AbstractNamedEntity{
         return "Location{" + "id=" + id + 
                 "\n name=" + name + 
                 "\n address=" + address + 
-                "\n zip=" + zip + '}';
+                "\n zip=" + zip + 
+                printClients() + 
+                printEmployees() +'}';
+    }
+
+    private String printClients() {
+        String toRet = "[\n";
+        toRet = clients.stream().map((c) -> c.getFullName() + "\n").reduce(toRet, String::concat);
+        toRet += "]";
+        return toRet;
+    }
+    
+    private String printEmployees() {
+        String toRet = "[\n";
+        toRet = employees.stream().map((c) -> c.getFullName() + "\n").reduce(toRet, String::concat);
+        toRet += "]";
+        return toRet;
     }
     
     

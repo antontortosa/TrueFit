@@ -183,7 +183,7 @@ public class Employee extends AbstractNamedEntity{
              this.location.removeEmployee(this);
             }
             this.location = location;
-            location.addEmployee(this);
+            this.location.addEmployee(this);
         }   
     }
     
@@ -215,7 +215,7 @@ public class Employee extends AbstractNamedEntity{
                 this.position.removeEmployee(this);
             }
             this.position = position;
-            position.addEmployee(this);
+            this.position.addEmployee(this);
         }
     }
     
@@ -255,13 +255,16 @@ public class Employee extends AbstractNamedEntity{
 
     @Override
     public String toString() {
-        return "Employee{" + "id=" + id + 
-                "\n name=" + name + 
-                "\n surname=" + surname + 
+        String toRet = "Employee {" +
+                "\nid=" + id + 
+                "\n name=" + getFullName() + 
                 "\n birthDate=" + birthDate + 
-                "\n signDate=" + signDate + 
-                "\n locationId=" + location + 
-                "\n positionId=" + position + '}';
+                "\n signDate=" + signDate;       
+        if(user!=null){toRet+="\n user=" + user.getUserName();}
+        if(location!=null){toRet+="\n location= " + location.getName();}
+        if(position!=null){toRet+="\n position= " + position.getName();}
+        toRet += "\n}";
+        return toRet;
     }
     
     /**

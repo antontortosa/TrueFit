@@ -19,6 +19,10 @@
                 <f:facet name="header"><h:outputText value="Name"/></f:facet>
             </h:column>
             <h:column>
+                <h:outputText value="#{admin.surname}"/>
+                <f:facet name="header"><h:outputText value="Surname"/></f:facet>
+            </h:column>
+            <h:column>
                 <h:outputText value="#{admin.birthDate}">
                     <f:convertDateTime pattern="MM-dd-yyyy" />
                 </h:outputText>

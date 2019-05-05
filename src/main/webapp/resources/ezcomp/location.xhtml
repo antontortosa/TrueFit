@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="location" required="true" type="edu.iit.sat.itmd4515.atortosagarrido.domain.Location"/>
+        <cc:attribute name="readonly" required="false" default="true" type="java.lang.Boolean" />
+        <cc:attribute name="action" required="false" method-signature="java.lang.String action()" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h2>
+            <h:outputText rendered="#{cc.attrs.readonly}" value="View Location #{cc.attrs.location.name}"/>
+            <h:outputText rendered="#{not cc.attrs.readonly and empty cc.attrs.location.id}" value="Create New Client"/>
+            <h:outputText rendered="#{not cc.attrs.readonly and not empty cc.attrs.location.id}" value="Update Client #{cc.attrs.location.name}"/>
+        </h2>
+        <h:form id="mainForm" class="form-horizontal">
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" 
+                               value="ID #{cc.attrs.location.id}" 
+                               for="locationId"
+                               rendered="#{cc.attrs.readonly or not empty cc.attrs.location.id}"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputHidden class="form-control" id="locationId" value="#{cc.attrs.location.id}"/>
+                    <h:inputHidden class="form-control" id="locationVersion" value="#{cc.attrs.location.version}"/>
+                    <h:message for="locationId" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Name: " for="name"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputText class="form-control" 
+                                 id="name" 
+                                 value="#{cc.attrs.location.name}"
+                                 readonly="#{cc.attrs.readonly ? 'true' : 'false'}"/>
+                    <h:message for="name" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Address: " for="address"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputText class="form-control" 
+                                 id="address" 
+                                 value="#{cc.attrs.location.address}"
+                                 readonly="#{cc.attrs.readonly ? 'true' : 'false'}"/>
+                    <h:message for="address" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Zip: " for="zip"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputText class="form-control" 
+                                 id="zip" 
+                                 value="#{cc.attrs.location.zip}"
+                                 readonly="#{cc.attrs.readonly ? 'true' : 'false'}"/>
+                    <h:message for="zip" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group" rendered="#{cc.attrs.readonly}">
+                <h:outputLabel class="col-lg-3 control-label" value="Clients at this location: " for="clients"/> 
+                <h:dataTable class="table table-striped table-hover w-auto" value="#{cc.attrs.location.clients}" var="client" id="clients">
+                    <h:column>
+                        <h:outputText value="#{client.id}"/>
+                        <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{client.fullName}"/>
+                        <f:facet name="header"><h:outputText value="Name"/></f:facet>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group" rendered="#{cc.attrs.readonly}">
+                <h:outputLabel class="col-lg-3 control-label" value="Employees at this location: " for="clients"/> 
+                <h:dataTable class="table table-striped table-hover w-auto" value="#{cc.attrs.location.employees}" var="emp" id="employees">
+                    <h:column>
+                        <h:outputText value="#{emp.id}"/>
+                        <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{emp.fullName}"/>
+                        <f:facet name="header"><h:outputText value="Name"/></f:facet>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{emp.class.simpleName}"/>
+                        <f:facet name="header"><h:outputText value="Type"/></f:facet>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            
+            <ui:fragment rendered="#{not cc.attrs.readonly}">
+                <h:commandButton value="Save Location" class="btn btn-info btn-lg" action="#{cc.attrs.action}"/>
+            </ui:fragment>
+        </h:form>
+    </cc:implementation>
+</html>

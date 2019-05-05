@@ -17,9 +17,9 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h2>
-            <h:outputText rendered="#{cc.attrs.readonly}" value="View Client #{cc.attrs.trainer.fullName}"/>
-            <h:outputText rendered="#{not cc.attrs.readonly and empty cc.attrs.trainer.id}" value="Create New Client"/>
-            <h:outputText rendered="#{not cc.attrs.readonly and not empty cc.attrs.trainer.id}" value="Update Client #{cc.attrs.trainer.fullName}"/>
+            <h:outputText rendered="#{cc.attrs.readonly}" value="View Trainer #{cc.attrs.trainer.fullName}"/>
+            <h:outputText rendered="#{not cc.attrs.readonly and empty cc.attrs.trainer.id}" value="Create New Trainer"/>
+            <h:outputText rendered="#{not cc.attrs.readonly and not empty cc.attrs.trainer.id}" value="Update Trainer #{cc.attrs.trainer.fullName}"/>
         </h2>
         <h:form id="mainForm" class="form-horizontal">
             <h:panelGroup layout="block" class="form-group">
@@ -76,6 +76,36 @@
                                  disabled="#{cc.attrs.readonly ? 'true' : 'false'}"
                                  value="#{cc.attrs.trainer.costPerHour}"/>
                     <h:message for="costPerHour" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group" rendered="#{cc.attrs.readonly}">
+                <h:outputLabel class="col-lg-3 control-label" value="Clients trained: " for="clients"/> 
+                <h:dataTable class="table table-striped table-hover w-auto" value="#{cc.attrs.trainer.clients}" var="client" id="clients">
+                    <h:column>
+                        <h:outputText value="#{client.id}"/>
+                        <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{client.fullName}"/>
+                        <f:facet name="header"><h:outputText value="Name"/></f:facet>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:outputLabel class="col-lg-3 control-label" value="Location: " for="location"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:selectOneMenu class="form-control"
+                                     readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     disabled="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     id="location" 
+                                     value="#{cc.attrs.trainer.location}">
+                        <f:converter binding="#{locationConverter}" />
+                        <f:selectItems value="#{locationController.allLocations}" 
+                                       var="loc" 
+                                       itemLabel="#{loc.name}" 
+                                       itemValue="#{loc}"/>
+                    </h:selectOneMenu>
+                    <h:message for="location" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
             <ui:fragment rendered="#{not cc.attrs.readonly}">

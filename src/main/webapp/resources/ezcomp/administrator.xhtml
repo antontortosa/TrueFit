@@ -67,6 +67,37 @@
                     <h:message for="birthDate" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:outputLabel class="col-lg-3 control-label" value="Signdate " for="signDate"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputText p:type="date" 
+                                 id="signDate" 
+                                 readonly="true"
+                                 disabled="true"
+                                 class="form-control"
+                                 value="#{cc.attrs.admin.signDate}">
+                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                    </h:inputText>
+                    <h:message for="signDate" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:outputLabel class="col-lg-3 control-label" value="Location: " for="location"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:selectOneMenu class="form-control"
+                                     readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     disabled="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     id="location" 
+                                     value="#{cc.attrs.admin.location}">
+                        <f:converter binding="#{locationConverter}" />
+                        <f:selectItems value="#{locationController.allLocations}" 
+                                       var="loc" 
+                                       itemLabel="#{loc.name}" 
+                                       itemValue="#{loc}"/>
+                    </h:selectOneMenu>
+                    <h:message for="location" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
             <ui:fragment rendered="#{not cc.attrs.readonly}">
                 <h:commandButton value="Save administrator" class="btn btn-info btn-lg" action="#{cc.attrs.action}"/>
             </ui:fragment>

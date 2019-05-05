@@ -106,6 +106,23 @@
                     <h:message for="weight" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
+            <h:panelGroup layout="block">
+                <h:outputLabel class="col-lg-3 control-label" value="Location: " for="location"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:selectOneMenu class="form-control"
+                                     readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     disabled="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     id="location" 
+                                     value="#{cc.attrs.client.mainLocation}">
+                        <f:converter binding="#{locationConverter}" />
+                        <f:selectItems value="#{locationController.allLocations}" 
+                                       var="loc" 
+                                       itemLabel="#{loc.name}" 
+                                       itemValue="#{loc}"/>
+                    </h:selectOneMenu>
+                    <h:message for="location" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
             <ui:fragment rendered="#{not cc.attrs.readonly}">
                 <h:commandButton value="Save client" class="btn btn-info btn-lg" action="#{cc.attrs.action}"/>
             </ui:fragment>

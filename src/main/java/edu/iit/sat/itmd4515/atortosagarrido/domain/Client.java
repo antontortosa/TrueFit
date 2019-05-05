@@ -9,6 +9,7 @@ import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -25,7 +26,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero; 
+import javax.validation.constraints.PositiveOrZero;
+
 /**
  *
  * @author antoniotortosa
@@ -36,61 +38,61 @@ import javax.validation.constraints.PositiveOrZero;
 @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")
 @NamedQuery(name = "Client.findByUsername", query = "SELECT c FROM Client c WHERE c.user.userName = :username")
 @Table(
-        name="client", 
-        uniqueConstraints = @UniqueConstraint(columnNames = {"name","surname_cl"})
+        name = "client",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"name", "surname_cl"})
 )
 public class Client extends AbstractNamedEntity {
-    
-    @NotNull (message = "The surname can't be a null value")
-    @NotBlank (message = "The surname can't be blank")
+
+    @NotNull(message = "The surname can't be a null value")
+    @NotBlank(message = "The surname can't be blank")
     @Column(nullable = false, length = 50, name = "surname_cl")
     private String surname;
-    
-    @NotNull (message = "The birth date can't be a null value")
-    @Past (message = "The birthdate has to be in the past")
+
+    @NotNull(message = "The birth date can't be a null value")
+    @Past(message = "The birthdate has to be in the past")
     @Column(nullable = false, name = "birthdate_cl")
     @Temporal(TemporalType.DATE)
     private Date birthDate;
-    
-    @NotNull (message = "The singing date can't be a null value")
-    @PastOrPresent (message = "The signing date has to be either in the past or at the current time")
+
+    @NotNull(message = "The singing date can't be a null value")
+    @PastOrPresent(message = "The signing date has to be either in the past or at the current time")
     @Column(nullable = false, name = "signdate_cl")
     @Temporal(TemporalType.DATE)
     private Date signDate;
-    
+
     @ManyToOne
     @JoinColumn(name = "membership_id")
     private Membership membership;
-    
-    @Positive (message = "The height must be a positive real number")
+
+    @Positive(message = "The height must be a positive real number")
     @Column(nullable = false, name = "height_cl")
     private double height;
-    
-    @Positive (message = "The weight must be a positive real number")
+
+    @Positive(message = "The weight must be a positive real number")
     @Column(nullable = false, name = "weight_cl")
     private double weight;
-    
-    @PositiveOrZero (message = "The bodyfat percentage must be a positive real number")
+
+    @PositiveOrZero(message = "The bodyfat percentage must be a positive real number")
     @Max(100)
     @Column(name = "bodyfat_cl")
     private double bodyFatPercentage;
-    
-    @ManyToOne
+
+    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.MERGE})
     @JoinColumn(name = "main_location_id")
     private Location mainLocation;
-    
-    @PositiveOrZero (message = "The training focus id has to be a positive integer")
+
+    @PositiveOrZero(message = "The training focus id has to be a positive integer")
     @Column(name = "focus_id")
     //@ForeignKey(TODO)
     private int trainingFocusId;
-    
+
     @ManyToOne
     private Trainer trainer;
-    
+
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "username")
     private User user;
-    
+
     public Client() {
         this.signDate = Date.from(Instant.now());
     }
@@ -102,11 +104,8 @@ public class Client extends AbstractNamedEntity {
         this.height = height;
         this.weight = weight;
         this.signDate = Date.from(Instant.now());
-        if(membership!=null){
-            membership.addClient(this);
-        }
     }
-    
+
     /**
      * Get the value of user
      *
@@ -124,7 +123,7 @@ public class Client extends AbstractNamedEntity {
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     /**
      * Get the value of trainerId
      *
@@ -141,11 +140,11 @@ public class Client extends AbstractNamedEntity {
      */
     public void setTrainer(Trainer trainer) {
         this.trainer = trainer;
-        if(!trainer.getClients().contains(this)){
+        if (!trainer.getClients().contains(this)) {
             this.trainer.getClients().add(this);
         }
     }
-    
+
     /**
      * Get the value of bodyFatPercentage
      *
@@ -164,7 +163,6 @@ public class Client extends AbstractNamedEntity {
         this.bodyFatPercentage = bodyFatPercentage;
     }
 
-    
     /**
      * Get the value of surname
      *
@@ -182,7 +180,7 @@ public class Client extends AbstractNamedEntity {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-    
+
     /**
      * Get the value of membershipType
      *
@@ -210,7 +208,6 @@ public class Client extends AbstractNamedEntity {
         this.trainingFocusId = trainingFocusId;
     }
 
-
     /**
      * Get the value of weight
      *
@@ -228,7 +225,6 @@ public class Client extends AbstractNamedEntity {
     public void setWeight(double weight) {
         this.weight = weight;
     }
-
 
     /**
      * Get the value of height
@@ -266,7 +262,6 @@ public class Client extends AbstractNamedEntity {
         this.signDate = signDate;
     }
 
-    
     /**
      * Get the value of birthDate
      *
@@ -285,18 +280,17 @@ public class Client extends AbstractNamedEntity {
         this.birthDate = birthDate;
     }
 
-    
     /**
      * Convenient method for retrieving the full name of the client
-     * 
+     *
      * @return name + surname properly formated
      */
-    public String getFullName(){
+    public String getFullName() {
         String n = this.name.trim();
         String s = this.surname.trim();
         return n + " " + s;
     }
-    
+
     /**
      * Get the value of mainLocation
      *
@@ -312,56 +306,58 @@ public class Client extends AbstractNamedEntity {
      * @param mainLocation new value of mainLocation
      */
     public void setMainLocation(Location mainLocation) {
-        if(!mainLocation.equals(this.mainLocation)){
-            if(this.mainLocation != null){
-                this.mainLocation.removeClient(this);
-            }
-        this.mainLocation = mainLocation;
-        mainLocation.addClient(this);
+        if(this.mainLocation != null && !mainLocation.getName().equals(this.mainLocation.getName())){
+            this.mainLocation.removeClient(this);
+            this.mainLocation = mainLocation;
+            this.mainLocation.addClient(this);
+        }else if (this.mainLocation == null){
+            this.mainLocation = mainLocation;
+            this.mainLocation.addClient(this);
+        }      
+    }
+
+    public void removeMainLocation(Location mainLocation) {
+        if (this.mainLocation != null) {
+            this.mainLocation = null;
+            mainLocation.removeClient(this);
         }
     }
-    
-    public void removeMainLocation(Location mainLocation) {
-        if(this.mainLocation != null){
-           this.mainLocation=null;
-           mainLocation.removeClient(this);
-       }
-    }
-    
+
     /**
      * Set the value of membership
      *
      * @param membership new value of mainLocation
      */
     public void setMembership(Membership membership) {
-        if(!membership.equals(this.membership)){
-            if(this.membership != null){
+        if (!membership.equals(this.membership)) {
+            if (this.membership != null) {
                 this.membership.removeClient(this);
             }
-        this.membership = membership;
-        membership.addClient(this);
+            this.membership = membership;
+            membership.addClient(this);
         }
     }
+
     public void removeMembership(Membership membership) {
-        if(this.membership != null){
-           this.membership=null;
-           membership.removeClient(this);
-       }
+        if (this.membership != null) {
+            this.membership = null;
+            membership.removeClient(this);
+        }
     }
 
     @Override
     public String toString() {
-        return "Client "+ id +"{" + 
-                "\t\nname=" + name + 
-                "\t\nsurname=" + surname + 
-                "\t\nbirthDate=" + birthDate + 
-                "\t\nsignDate=" + signDate + 
-                "\t\nmembershipType=" + membership + 
-                "\t\nheight=" + height + 
-                "\t\nweight=" + weight + 
-                "\t\nbodyFatPercentage=" + bodyFatPercentage + 
-                "\t\ntrainingFocusId=" + trainingFocusId + 
-                "\t\ntrainerId=" + trainer + '}';
+        return "Client " + id + "{"
+                + "\t\nname=" + name
+                + "\t\nsurname=" + surname
+                + "\t\nbirthDate=" + birthDate
+                + "\t\nsignDate=" + signDate
+                + "\t\nmembershipType=" + membership
+                + "\t\nheight=" + height
+                + "\t\nweight=" + weight
+                + "\t\nbodyFatPercentage=" + bodyFatPercentage
+                + "\t\ntrainingFocusId=" + trainingFocusId
+                + "\t\ntrainerId=" + trainer + '}';
     }
 
     @Override
@@ -387,5 +383,5 @@ public class Client extends AbstractNamedEntity {
         hash = 47 * hash + Objects.hashCode(this.birthDate);
         hash = 47 * hash + Objects.hashCode(this.signDate);
         return hash;
-    } 
+    }
 }

@@ -64,6 +64,7 @@ public class DBFormation {
         buildAdministrators();
         buildTechnicians();
         buildTrainers();
+        empSv.findAll();
     }
 
     private void buildMemberships() {
@@ -86,7 +87,8 @@ public class DBFormation {
         Group trainerGroup = new Group("TRAINER_GROUP", "This is the trainer group");
         Group techGroup = new Group("TECH_GROUP", "This is the technician group");
         //Create users
-        User admin = new User("admin", "admin", true);
+        User admin1 = new User("admin", "admin", true);
+        User admin2 = new User("sauron", "pass", true);
         User client1 = new User("antontortosa", "pass", true);
         User client2 = new User("emrose", "pass", true);
         User traienr1 = new User("ramonf", "pass", true);
@@ -98,7 +100,8 @@ public class DBFormation {
         grpSv.create(employeeGroup);
         grpSv.create(techGroup);
         //Add the groups to the corresponding users
-        admin.addGroup(adminGroup);
+        admin1.addGroup(adminGroup);
+        admin2.addGroup(adminGroup);
         client1.addGroup(clientGroup);
         client2.addGroup(clientGroup);
         traienr1.addGroup(trainerGroup);
@@ -106,7 +109,8 @@ public class DBFormation {
         tech1.addGroup(employeeGroup);
         tech1.addGroup(techGroup);
         //Persist the users in the DB
-        usrSv.create(admin);
+        usrSv.create(admin1);
+        usrSv.create(admin2);
         usrSv.create(client1);
         usrSv.create(client2);
         usrSv.create(traienr1);
@@ -122,6 +126,7 @@ public class DBFormation {
                     70);
             c1.setUser(usrSv.findByName("antontortosa"));
             c1.setMembership(memSv.findByName("VIP"));
+            c1.setMainLocation(locSv.findByName("Chicago Lake View"));
             Client c2 = new Client("Emilia",
                     "Rosales",
                     format.parse("1998-07-10"),
@@ -129,6 +134,7 @@ public class DBFormation {
                     45);
             c2.setUser(usrSv.findByName("emrose"));
             c2.setMembership(memSv.findByName("Gold"));
+            c2.setMainLocation(locSv.findByName("Chicago Downtown"));
             LOG.log(Level.INFO, "DBFormation is trying to persist Client {0}", c1.toString());
             clSv.create(c1);
             LOG.log(Level.INFO, "DBFormation is trying to persist Client {0}", c2.toString());
@@ -140,12 +146,18 @@ public class DBFormation {
 
     private void buildAdministrators() {
         try {
-            Administrative e1 = new Administrative("Ruler",
-                    "Ofthemall",
+            Administrative e1 = new Administrative("Gandalf",
+                    "The Grey",
                     format.parse("1954-10-27"));
             e1.setUser(usrSv.findByName("admin"));
             LOG.log(Level.INFO, "DBFormation is trying to persist Admin {0}", e1.toString());
             empSv.create(e1);
+            Administrative e2 = new Administrative("Sauron",
+                    "The Great",
+                    format.parse("1000-01-01"));
+            e2.setUser(usrSv.findByName("sauron"));
+            LOG.log(Level.INFO, "DBFormation is trying to persist Admin {0}", e2.toString());
+            empSv.create(e2);
         } catch (ParseException ex) {
             Logger.getLogger(DBFormation.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -172,6 +184,7 @@ public class DBFormation {
                     format.parse("1994-03-21"),
                     50);
             t1.setUser(usrSv.findByName("ramonf"));
+            t1.setLocation(locSv.findByName("Chicago Downtown"));
             LOG.log(Level.INFO, "DBFormation is trying to persist Trainer {0}", t1.toString());
             empSv.create(t1);
         } catch (ParseException ex) {
@@ -181,8 +194,12 @@ public class DBFormation {
 
     private void buildLocations() {
         Location mainLoc = new Location("Chicago Lake View", "1237 W Fullerton Ave, Chicago, IL", 60614);
-        mainLoc.setAddress("1237 W Fullerton Ave, Chicago, IL");
+        //mainLoc.setAddress("1237 W Fullerton Ave, Chicago, IL");
         LOG.log(Level.INFO, "DBFormation is trying to persist Location {0}", mainLoc.toString());
         locSv.create(mainLoc);
+        Location secondLoc = new Location("Chicago Downtown", "79 W Monroe St, Chicago, IL", 60603);
+        //mainLoc.setAddress("1237 W Fullerton Ave, Chicago, IL");
+        LOG.log(Level.INFO, "DBFormation is trying to persist Location {0}", secondLoc.toString());
+        locSv.create(secondLoc);
     }
 }

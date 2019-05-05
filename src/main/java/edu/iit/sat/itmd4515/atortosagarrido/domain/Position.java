@@ -74,13 +74,11 @@ public class Position extends AbstractNamedEntity{
     public void addEmployee(Employee em){
         if(!employees.contains(em)){
             employees.add(em);
-            em.setPosition(this);
         }
     }
     public void removeEmployee(Employee em){
        if(employees.contains(em)){
            employees.remove(em);
-           em.removePosition(this);
        }
     }
 
