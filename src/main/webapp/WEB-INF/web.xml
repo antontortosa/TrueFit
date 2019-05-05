@@ -19,7 +19,7 @@
         <web-resource-collection>
             <web-resource-name>Admin Content</web-resource-name>
             <description>Admin Content</description>
-            <url-pattern>/employees/admin/*</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>ADMIN_ROLE</role-name>
@@ -31,7 +31,7 @@
         <web-resource-collection>
             <web-resource-name>Trainer Content</web-resource-name>
             <description>Trainer Content</description>
-            <url-pattern>/employees/trainer/*</url-pattern>
+            <url-pattern>/employees/trainers/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>TRAINER_ROLE</role-name>
@@ -44,7 +44,7 @@
         <web-resource-collection>
             <web-resource-name>Technician Content</web-resource-name>
             <description>Technician Content</description>
-            <url-pattern>/employees/tech/*</url-pattern>
+            <url-pattern>/employees/technicians/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>TECH_ROLE</role-name>
