@@ -116,16 +116,16 @@ public class LoginController {
                 return "/error.xhtml";
         }
         if(isAdmin()){
-            return "employees/admin/welcome.xhtml?faces-redirect=true";
+            return "/admin/welcome.xhtml?faces-redirect=true";
         }
         else if(isClient()){
             return "clients/user/welcome.xhtml?faces-redirect=true";
         }
         else if(isTrainer()){
-         return "employees/train/welcome.xhtml?faces-redirect=true";
+         return "employees/trainers/welcome.xhtml?faces-redirect=true";
         }
         else{
-          return "employees/tech/welcome.xhtml?faces-redirect=true";
+          return "employees/technicians/welcome.xhtml?faces-redirect=true";
         }
     }
     

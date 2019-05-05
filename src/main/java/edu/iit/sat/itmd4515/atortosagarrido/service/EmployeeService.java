@@ -64,8 +64,8 @@ public class EmployeeService extends AbstractService<Employee> {
     @Override
     public void remove(Employee e) {
         Employee eDB = em.getReference(Employee.class, e.getId());
-        Location loc = e.getLocation();
-        Position pos = e.getPosition();
+        Location loc = eDB.getLocation();
+        Position pos = eDB.getPosition();
         if (loc!= null){
             loc.removeEmployee(eDB);  
             em.merge(loc);

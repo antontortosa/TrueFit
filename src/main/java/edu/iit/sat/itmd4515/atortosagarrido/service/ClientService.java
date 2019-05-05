@@ -6,7 +6,9 @@
 package edu.iit.sat.itmd4515.atortosagarrido.service;
 
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Client;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Location;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Membership;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Trainer;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,6 +79,16 @@ public class ClientService extends AbstractService<Client> {
     public void remove(Client c){
         Client cDB = em.getReference(Client.class, c.getId());
         Membership m = cDB.getMembership();
+        Location l = cDB.getMainLocation();
+        Trainer t = cDB.getTrainer();
+        if(l!=null){
+            l.removeClient(cDB);
+            em.merge(l);
+        }
+        if(t!=null){
+            t.removeClient(cDB);
+            em.merge(t);
+        }
         m.removeClient(cDB);
         em.merge(m);
         em.remove(cDB);

@@ -67,6 +67,7 @@ public class AdministrativeController {
         this.technician = new Technician();
         this.trainer = new Trainer();
         this.otherAdminstrative = new Administrative();
+        this.location = new Location();
     }
     
     ////////////////////
@@ -76,19 +77,19 @@ public class AdministrativeController {
     public String prepareViewClient(Client c){
         LOG.log(Level.INFO, "inside prepareViewClient  with client {0}", c.toString());
         this.client = c;
-        return "/employees/admin/viewClient.xhtml";
+        return "/admin/clients/viewClient.xhtml";
     }
     
     public String prepareEditClient(Client c){
         LOG.log(Level.INFO, "inside prepareEditClient with client {0}", c.toString());
         this.client = c;
-        return "/employees/admin/editClient.xhtml";
+        return "/admin/clients/editClient.xhtml";
     }
     
     public String prepareCreateClient(){
         LOG.log(Level.INFO, "inside prepareCreateClient");
         this.client = new Client();
-        return "/employees/admin/editClient.xhtml";
+        return "/admin/clients/editClient.xhtml";
     }
     //SAVE
     public String doSaveClient(){
@@ -104,13 +105,13 @@ public class AdministrativeController {
             clSvc.create(this.client);
         }
         
-        return "allClients.xhtml";
+        return "/admin/clients/allClients.xhtml";
     }
     //DELETE
     public String doDeleteClient(Client client){
         LOG.log(Level.INFO, "inside doDeleteClient with client {0}", client.toString());
         clSvc.remove(client);
-        return "allClients.xhtml?faces-redirect=true";
+        return "/admin/clients/allClients.xhtml?faces-redirect=true";
     }
     
     ////////////////////
@@ -120,19 +121,19 @@ public class AdministrativeController {
     public String prepareViewAdmin(Administrative a){
         LOG.log(Level.INFO, "inside prepareViewAdmin  with admin {0}", a.toString());
         this.otherAdminstrative = a;
-        return "/employees/admin/viewAdmin.xhtml";
+        return "/admin/employees/admins/viewAdmin.xhtml";
     }
     
     public String prepareEditAdmin(Administrative a){
         LOG.log(Level.INFO, "inside prepareEditAdmin with admin {0}", a.toString());
         this.otherAdminstrative = a;
-        return "/employees/admin/editAdmin.xhtml";
+        return "/admin/employees/admins/editAdmin.xhtml";
     }
     
     public String prepareCreateAdmin(){
         LOG.log(Level.INFO, "inside prepareCreateAdmin");
         this.otherAdminstrative = new Administrative();
-        return "/employees/admin/editAdmin.xhtml";
+        return "/admin/employees/admins/editAdmin.xhtml";
     }
     //SAVE
     public String doSaveAdmin(){
@@ -148,13 +149,13 @@ public class AdministrativeController {
             empSvc.create(this.otherAdminstrative);
         }
         
-        return "allAdmins.xhtml";
+        return "/admin/employees/admins/allAdmins.xhtml";
     }
     //DELTE
     public String doDeleteAdmin(Administrative admin){
         LOG.log(Level.INFO, "inside doDeleteAdmin with client {0}", admin.toString());
         empSvc.remove(admin);
-        return "allAdmins.xhtml?faces-redirect=true";
+        return "/admin/employees/admins/allAdmins.xhtml?faces-redirect=true";
     }
     ////////////////////
     ///////TECHS///////
@@ -163,19 +164,19 @@ public class AdministrativeController {
     public String prepareViewTech(Technician t){
         LOG.log(Level.INFO, "inside prepareViewTech  with technician {0}", t.toString());
         this.technician = t;
-        return "/employees/admin/viewTech.xhtml";
+        return "/admin/employees/techs/viewTech.xhtml";
     }
     
     public String prepareEditTech(Technician t){
         LOG.log(Level.INFO, "inside prepareEditTech with technician {0}", t.toString());
         this.technician = t;
-        return "/employees/admin/editTech.xhtml";
+        return "/admin/employees/techs/editTech.xhtml";
     }
     
     public String prepareCreateTech(){
         LOG.log(Level.INFO, "inside prepareCreateTech");
         this.technician = new Technician();
-        return "/employees/admin/editTech.xhtml";
+        return "/admin/employees/techs/editTech.xhtml";
     }
     //SAVE
     public String doSaveTech(){
@@ -190,13 +191,13 @@ public class AdministrativeController {
             LOG.log(Level.INFO, "doSaveTech is going to call a create with {0}", this.technician.toString());
             empSvc.create(this.technician);
         }
-        return "allTechnicians.xhtml";
+        return "/admin/employees/techs/allTechnicians.xhtml";
     }
     //DELTE
     public String doDeleteTech(Technician technician){
         LOG.log(Level.INFO, "inside doDeleteTech with client {0}", technician.toString());
         empSvc.remove(technician);
-        return "allTechnicians.xhtml?faces-redirect=true";
+        return "/admin/employees/techs/allTechnicians.xhtml?faces-redirect=true";
     }
     /////////////////////
     ///////TRAINERS/////
@@ -205,19 +206,19 @@ public class AdministrativeController {
     public String prepareViewTrainer(Trainer t){
         LOG.log(Level.INFO, "inside prepareViewTrainer  with trainer {0}", t.toString());
         this.trainer = t;
-        return "/employees/admin/viewTrainer.xhtml";
+        return "/admin/employees/trainers/viewTrainer.xhtml";
     }
     
     public String prepareEditTrainer(Trainer t){
         LOG.log(Level.INFO, "inside prepareEditTrainer with trainer {0}", t.toString());
         this.trainer = t;
-        return "/employees/admin/editTrainer.xhtml";
+        return "/admin/employees/trainers/editTrainer.xhtml";
     }
     
     public String prepareCreateTrainer(){
         LOG.log(Level.INFO, "inside prepareCreateTrainer");
         this.trainer = new Trainer();
-        return "/employees/admin/editTrainer.xhtml";
+        return "/admin/employees/trainers/editTrainer.xhtml";
     }
     //SAVE
     public String doSaveTrainer(){
@@ -233,13 +234,13 @@ public class AdministrativeController {
             empSvc.create(this.trainer);
         }
         
-        return "allTrainers.xhtml";
+        return "/admin/employees/trainers/allTrainers.xhtml";
     }
     //DELTE
     public String doDeleteTrainer(Trainer trainer){
         LOG.log(Level.INFO, "inside doDeleteClient with trainer {0}", trainer.toString());
         empSvc.remove(trainer);
-        return "allTrainers.xhtml?faces-redirect=true";
+        return "/admin/employees/trainers/allTrainers.xhtml?faces-redirect=true";
     }
     /////////////////////
     //////LOCATION//////
@@ -248,25 +249,25 @@ public class AdministrativeController {
     public String prepareViewLocation(Location l){
         LOG.log(Level.INFO, "inside prepareViewLocation  with location {0}", l.toString());
         this.location = l;
-        return "/employees/admin/viewLocation.xhtml";
+        return "/admin/locations/viewLocation.xhtml";
     }
     
     public String prepareEditLocation(Location l){
         LOG.log(Level.INFO, "inside prepareEditLocation with location {0}", l.toString());
         this.location = l;
-        return "/employees/admin/editLocation.xhtml";
+        return "/admin/locations/editLocation.xhtml";
     }
     
     public String prepareCreateLocation(){
         LOG.log(Level.INFO, "inside prepareCreateLocation");
         this.location = new Location();
-        return "/employees/admin/editLocation.xhtml";
+        return "/admin/locations/editLocation.xhtml";
     }
     //SAVE
     public String doSaveLocation(){
         LOG.log(Level.INFO, "inside doSaveLocation with location {0}", location.toString());
         
-        if(this.trainer.getId()!=null){
+        if(this.location.getId()!=null){
             //UPDATE
             LOG.log(Level.INFO, "doSaveLocation is going to call an update with {0}", this.location.toString());
             locSvc.update(this.location);
@@ -276,7 +277,7 @@ public class AdministrativeController {
             locSvc.create(this.location);
         }
         
-        return "allLocations.xhtml";
+        return "/admin/locations/allLocations.xhtml";
     }
     //DELTE
     public String doDeleteLocation(Location location){

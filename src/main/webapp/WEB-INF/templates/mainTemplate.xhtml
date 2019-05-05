@@ -32,28 +32,28 @@
                 <ul class="list-unstyled components">
                     <p> Welcome #{loginController.remoteUser} </p>
                     <li>
-                        <h:link value = "Home" outcome = "./welcome.xhtml"/>
+                        <h:link value = "Home" outcome = "/admin/welcome"/>
                     </li>
                     <ui:fragment id="adminsNav" rendered="#{loginController.admin}">
                         <li>
                             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">People</a>
                             <ul class="collapse list-unstyled" id="pageSubmenu">
                                 <li>
-                                    <h:link value = "Clients" outcome = "allClients"/>
+                                    <h:link value = "Clients" outcome = "/admin/clients/allClients"/>
                                 </li>
                                 <li>
-                                    <h:link value = "Administrators" outcome = "allAdmins"/>
+                                    <h:link value = "Administrators" outcome = "/admin/employees/admins/allAdmins"/>
                                 </li>
                                 <li>
-                                    <h:link value = "Trainers" outcome = "allTrainers"/>
+                                    <h:link value = "Trainers" outcome = "/admin/employees/trainers/allTrainers"/>
                                 </li>
                                 <li>
-                                    <h:link value = "Technicians" outcome = "allTechnicians"/>
+                                    <h:link value = "Technicians" outcome = "/admin/employees/techs/allTechnicians"/>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <h:link value = "Locations" outcome = "allLocations"/>
+                            <h:link value = "Locations" outcome = "/admin/locations/allLocations"/>
                         </li>     
                     </ui:fragment>
                     <ui:fragment id="clientsNav" rendered="#{loginController.client}">

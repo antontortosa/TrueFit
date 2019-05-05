@@ -42,6 +42,12 @@ public class Trainer extends Employee{
         this.costPerHour = costPerHour;
     }
     
+    public void removeClient(Client c){
+        if(clients.contains(c)){
+            clients.remove(c);
+        }
+    }
+    
     /**
      * Get the value of costPerHour
      *
