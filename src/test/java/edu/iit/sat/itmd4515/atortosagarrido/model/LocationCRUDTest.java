@@ -72,6 +72,7 @@ public class LocationCRUDTest extends AbstractJPATest{
         et.commit();
     }
     
+    
     @Test
     public void addLocationToClient() throws ParseException{
         Client c = new Client("Antoio", "Tortosa", format.parse("1994-11-17"), 1.8, 77);

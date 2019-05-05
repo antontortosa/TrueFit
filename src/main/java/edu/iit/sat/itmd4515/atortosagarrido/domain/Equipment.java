@@ -12,7 +12,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -36,6 +38,11 @@ public class Equipment extends AbstractNamedEntity{
     
     @ManyToMany(mappedBy = "equipments")
     private Set<Technician> technicians = new HashSet<>();
+    
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
+
 
     public Equipment() {
     }
@@ -69,6 +76,24 @@ public class Equipment extends AbstractNamedEntity{
 
     public void setTechnicians(Set<Technician> technicians) {
         this.technicians = technicians;
+    }
+    
+     /**
+     * Get the value of location
+     *
+     * @return the value of location
+     */
+    public Location getLocation() {
+        return location;
+    }
+
+    /**
+     * Set the value of location
+     *
+     * @param location new value of location
+     */
+    public void setLocation(Location location) {
+        this.location = location;
     }
     
     public void addTechnician(Technician tc){

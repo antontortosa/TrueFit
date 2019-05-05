@@ -9,7 +9,6 @@ import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

@@ -48,8 +48,32 @@ public class Location extends AbstractNamedEntity{
     
     @OneToMany(mappedBy = "location")
     private List<Employee> employees = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "location")
+    private List<Equipment> equipments;
 
     public Location(){}
+    
+    
+
+    /**
+     * Get the value of equipments
+     *
+     * @return the value of equipments
+     */
+    public List<Equipment> getEquipments() {
+        return equipments;
+    }
+
+    /**
+     * Set the value of equipments
+     *
+     * @param equipments new value of equipments
+     */
+    public void setEquipments(List<Equipment> equipments) {
+        this.equipments = equipments;
+    }
+
 
     public Location(String name, String address, int zip) {
         super(name);
@@ -130,6 +154,18 @@ public class Location extends AbstractNamedEntity{
        if(employees.contains(em)){
            employees.remove(em);
        }
+    }
+    
+    public void addEquipment(Equipment eq){
+        if(!equipments.contains(eq)){
+            equipments.add(eq);
+        }
+    }
+    
+    public void removeEquipment(Equipment eq){
+        if(equipments.contains(eq)){
+            equipments.remove(eq);
+        }
     }
 
     @Override

@@ -7,11 +7,13 @@ package edu.iit.sat.itmd4515.atortosagarrido.web;
 
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Administrative;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Client;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Location;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Technician;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Trainer;
 import edu.iit.sat.itmd4515.atortosagarrido.service.ClientService;
 import edu.iit.sat.itmd4515.atortosagarrido.service.EmployeeService;
+import edu.iit.sat.itmd4515.atortosagarrido.service.EquipmentService;
 import edu.iit.sat.itmd4515.atortosagarrido.service.LocationService;
 import java.util.List;
 import java.util.logging.Level;
@@ -44,6 +46,8 @@ public class AdministrativeController {
     
     private Location location;
     
+    private Equipment equipment;
+    
     @Inject
     LoginController loginController;
     
@@ -55,6 +59,9 @@ public class AdministrativeController {
     
     @EJB
     private LocationService locSvc;
+    
+    @EJB
+    private EquipmentService eqSvc;
     
     public AdministrativeController() {
     }
@@ -68,6 +75,7 @@ public class AdministrativeController {
         this.trainer = new Trainer();
         this.otherAdminstrative = new Administrative();
         this.location = new Location();
+        this.equipment = new Equipment();
     }
     
     ////////////////////
@@ -199,6 +207,12 @@ public class AdministrativeController {
         empSvc.remove(technician);
         return "/admin/employees/techs/allTechnicians.xhtml?faces-redirect=true";
     }
+    //OTHERS
+    public String doRemoveEquipment(Technician t, Equipment eq){
+        t.removeEquipment(eq);
+        empSvc.update(t);
+        return "/admin/employees/techs/allTechnicians.xhtml?faces-redirect=true";
+    }
     /////////////////////
     ///////TRAINERS/////
     ////////////////////
@@ -283,7 +297,50 @@ public class AdministrativeController {
     public String doDeleteLocation(Location location){
         LOG.log(Level.INFO, "inside doDeleteLocation with location {0}", trainer.toString());
         locSvc.remove(location);
-        return "allLocations.xhtml?faces-redirect=true";
+        return "/admin/locations/allLocations.xhtml?faces-redirect=true";
+    }
+    /////////////////////
+    //////EQUIPMENT//////
+    ////////////////////
+    //PREPARE METHODS
+    public String prepareViewEquipment(Equipment eq){
+        LOG.log(Level.INFO, "inside prepareViewEquiment  with equipment {0}", eq.toString());
+        this.equipment = eq;
+        return "/admin/equipments/viewEquipment.xhtml";
+    }
+    
+    public String prepareEditEquipment(Equipment eq){
+        LOG.log(Level.INFO, "inside prepareEditEquipment with equipment {0}", eq.toString());
+        this.equipment = eq;
+        return "/admin/equipments/editEquipment.xhtml";
+    }
+    
+    public String prepareCreateEquipment(){
+        LOG.log(Level.INFO, "inside prepareCreateLocation");
+        this.equipment = new Equipment();
+        return "/admin/equipments/editEquipment.xhtml";
+    }
+    //SAVE
+    public String doSaveEquipment(){
+        LOG.log(Level.INFO, "inside doSaveEquipment with equipment {0}", location.toString());
+        
+        if(this.equipment.getId()!=null){
+            //UPDATE
+            LOG.log(Level.INFO, "doSaveEquipment is going to call an update with {0}", this.equipment.toString());
+            eqSvc.update(this.equipment);
+        }else{
+            //CREATE
+            LOG.log(Level.INFO, "doSaveEquipment is going to call a create with {0}", this.equipment.toString());
+            eqSvc.create(this.equipment);
+        }
+        
+        return "/admin/equipments/allEquipments.xhtml";
+    }
+    //DELTE
+    public String doDeleteEquipment(Equipment equipment){
+        LOG.log(Level.INFO, "inside doDeleteEquipment with equipment {0}", equipment.toString());
+        eqSvc.remove(equipment);
+        return "/admin/equipments/allEquipments.xhtml?faces-redirect=true";
     }
     
     ///////////////
@@ -402,6 +459,24 @@ public class AdministrativeController {
      */
     public void setLocation(Location location) {
         this.location = location;
+    }
+    
+    /**
+     * Get the value of equipment
+     *
+     * @return the value of equipment
+     */
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
+    /**
+     * Set the value of equipment
+     *
+     * @param equipment new value of equipment
+     */
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
     }
     
 }

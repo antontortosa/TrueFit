@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="equipment" required="true" type="edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment"/>
+        <cc:attribute name="readonly" required="false" default="true" type="java.lang.Boolean" />
+        <cc:attribute name="action" required="false" method-signature="java.lang.String action()" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h2>
+            <h:outputText rendered="#{cc.attrs.readonly}" value="View Equipment #{cc.attrs.equipment.name}"/>
+            <h:outputText rendered="#{not cc.attrs.readonly and empty cc.attrs.equipment.id}" value="Create New Equipment"/>
+            <h:outputText rendered="#{not cc.attrs.readonly and not empty cc.attrs.equipment.id}" value="Update Equipment #{cc.attrs.equipment.name}"/>
+        </h2>
+        <h:form id="mainForm" class="form-horizontal">
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" 
+                               value="ID #{cc.attrs.equipment.id}" 
+                               for="equipmentId"
+                               rendered="#{cc.attrs.readonly or not empty cc.attrs.equipment.id}"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputHidden class="form-control" id="equipmentId" value="#{cc.attrs.equipment.id}"/>
+                    <h:inputHidden class="form-control" id="equipmentVersion" value="#{cc.attrs.equipment.version}"/>
+                    <h:message for="equipmentId" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Name: " for="equipmentName"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputText class="form-control" 
+                                 id="equipmentName" 
+                                 value="#{cc.attrs.equipment.name}"
+                                 readonly="#{cc.attrs.readonly ? 'true' : 'false'}"/>
+                    <h:message for="equipmentName" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Status: " for="status"/>
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:selectOneMenu 
+                        readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                        disabled="#{cc.attrs.readonly ? 'true' : 'false'}"
+                        class="form-control"
+                        id="status"
+                        value="#{cc.attrs.equipment.status}">
+                        <f:selectItems value="#{equipmentController.equipmentStatus}"
+                                       var="status"
+                                       itemLabel="#{status.label}"
+                                       itemValue="#{status}"/>
+                    </h:selectOneMenu>
+                    <h:message for="status" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Location: " for="location"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:selectOneMenu class="form-control"
+                                     readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     disabled="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     id="location" 
+                                     value="#{cc.attrs.equipment.location}">
+                        <f:converter binding="#{locationConverter}" />
+                        <f:selectItems value="#{locationController.allLocations}" 
+                                       var="loc" 
+                                       itemLabel="#{loc.name}" 
+                                       itemValue="#{loc}"/>
+                    </h:selectOneMenu>
+                    <h:message for="location" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group" rendered="#{cc.attrs.readonly}">
+                <h:outputLabel class="col-lg-3 control-label" value="Technicians assigned to this" for="technicians"/> 
+                <h:dataTable class="table table-striped table-hover w-auto" value="#{cc.attrs.equipment.technicians}" var="tech" id="technicians">
+                    <h:column>
+                        <h:outputText value="#{tech.id}"/>
+                        <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{tech.fullName}"/>
+                        <f:facet name="header"><h:outputText value="Name"/></f:facet>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <ui:fragment rendered="#{not cc.attrs.readonly}">
+                <h:commandButton value="Save Equipment" class="btn btn-info btn-lg" action="#{cc.attrs.action}"/>
+            </ui:fragment>
+        </h:form>
+    </cc:implementation>
+</html>

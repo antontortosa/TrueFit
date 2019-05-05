@@ -84,6 +84,27 @@
                     <h:message for="location" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group" rendered="#{cc.attrs.readonly}">
+                <h:outputLabel class="col-lg-3 control-label" value="Employees at this location: " for="clients"/> 
+                <h:dataTable class="table table-striped table-hover w-auto" value="#{cc.attrs.tech.equipments}" var="equipment" id="equipments">
+                    <h:column>
+                        <h:outputText value="#{equipment.id}"/>
+                        <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{equipment.name}"/>
+                        <f:facet name="header"><h:outputText value="Name"/></f:facet>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{equipment.status}"/>
+                        <f:facet name="header"><h:outputText value="Status"/></f:facet>
+                    </h:column>
+                    <h:column>
+                        <h:commandLink  onclick="if (! confirm('Really want to do that?')) return false" action="#{administrativeController.doRemoveEquipment(cc.attrs.tech, equipment)}" value="Delete"/>
+                        <f:facet name="header"><h:outputText value="Delelte"/></f:facet>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
             <ui:fragment rendered="#{not cc.attrs.readonly}">
                 <h:commandButton value="Save Technician" class="btn btn-info btn-lg" action="#{cc.attrs.action}"/>
             </ui:fragment>

@@ -57,6 +57,11 @@ public class EmployeeService extends AbstractService<Employee> {
             LOG.log(Level.INFO, "the user brought from JSF is: {0}", e.getUser().getUserName());
             eDB.setUser(e.getUser());
         }
+        if(eDB.getClass().getSimpleName().equals("Technician")){
+            if(((Technician)e).getEquipments() != null){
+                ((Technician)eDB).setEquipments(((Technician)e).getEquipments());
+            }
+        }
         LOG.log(Level.INFO, "Employee in DB (after) is: {0}", eDB.toString());
         em.flush();
     }

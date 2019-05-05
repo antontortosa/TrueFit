@@ -50,7 +50,6 @@ public class Employee extends AbstractNamedEntity{
     @Column(nullable = false, length = 50, name = "surname_emp")
     protected String surname;
     
-    
     @NotNull (message = "The birth date can't be a null value")
     @Past (message = "The birthdate has to be in the past")
     @Column(nullable = false, name = "birthdate_emp")
