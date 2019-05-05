@@ -203,14 +203,15 @@ public class AdministrativeController {
     }
     //DELTE
     public String doDeleteTech(Technician technician){
-        LOG.log(Level.INFO, "inside doDeleteTech with client {0}", technician.toString());
+        LOG.log(Level.INFO, "inside doDeleteTech with technician {0}", technician.toString());
         empSvc.remove(technician);
         return "/admin/employees/techs/allTechnicians.xhtml?faces-redirect=true";
     }
     //OTHERS
-    public String doRemoveEquipment(Technician t, Equipment eq){
-        t.removeEquipment(eq);
-        empSvc.update(t);
+    public String doRemoveEquipment(Equipment eq){
+        LOG.log(Level.INFO, "inside doRemoveEquipment with technician {0}", this.technician.toString());
+        this.technician.removeEquipment(eq);
+        empSvc.update(this.technician);
         return "/admin/employees/techs/allTechnicians.xhtml?faces-redirect=true";
     }
     /////////////////////

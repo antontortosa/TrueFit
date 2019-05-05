@@ -84,8 +84,23 @@
                     <h:message for="location" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group" rendered="#{not cc.attrs.readonly}">
+                <h:outputLabel class="col-lg-3 control-label" value="Equipments: " for="equipmentsPick"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:selectManyCheckbox class="form-control"
+                                     id="equipmentsPick" 
+                                     value="#{cc.attrs.tech.equipments}">
+                        <f:converter binding="#{equipmentConverter}" />
+                        <f:selectItems value="#{equipmentController.allEquipments}" 
+                                       var="equip" 
+                                       itemLabel="#{equip.name}" 
+                                       itemValue="#{equip}"/>
+                    </h:selectManyCheckbox>
+                    <h:message for="equipmentsPick" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
             <h:panelGroup layout="block" class="form-group" rendered="#{cc.attrs.readonly}">
-                <h:outputLabel class="col-lg-3 control-label" value="Employees at this location: " for="clients"/> 
+                <h:outputLabel class="col-lg-3 control-label" value="Equipments in charge: " for="clients"/> 
                 <h:dataTable class="table table-striped table-hover w-auto" value="#{cc.attrs.tech.equipments}" var="equipment" id="equipments">
                     <h:column>
                         <h:outputText value="#{equipment.id}"/>
@@ -96,12 +111,8 @@
                         <f:facet name="header"><h:outputText value="Name"/></f:facet>
                     </h:column>
                     <h:column>
-                        <h:outputText value="#{equipment.status}"/>
+                        <h:outputText value="#{equipment.status.label}"/>
                         <f:facet name="header"><h:outputText value="Status"/></f:facet>
-                    </h:column>
-                    <h:column>
-                        <h:commandLink  onclick="if (! confirm('Really want to do that?')) return false" action="#{administrativeController.doRemoveEquipment(cc.attrs.tech, equipment)}" value="Delete"/>
-                        <f:facet name="header"><h:outputText value="Delelte"/></f:facet>
                     </h:column>
                 </h:dataTable>
             </h:panelGroup>

@@ -7,6 +7,7 @@ package edu.iit.sat.itmd4515.atortosagarrido.service;
 
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Technician;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 
@@ -25,12 +26,11 @@ public class EquipmentService extends AbstractService<Equipment>{
     @Override
     public void remove(Equipment e){
         Equipment eDB = em.getReference(Equipment.class, e.getId());
-        eDB.getTechnicians().stream().map((t) -> {
-            t.removeEquipment(eDB);
-            return t;
-        }).forEachOrdered((t) -> {
+        for(Iterator<Technician> it = eDB.getTechnicians().iterator(); it.hasNext(); ){
+            Technician t = it.next();
+            t.removeEquipment(e);
             em.merge(t);
-        });
+        }
         em.remove(eDB);
     }
     
@@ -44,5 +44,10 @@ public class EquipmentService extends AbstractService<Equipment>{
         return em.createNamedQuery("Equipment.findAll",Equipment.class)
                 .getResultList();
     }
-    
+
+    public Equipment findByName(String name){
+        return em.createNamedQuery("Equipment.findByName",Equipment.class)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
 }

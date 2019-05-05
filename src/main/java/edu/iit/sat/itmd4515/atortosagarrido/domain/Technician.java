@@ -29,7 +29,7 @@ import javax.persistence.Table;
 @NamedQuery(name = "Technician.findAll", query = "SELECT t FROM Technician t")
 public class Technician extends Employee{
     
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.PERSIST/*, CascadeType.MERGE */})
     @JoinTable(
         name = "Technician_Equipment", 
         joinColumns = { @JoinColumn(name = "technician_id") }, 
@@ -90,8 +90,9 @@ public class Technician extends Employee{
     }
     
     private String aux_print_equip(){
-        String toRet="";
+        String toRet="[\n";
         toRet = equipments.stream().map((eq) -> eq.getId() + ": " + eq.getName() + "\n").reduce(toRet, String::concat);
+        toRet+="]";
         return toRet;
     }
     

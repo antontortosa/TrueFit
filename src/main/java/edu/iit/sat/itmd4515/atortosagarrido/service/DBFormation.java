@@ -7,6 +7,8 @@ package edu.iit.sat.itmd4515.atortosagarrido.service;
 
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Administrative;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Client;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.EqStatus;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Location;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Membership;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Technician;
@@ -49,6 +51,9 @@ public class DBFormation {
 
     @EJB
     protected LocationService locSv;
+    
+    @EJB
+    protected EquipmentService eqcSv;
 
     protected static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -58,13 +63,13 @@ public class DBFormation {
     @PostConstruct
     private void buildDatabase() {
         buildLocations();
+        buildEquipment();
         buildMemberships();
         buildUsers();
         buildClients();
         buildAdministrators();
         buildTechnicians();
         buildTrainers();
-        empSv.findAll();
     }
 
     private void buildMemberships() {
@@ -170,6 +175,7 @@ public class DBFormation {
                     format.parse("1994-03-20"));
             tch1.setUser(usrSv.findByName("davidgl"));
             tch1.setLocation(locSv.findByName("Chicago Lake View"));
+            tch1.addEquipment(eqcSv.find(1));
             LOG.log(Level.INFO, "DBFormation is trying to persist Tech {0}", tch1.toString());
             empSv.create(tch1);
         } catch (ParseException ex) {
@@ -201,5 +207,12 @@ public class DBFormation {
         //mainLoc.setAddress("1237 W Fullerton Ave, Chicago, IL");
         LOG.log(Level.INFO, "DBFormation is trying to persist Location {0}", secondLoc.toString());
         locSv.create(secondLoc);
+    }
+    
+    private void buildEquipment(){
+        Equipment eq = new Equipment(EqStatus.BROKEN, "Bench 1");
+        eq.setLocation(locSv.findByName("Chicago Lake View"));
+        LOG.log(Level.INFO, "DBFormation is trying to persist Equipment {0}", eq.toString());
+        eqcSv.create(eq);
     }
 }

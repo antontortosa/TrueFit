@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -27,7 +28,8 @@ import javax.persistence.Table;
 @NamedQuery(name = "Equipment.findByName", query = "SELECT e FROM Equipment e WHERE e.name = :name")
 @NamedQuery(name = "Equipment.findAll", query = "SELECT e FROM Equipment e")
 @Table(
-        name="equipment"
+        name="equipment",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"name"})
 )
 public class Equipment extends AbstractNamedEntity{
     
