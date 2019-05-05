@@ -43,10 +43,10 @@ public class Location extends AbstractNamedEntity{
     @Column(nullable = false, name = "zip_loc")
     private int zip;
     
-    @OneToMany(mappedBy = "mainLocation", cascade = { CascadeType.MERGE })
+    @OneToMany(mappedBy = "mainLocation")
     private List<Client> clients = new ArrayList<>();
     
-    @OneToMany(mappedBy = "location", cascade = { CascadeType.MERGE })
+    @OneToMany(mappedBy = "location")
     private List<Employee> employees = new ArrayList<>();
 
     public Location(){}

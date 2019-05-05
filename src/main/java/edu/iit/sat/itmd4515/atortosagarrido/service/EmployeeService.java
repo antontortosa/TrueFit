@@ -54,6 +54,7 @@ public class EmployeeService extends AbstractService<Employee> {
             em.merge(eDB.getPosition());
         }
         if (e.getUser() != null) {
+            LOG.log(Level.INFO, "the user brought from JSF is: {0}", e.getUser().getUserName());
             eDB.setUser(e.getUser());
         }
         LOG.log(Level.INFO, "Employee in DB (after) is: {0}", eDB.toString());

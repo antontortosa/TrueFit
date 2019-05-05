@@ -77,7 +77,7 @@ public class Client extends AbstractNamedEntity {
     @Column(name = "bodyfat_cl")
     private double bodyFatPercentage;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "main_location_id")
     private Location mainLocation;
 
