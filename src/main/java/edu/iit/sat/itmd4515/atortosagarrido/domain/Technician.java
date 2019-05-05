@@ -29,7 +29,7 @@ import javax.persistence.Table;
 @NamedQuery(name = "Technician.findAll", query = "SELECT t FROM Technician t")
 public class Technician extends Employee{
     
-    @ManyToMany(cascade = { CascadeType.PERSIST/*, CascadeType.MERGE */})
+    @ManyToMany(cascade = { CascadeType.PERSIST })
     @JoinTable(
         name = "Technician_Equipment", 
         joinColumns = { @JoinColumn(name = "technician_id") }, 
