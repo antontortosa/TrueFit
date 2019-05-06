@@ -9,7 +9,7 @@
     </ui:define>
 
     <ui:define name="mainContent">
-        <ezcomp:administrator admin="#{administrativeController.adminstrative}" readonly="true" action="#{administrativeController.doSaveClient()}"/>
+        <ezcomp:administrator admin="#{administrativeController.adminstrative}" user="#{administrativeController.user}" readonly="true" action="#{administrativeController.doSaveClient()}"/>
     </ui:define>
 
 </ui:composition>

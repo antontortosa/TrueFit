@@ -25,6 +25,7 @@ import javax.persistence.UniqueConstraint;
  */
 
 @Entity
+@NamedQuery(name = "Equipment.findByLocation", query = "SELECT e FROM Equipment e WHERE e.location.name = :locName")
 @NamedQuery(name = "Equipment.findByName", query = "SELECT e FROM Equipment e WHERE e.name = :name")
 @NamedQuery(name = "Equipment.findAll", query = "SELECT e FROM Equipment e")
 @Table(

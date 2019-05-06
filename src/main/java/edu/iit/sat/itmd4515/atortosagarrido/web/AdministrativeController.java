@@ -11,10 +11,13 @@ import edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Location;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Technician;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Trainer;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import edu.iit.sat.itmd4515.atortosagarrido.service.ClientService;
 import edu.iit.sat.itmd4515.atortosagarrido.service.EmployeeService;
 import edu.iit.sat.itmd4515.atortosagarrido.service.EquipmentService;
+import edu.iit.sat.itmd4515.atortosagarrido.service.GroupService;
 import edu.iit.sat.itmd4515.atortosagarrido.service.LocationService;
+import edu.iit.sat.itmd4515.atortosagarrido.service.UserService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +51,8 @@ public class AdministrativeController {
     
     private Equipment equipment;
     
+    private User user;
+    
     @Inject
     LoginController loginController;
     
@@ -63,6 +68,12 @@ public class AdministrativeController {
     @EJB
     private EquipmentService eqSvc;
     
+    @EJB
+    private UserService usSvc;
+    
+    @EJB
+    private GroupService grSvc;
+    
     public AdministrativeController() {
     }
     
@@ -76,6 +87,7 @@ public class AdministrativeController {
         this.otherAdminstrative = new Administrative();
         this.location = new Location();
         this.equipment = new Equipment();
+        this.user = new User();
     }
     
     ////////////////////
@@ -85,18 +97,21 @@ public class AdministrativeController {
     public String prepareViewClient(Client c){
         LOG.log(Level.INFO, "inside prepareViewClient  with client {0}", c.toString());
         this.client = c;
+        this.user = c.getUser();
         return "/admin/clients/viewClient.xhtml";
     }
     
     public String prepareEditClient(Client c){
         LOG.log(Level.INFO, "inside prepareEditClient with client {0}", c.toString());
         this.client = c;
+        this.user = c.getUser();
         return "/admin/clients/editClient.xhtml";
     }
     
     public String prepareCreateClient(){
         LOG.log(Level.INFO, "inside prepareCreateClient");
         this.client = new Client();
+        this.user = new User();
         return "/admin/clients/editClient.xhtml";
     }
     //SAVE
@@ -110,6 +125,9 @@ public class AdministrativeController {
         }else{
             //CREATE
             LOG.log(Level.INFO, "doSaveClient is going to call a create with {0}", this.client.toString());
+            this.user.addGroup(grSvc.findByName("CLIENT_GROUP"));
+            usSvc.create(this.user);
+            this.client.setUser(this.user);
             clSvc.create(this.client);
         }
         
@@ -129,18 +147,21 @@ public class AdministrativeController {
     public String prepareViewAdmin(Administrative a){
         LOG.log(Level.INFO, "inside prepareViewAdmin  with admin {0}", a.toString());
         this.otherAdminstrative = a;
+        this.user = a.getUser();
         return "/admin/employees/admins/viewAdmin.xhtml";
     }
     
     public String prepareEditAdmin(Administrative a){
         LOG.log(Level.INFO, "inside prepareEditAdmin with admin {0}", a.toString());
         this.otherAdminstrative = a;
+        this.user = a.getUser();
         return "/admin/employees/admins/editAdmin.xhtml";
     }
     
     public String prepareCreateAdmin(){
         LOG.log(Level.INFO, "inside prepareCreateAdmin");
         this.otherAdminstrative = new Administrative();
+        this.user = new User();
         return "/admin/employees/admins/editAdmin.xhtml";
     }
     //SAVE
@@ -154,6 +175,9 @@ public class AdministrativeController {
         }else{
             //CREATE
             LOG.log(Level.INFO, "doSaveAdmin is going to call a create with {0}", this.otherAdminstrative.toString());
+            this.user.addGroup(grSvc.findByName("ADMIN_GROUP"));
+            usSvc.create(this.user);
+            this.otherAdminstrative.setUser(this.user);
             empSvc.create(this.otherAdminstrative);
         }
         
@@ -172,18 +196,21 @@ public class AdministrativeController {
     public String prepareViewTech(Technician t){
         LOG.log(Level.INFO, "inside prepareViewTech  with technician {0}", t.toString());
         this.technician = t;
+        this.user=t.getUser();
         return "/admin/employees/techs/viewTech.xhtml";
     }
     
     public String prepareEditTech(Technician t){
         LOG.log(Level.INFO, "inside prepareEditTech with technician {0}", t.toString());
         this.technician = t;
+        this.user=t.getUser();
         return "/admin/employees/techs/editTech.xhtml";
     }
     
     public String prepareCreateTech(){
         LOG.log(Level.INFO, "inside prepareCreateTech");
         this.technician = new Technician();
+        this.user= new User();
         return "/admin/employees/techs/editTech.xhtml";
     }
     //SAVE
@@ -197,6 +224,9 @@ public class AdministrativeController {
         }else{
             //CREATE
             LOG.log(Level.INFO, "doSaveTech is going to call a create with {0}", this.technician.toString());
+            this.user.addGroup(grSvc.findByName("TECH_GROUP"));
+            usSvc.create(this.user);
+            this.technician.setUser(this.user);
             empSvc.create(this.technician);
         }
         return "/admin/employees/techs/allTechnicians.xhtml";
@@ -207,13 +237,6 @@ public class AdministrativeController {
         empSvc.remove(technician);
         return "/admin/employees/techs/allTechnicians.xhtml?faces-redirect=true";
     }
-    //OTHERS
-    public String doRemoveEquipment(Equipment eq){
-        LOG.log(Level.INFO, "inside doRemoveEquipment with technician {0}", this.technician.toString());
-        this.technician.removeEquipment(eq);
-        empSvc.update(this.technician);
-        return "/admin/employees/techs/allTechnicians.xhtml?faces-redirect=true";
-    }
     /////////////////////
     ///////TRAINERS/////
     ////////////////////
@@ -221,18 +244,21 @@ public class AdministrativeController {
     public String prepareViewTrainer(Trainer t){
         LOG.log(Level.INFO, "inside prepareViewTrainer  with trainer {0}", t.toString());
         this.trainer = t;
+        this.user=t.getUser();
         return "/admin/employees/trainers/viewTrainer.xhtml";
     }
     
     public String prepareEditTrainer(Trainer t){
         LOG.log(Level.INFO, "inside prepareEditTrainer with trainer {0}", t.toString());
         this.trainer = t;
+        this.user=t.getUser();
         return "/admin/employees/trainers/editTrainer.xhtml";
     }
     
     public String prepareCreateTrainer(){
         LOG.log(Level.INFO, "inside prepareCreateTrainer");
         this.trainer = new Trainer();
+        this.user = new User();
         return "/admin/employees/trainers/editTrainer.xhtml";
     }
     //SAVE
@@ -246,6 +272,9 @@ public class AdministrativeController {
         }else{
             //CREATE
             LOG.log(Level.INFO, "doSaveTrainer is going to call a create with {0}", this.trainer.toString());
+            this.user.addGroup(grSvc.findByName("TRAINER_GROUP"));
+            usSvc.create(this.user);
+            this.trainer.setUser(this.user);
             empSvc.create(this.trainer);
         }
         
@@ -480,4 +509,22 @@ public class AdministrativeController {
         this.equipment = equipment;
     }
     
+    /**
+     * Get the value of user
+     *
+     * @return the value of user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @param user new value of user
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

@@ -9,7 +9,7 @@
     </ui:define>
 
     <ui:define name="mainContent">
-        <ezcomp:technician tech="#{administrativeController.technician}" readonly="false" action="#{administrativeController.doSaveTech()}"/>
+        <ezcomp:technician tech="#{administrativeController.technician}" user="#{administrativeController.user}" readonly="false" action="#{administrativeController.doSaveTech()}"/>
     </ui:define>
 
 </ui:composition>

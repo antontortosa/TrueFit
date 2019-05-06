@@ -10,6 +10,7 @@
     <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="admin" required="true" type="edu.iit.sat.itmd4515.atortosagarrido.domain.Administrative"/>
+        <cc:attribute name="user" required="false" type="edu.iit.sat.itmd4515.atortosagarrido.domain.security.User"/>
         <cc:attribute name="readonly" required="false" default="true" type="java.lang.Boolean" />
         <cc:attribute name="action" required="false" method-signature="java.lang.String action()" />
     </cc:interface>
@@ -31,6 +32,25 @@
                     <h:inputHidden class="form-control" id="adminId" value="#{cc.attrs.admin.id}"/>
                     <h:inputHidden class="form-control" id="adminVersion" value="#{cc.attrs.admin.version}"/>
                     <h:message for="adminId" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Username: " for="techUsername"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputText class="form-control" 
+                                 id="techUsername" 
+                                 value="#{cc.attrs.user.userName}"
+                                 readonly="#{cc.attrs.readonly ? 'true' : 'false'}"/>
+                    <h:message for="techUsername" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group" rendered="#{not cc.attrs.readonly}">
+                <h:outputLabel class="col-lg-3 control-label" value="Password: " for="techPassword"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:inputSecret class="form-control" 
+                                   id="techPassword" 
+                                   value="#{cc.attrs.user.password}"/>
+                    <h:message for="techPassword" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
             <h:panelGroup layout="block" class="form-group">

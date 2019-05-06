@@ -153,13 +153,13 @@ public class DBFormation {
         try {
             Administrative e1 = new Administrative("Gandalf",
                     "The Grey",
-                    format.parse("1954-10-27"));
+                    format.parse("1000-02-14"));
             e1.setUser(usrSv.findByName("admin"));
             LOG.log(Level.INFO, "DBFormation is trying to persist Admin {0}", e1.toString());
             empSv.create(e1);
             Administrative e2 = new Administrative("Sauron",
                     "The Great",
-                    format.parse("1000-01-01"));
+                    format.parse("1000-03-25"));
             e2.setUser(usrSv.findByName("sauron"));
             LOG.log(Level.INFO, "DBFormation is trying to persist Admin {0}", e2.toString());
             empSv.create(e2);

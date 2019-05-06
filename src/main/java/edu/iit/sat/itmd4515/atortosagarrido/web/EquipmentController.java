@@ -39,6 +39,10 @@ public class EquipmentController {
     public List<Equipment> getAllEquipments(){
         return eqSvc.findAll();
     }
+    
+    public List<Equipment> getAllEquipmentsByLocation(String locName){
+        return eqSvc.findByLocation(locName);
+    }
 
     /**
      * Get the value of equipment

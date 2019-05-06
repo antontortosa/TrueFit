@@ -9,6 +9,9 @@
         All Administrators
     </ui:define>
     <ui:define name="mainContent">
+        <h:form>
+             <h:commandLink value="New Admin" action="#{administrativeController.prepareCreateAdmin()}"/>
+        </h:form>
         <h:dataTable class="table table-striped table-hover" value="#{administrativeController.allAdministratives}" var="admin">
             <h:column>
                 <h:outputText value="#{admin.id}"/>

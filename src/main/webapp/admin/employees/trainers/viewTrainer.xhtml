@@ -9,7 +9,7 @@
     </ui:define>
 
     <ui:define name="mainContent">
-        <ezcomp:trainer trainer="#{administrativeController.trainer}" readonly="true" action="#{administrativeController.doSaveClient()}"/>
+        <ezcomp:trainer trainer="#{administrativeController.trainer}" user="#{administrativeController.user}" readonly="true" action="#{administrativeController.doSaveClient()}"/>
     </ui:define>
 
 </ui:composition>

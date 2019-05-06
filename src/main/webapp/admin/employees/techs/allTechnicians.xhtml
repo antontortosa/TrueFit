@@ -9,6 +9,9 @@
         All Technicians
     </ui:define>
     <ui:define name="mainContent">
+         <h:form>
+             <h:commandLink value="New Techinician" action="#{administrativeController.prepareCreateTech()}"/>
+        </h:form>
         <h:dataTable class="table table-striped table-hover" value="#{technicianController.allTechnicians}" var="technician">
             <h:column>
                 <h:outputText value="#{technician.id}"/>

@@ -9,7 +9,7 @@
     </ui:define>
 
     <ui:define name="mainContent">
-        <ezcomp:client client="#{administrativeController.client}" readonly="true" action="#{administrativeController.doSaveClient()}"/>
+        <ezcomp:client client="#{administrativeController.client}" user="#{administrativeController.user}" readonly="true" action="#{administrativeController.doSaveClient()}"/>
     </ui:define>
 
 </ui:composition>

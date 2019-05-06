@@ -50,4 +50,10 @@ public class EquipmentService extends AbstractService<Equipment>{
                 .setParameter("name", name)
                 .getSingleResult();
     }
+    
+    public List<Equipment> findByLocation(String locationName){
+        return em.createNamedQuery("Equipment.findByLocation",Equipment.class)
+                .setParameter("locName", locationName)
+                .getResultList();
+    }
 }

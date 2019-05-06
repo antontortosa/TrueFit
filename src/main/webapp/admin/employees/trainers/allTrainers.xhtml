@@ -9,6 +9,9 @@
         All Trainers
     </ui:define>
     <ui:define name="mainContent">
+        <h:form>
+            <h:commandLink value="New Trainer" action="#{administrativeController.prepareCreateTrainer()}"/>
+        </h:form>
         <h:dataTable class="table table-striped table-hover" value="#{trainerController.allTrainers}" var="trainer">
             <h:column>
                 <h:outputText value="#{trainer.id}"/>
