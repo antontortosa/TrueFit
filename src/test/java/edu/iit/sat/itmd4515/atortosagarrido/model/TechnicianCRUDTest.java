@@ -100,6 +100,7 @@ public class TechnicianCRUDTest extends AbstractJPATest {
         Equipment eq = new Equipment(EqStatus.BROKEN, "Rack_1");
         t.addEquipment(eq);
         et.begin();
+        em.persist(eq);
         em.persist(t);
         et.commit();
         eq = em.createNamedQuery("Equipment.findByName",Equipment.class)

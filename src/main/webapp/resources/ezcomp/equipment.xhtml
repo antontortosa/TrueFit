@@ -66,9 +66,13 @@
                     <h:selectOneMenu class="form-control"
                                      readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
                                      disabled="#{cc.attrs.readonly ? 'true' : 'false'}"
-                                     id="location" 
+                                     id="location"
                                      value="#{cc.attrs.equipment.location}">
                         <f:converter binding="#{locationConverter}" />
+                        <f:validator validatorId="locationValidator"/>
+                        <f:selectItem itemLabel="Select a Location..."
+                                      itemValue="#{null}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{locationController.allLocations}" 
                                        var="loc" 
                                        itemLabel="#{loc.name}" 

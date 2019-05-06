@@ -6,6 +6,7 @@
 package edu.iit.sat.itmd4515.atortosagarrido.service;
 
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Location;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Technician;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,16 @@ public class EquipmentService extends AbstractService<Equipment>{
 
     public EquipmentService() {
         super(Equipment.class);
+    }
+    
+    @Override
+    public void create(Equipment e){
+        super.create(e);
+        if(e.getLocation()!=null){
+            Location locDB = em.getReference(Location.class, e.getLocation().getId());
+            locDB.addEquipment(e);
+        }
+        em.flush();
     }
     
     @Override

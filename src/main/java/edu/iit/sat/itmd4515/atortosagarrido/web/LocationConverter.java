@@ -29,12 +29,19 @@ public class LocationConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
+        if(value.equals("ERROR")){
+            return null;
+        }
         return locSvc.findByName(value);
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        return ((Location)value).getName();   
+        if(value != null){
+            return ((Location)value).getName();   
+        }else{
+            return "ERROR";
+        }
     }
     
 }

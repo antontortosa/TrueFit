@@ -34,7 +34,7 @@
                     <h:message for="trainerId" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
-            <h:panelGroup layout="block" class="form-group">
+            <h:panelGroup layout="block" class="form-group" rendered="#{(empty cc.attrs.trainer.id and not cc.attrs.readonly) or cc.attrs.readonly}">
                 <h:outputLabel class="col-lg-3 control-label" value="Username: " for="techUsername"/> 
                 <h:panelGroup layout="block" class="col-lg-8">
                     <h:inputText class="form-control" 
@@ -44,7 +44,7 @@
                     <h:message for="techUsername" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
-            <h:panelGroup layout="block" class="form-group" rendered="#{not cc.attrs.readonly}">
+            <h:panelGroup layout="block" class="form-group" rendered="#{not cc.attrs.readonly and empty cc.attrs.trainer.id}">
                 <h:outputLabel class="col-lg-3 control-label" value="Password: " for="techPassword"/> 
                 <h:panelGroup layout="block" class="col-lg-8">
                     <h:inputSecret class="form-control" 
@@ -120,6 +120,10 @@
                                      id="location" 
                                      value="#{cc.attrs.trainer.location}">
                         <f:converter binding="#{locationConverter}" />
+                        <f:validator validatorId="locationValidator"/>
+                        <f:selectItem itemLabel="Select a Location..."
+                                      itemValue="#{null}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{locationController.allLocations}" 
                                        var="loc" 
                                        itemLabel="#{loc.name}" 

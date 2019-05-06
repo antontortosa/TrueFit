@@ -13,6 +13,7 @@ import edu.iit.sat.itmd4515.atortosagarrido.domain.Position;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Technician;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Trainer;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -31,6 +32,29 @@ public class EmployeeService extends AbstractService<Employee> {
 
     public EmployeeService() {
         super(Employee.class);
+    }
+    
+    @Override
+    public void create(Employee e){
+        //Call super to persist the Employee itself
+        super.create(e);
+        //If it comes with a location we update that location object so it refelects
+        //the new employee
+        if(e.getLocation() != null){
+            Location lDB = em.getReference(Location.class, e.getLocation().getId());
+            lDB.addEmployee(e);
+        }
+        //If its a Technician we get the possible equipment it has been asigned
+        //first and link it to the technician
+        if (e.getClass().getSimpleName().equals("Technician")) {
+            if (((Technician) e).getEquipments() != null && !((Technician) e).getEquipments().isEmpty()) {
+                for(Equipment eq :((Technician) e).getEquipments()){
+                    Equipment eqDB = em.getReference(Equipment.class, eq.getId());
+                    eqDB.addTechnician((Technician)e);
+                }
+            }
+        }
+        em.flush();
     }
 
     @Override
@@ -56,10 +80,6 @@ public class EmployeeService extends AbstractService<Employee> {
         if (e.getPosition() != null) {
             eDB.setPosition(e.getPosition());
             em.merge(eDB.getPosition());
-        }
-        if (e.getUser() != null) {
-            LOG.log(Level.INFO, "the user brought from JSF is: {0}", e.getUser().getUserName());
-            eDB.setUser(e.getUser());
         }
         if (eDB.getClass().getSimpleName().equals("Technician")) {
             if (((Technician) e).getEquipments() != null) {
@@ -142,9 +162,10 @@ public class EmployeeService extends AbstractService<Employee> {
      */
     private void removeEquipment() {
         Set<Equipment> setDB = ((Technician)eDB).getEquipments();
-        setDB.forEach((eq) -> {
+        for(Iterator<Equipment> it = setDB.iterator(); it.hasNext(); ){
+            Equipment eq = it.next();
             eq.removeTechTechnician((Technician)eDB);
-        });
+        }
     }
 
 }

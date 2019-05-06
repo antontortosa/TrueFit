@@ -122,7 +122,7 @@ public class Equipment extends AbstractNamedEntity{
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 79 * hash + Objects.hashCode(this.id);
+        //hash = 79 * hash + Objects.hashCode(this.id);
         hash = 79 * hash + Objects.hashCode(this.name);
         hash = 79 * hash + Objects.hashCode(this.status);
         return hash;
@@ -146,9 +146,9 @@ public class Equipment extends AbstractNamedEntity{
         if (!Objects.equals(this.status, other.status)) {
             return false;
         }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
+        //if (!Objects.equals(this.id, other.id)) {
+        //    return false;
+        //}
         return true;
     }
 

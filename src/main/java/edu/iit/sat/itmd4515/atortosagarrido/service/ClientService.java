@@ -29,6 +29,19 @@ public class ClientService extends AbstractService<Client> {
     }
     
     @Override
+    public void create(Client c){
+        //Call super to persist the Employee itself
+        super.create(c);
+        //If it comes with a location we update that location object so it refelects
+        //the new employee
+        if(c.getMainLocation() != null){
+            Location lDB = em.getReference(Location.class, c.getMainLocation().getId());
+            lDB.addClient(c);
+        }
+        em.flush();
+    }
+    
+    @Override
     public void update(Client c){
         Client db = em.getReference(Client.class, c.getId());
         if(c.getName()!=null){
