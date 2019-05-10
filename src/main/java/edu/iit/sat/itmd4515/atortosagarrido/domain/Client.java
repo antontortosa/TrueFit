@@ -31,7 +31,6 @@ import javax.validation.constraints.PositiveOrZero;
  *
  * @author antoniotortosa
  */
-
 @Entity
 @NamedQuery(name = "Client.findByFullName", query = "SELECT c FROM Client c WHERE c.name = :name AND c.surname = :surname")
 @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")
@@ -65,16 +64,16 @@ public class Client extends AbstractNamedEntity {
 
     @Positive(message = "The height must be a positive real number")
     @Column(nullable = false, name = "height_cl")
-    private double height;
+    private Double height;
 
     @Positive(message = "The weight must be a positive real number")
     @Column(nullable = false, name = "weight_cl")
-    private double weight;
+    private Double weight;
 
     @PositiveOrZero(message = "The bodyfat percentage must be a positive real number")
     @Max(100)
     @Column(name = "bodyfat_cl")
-    private double bodyFatPercentage;
+    private Double bodyFatPercentage;
 
     @ManyToOne
     @JoinColumn(name = "main_location_id")
@@ -88,7 +87,7 @@ public class Client extends AbstractNamedEntity {
     @ManyToOne
     private Trainer trainer;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne
     @JoinColumn(name = "username")
     private User user;
 
@@ -96,7 +95,7 @@ public class Client extends AbstractNamedEntity {
         this.signDate = Date.from(Instant.now());
     }
 
-    public Client(String name, String surname, Date birthDate, double height, double weight) {
+    public Client(String name, String surname, Date birthDate, Double height, Double weight) {
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
@@ -138,9 +137,13 @@ public class Client extends AbstractNamedEntity {
      * @param trainer new value of trainer
      */
     public void setTrainer(Trainer trainer) {
+        Trainer oldTrainer = this.trainer;
         this.trainer = trainer;
-        if (!trainer.getClients().contains(this)) {
-            this.trainer.getClients().add(this);
+        if (this.trainer != null) {
+            this.trainer.addClient(this);
+        }
+        if(oldTrainer!=null){
+            oldTrainer.removeClient(this);
         }
     }
 
@@ -149,7 +152,7 @@ public class Client extends AbstractNamedEntity {
      *
      * @return the value of bodyFatPercentage
      */
-    public double getBodyFatPercentage() {
+    public Double getBodyFatPercentage() {
         return bodyFatPercentage;
     }
 
@@ -158,7 +161,7 @@ public class Client extends AbstractNamedEntity {
      *
      * @param bodyFatPercentage new value of bodyFatPercentage
      */
-    public void setBodyFatPercentage(double bodyFatPercentage) {
+    public void setBodyFatPercentage(Double bodyFatPercentage) {
         this.bodyFatPercentage = bodyFatPercentage;
     }
 
@@ -212,7 +215,7 @@ public class Client extends AbstractNamedEntity {
      *
      * @return the value of weight
      */
-    public double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
@@ -221,7 +224,7 @@ public class Client extends AbstractNamedEntity {
      *
      * @param weight new value of weight
      */
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
@@ -230,7 +233,7 @@ public class Client extends AbstractNamedEntity {
      *
      * @return the value of height
      */
-    public double getHeight() {
+    public Double getHeight() {
         return height;
     }
 
@@ -239,7 +242,7 @@ public class Client extends AbstractNamedEntity {
      *
      * @param height new value of height
      */
-    public void setHeight(double height) {
+    public void setHeight(Double height) {
         this.height = height;
     }
 
@@ -305,14 +308,14 @@ public class Client extends AbstractNamedEntity {
      * @param mainLocation new value of mainLocation
      */
     public void setMainLocation(Location mainLocation) {
-        if(this.mainLocation != null && !mainLocation.getName().equals(this.mainLocation.getName())){
+        if (this.mainLocation != null && !mainLocation.getName().equals(this.mainLocation.getName())) {
             this.mainLocation.removeClient(this);
             this.mainLocation = mainLocation;
             this.mainLocation.addClient(this);
-        }else if (this.mainLocation == null){
+        } else if (this.mainLocation == null) {
             this.mainLocation = mainLocation;
             this.mainLocation.addClient(this);
-        }      
+        }
     }
 
     public void removeMainLocation(Location mainLocation) {
@@ -346,17 +349,21 @@ public class Client extends AbstractNamedEntity {
 
     @Override
     public String toString() {
-        return "Client " + id + "{"
+        String toRet = "Client " + id + "{"
                 + "\t\nname=" + name
                 + "\t\nsurname=" + surname
                 + "\t\nbirthDate=" + birthDate
                 + "\t\nsignDate=" + signDate
                 + "\t\nmembershipType=" + membership
                 + "\t\nheight=" + height
-                + "\t\nweight=" + weight
-                + "\t\nbodyFatPercentage=" + bodyFatPercentage
-                + "\t\ntrainingFocusId=" + trainingFocusId
-                + "\t\ntrainerId=" + trainer + '}';
+                + "\t\nweight=" + weight;
+        if(trainer!= null){
+            toRet += "\t\ntrainer=" + trainer.getFullName();
+        }
+        if(user != null){
+            toRet += "\t\nuser=" + user.getUserName();
+        }
+        return toRet + "}";
     }
 
     @Override

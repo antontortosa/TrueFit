@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../../WEB-INF/templates/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Training Home
+    </ui:define>
+
+    <ui:define name="mainContent">
+        <ui:fragment rendered="#{clientController.client.mainLocation == null}">
+            <p>You have not chosen a main location at this point.</p>
+            <h:link value="Please click here to choose a location" outcome="locationchoose.xhtml"/>
+
+        </ui:fragment>
+        <ui:fragment rendered="#{clientController.client.mainLocation != null}">
+            <h:panelGroup layout="block">
+                <p><strong>Name: </strong> #{clientController.client.mainLocation.name}</p>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <p><strong>Address: </strong> #{clientController.client.mainLocation.address}</p>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:link value="Change location" outcome="locationchoose.xhtml"/>
+            </h:panelGroup>
+        </ui:fragment>
+    </ui:define>
+
+</ui:composition>

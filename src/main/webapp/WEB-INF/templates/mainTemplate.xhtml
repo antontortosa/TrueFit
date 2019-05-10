@@ -32,7 +32,18 @@
                 <ul class="list-unstyled components">
                     <p> Welcome #{loginController.remoteUser} </p>
                     <li>
-                        <h:link value = "Home" outcome = "/admin/welcome"/>
+                        <ui:fragment rendered="#{loginController.admin}">
+                            <h:link value = "Home" outcome = "/admin/welcome.xhtml"/>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{loginController.client}">
+                            <h:link value = "Home" outcome = "/clients/user/welcome.xhtml"/>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{loginController.tech}">
+                            <h:link value = "Home" outcome = "/employees/technicians/welcome"/>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{loginController.trainer}">
+                            <h:link value = "Home" outcome = "/employees/trainers/welcome"/>
+                        </ui:fragment>
                     </li>
                     <ui:fragment id="adminsNav" rendered="#{loginController.admin}">
                         <li>
@@ -67,7 +78,7 @@
                                     <h:link value = "Program" outcome = "allClients"/>
                                 </li>
                                 <li>
-                                    <h:link value = "Trainers" outcome = "allAdmins"/>
+                                    <h:link value = "Trainer" outcome = "/clients/user/training/trainerhome.xhtml"/>
                                 </li>
                                 <li>
                                     <h:link value = "Exercises" outcome = "allTrainers"/>
@@ -75,45 +86,26 @@
                             </ul>
                         </li>
                         <li>
-                            <h:link value = "Profile" outcome = "profile.xhtml"/>
+                            <h:link value = "Location" outcome = "/clients/user/location/locationhome.xhtml"/>
+                        </li>
+                        <li>
+                            <h:link value = "Profile" outcome = "/clients/user/profile.xhtml"/>
                         </li>
                     </ui:fragment>
                     <ui:fragment id="trainersNav" rendered="#{loginController.trainer}">
+                         <li>
+                            <h:link value = "Clients" outcome = "/employees/trainers/clients/allclients.xhtml"/>
+                        </li>
                         <li>
-                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">People</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu">
-                                <li>
-                                    <h:link value = "Clients" outcome = "allClients"/>
-                                </li>
-                                <li>
-                                    <h:link value = "Administrators" outcome = "allAdmins"/>
-                                </li>
-                                <li>
-                                    <h:link value = "Trainers" outcome = "allTrainers"/>
-                                </li>
-                                <li>
-                                    <h:link value = "Technicians" outcome = "allTechnicians"/>
-                                </li>
-                            </ul>
+                            <h:link value = "Profile" outcome = "/employees/trainers/profile.xhtml"/>
                         </li>
                     </ui:fragment>
                     <ui:fragment id="techNav" rendered="#{loginController.tech}">
                         <li>
-                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">People</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu">
-                                <li>
-                                    <h:link value = "Clients" outcome = "allClients"/>
-                                </li>
-                                <li>
-                                    <h:link value = "Administrators" outcome = "allAdmins"/>
-                                </li>
-                                <li>
-                                    <h:link value = "Trainers" outcome = "allTrainers"/>
-                                </li>
-                                <li>
-                                    <h:link value = "Technicians" outcome = "allTechnicians"/>
-                                </li>
-                            </ul>
+                            <h:link value = "Equipment" outcome = "/employees/technicians/equipments/allequipments.xhtml"/>
+                        </li>
+                        <li>
+                            <h:link value = "Profile" outcome = "/employees/technicians/profile.xhtml"/>
                         </li>
                     </ui:fragment>
                 </ul>

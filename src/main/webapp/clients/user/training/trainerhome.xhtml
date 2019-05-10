@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../../WEB-INF/templates/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Training Home
+    </ui:define>
+
+    <ui:define name="mainContent">
+        <ui:fragment rendered="#{clientController.client.trainer == null}">
+            <p>You have not chosen a trainer at this point.</p>
+            <h:link value="Please click here to choose a trainer" outcome="trainerchoose.xhtml"/>
+
+        </ui:fragment>
+        <ui:fragment rendered="#{clientController.client.trainer != null}">
+            <h:panelGroup layout="block">
+                <p><strong>Full name: </strong> #{clientController.trainer.fullName}</p>
+            </h:panelGroup>
+            <h:panelGroup layout="block">
+                <p><strong>Location</strong> #{clientController.trainer.location.name}</p>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:link value="Change trainer" outcome="trainerchoose.xhtml"/>
+            </h:panelGroup>
+        </ui:fragment>
+    </ui:define>
+
+</ui:composition>

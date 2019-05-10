@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/templates/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Trainer Profile
+    </ui:define>
+
+    <ui:define name="mainContent">
+        <h:panelGroup layout="block">
+            <p><strong>Username: </strong> #{loginController.remoteUser} </p>
+        </h:panelGroup>
+        <h:panelGroup layout="block">
+            <p><strong>Full name: </strong> #{trainerController.trainer.fullName}</p>
+        </h:panelGroup>
+        <h:panelGroup layout="block">
+            <p><strong>Birth date: </strong>
+                <h:outputText value="#{trainerController.trainer.birthDate}" >
+                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                </h:outputText>
+            </p>
+        </h:panelGroup>
+        <h:panelGroup layout="block">
+            <p><strong>Cost per hour:</strong>#{trainerController.trainer.costPerHour}</p>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{trainerController.trainer.location != null}">
+            <p><strong>Location: </strong> #{trainerController.trainer.location.name}</p>
+        </h:panelGroup>
+        <h:panelGroup layout="block">
+            <h:button value="Edit" outcome="/employees/trainers/edit.xhtml" />
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

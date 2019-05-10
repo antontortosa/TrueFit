@@ -33,7 +33,7 @@ public class ClientCRUDTest extends AbstractJPATest {
     public void setUp() throws ParseException {
         em = ef.createEntityManager();
         et = em.getTransaction();
-        Client c = new Client("Iam", "Nobody", format.parse("1944-6-6"), 1.76, 80);
+        Client c = new Client("Iam", "Nobody", format.parse("1944-6-6"), 1.76, Double.valueOf(80));
         et.begin();
         em.persist(c);
         et.commit();
@@ -55,7 +55,7 @@ public class ClientCRUDTest extends AbstractJPATest {
 
     @Test
     public void createNewValidClient() throws ParseException {
-        Client c = new Client("Antoio", "Tortosa", format.parse("1994-11-17"), 1.8, 77);
+        Client c = new Client("Antoio", "Tortosa", format.parse("1994-11-17"), 1.8, Double.valueOf(77));
         et.begin();
         em.persist(c);
         assertNull("ID should be null before object is commited to the database", c.getId());
@@ -65,7 +65,7 @@ public class ClientCRUDTest extends AbstractJPATest {
 
     @Test(expected = RollbackException.class)
     public void createInvalidClient() throws ParseException {
-        Client c = new Client(null, "Tortosa", format.parse("1994-11-17"), 1.8, 77);
+        Client c = new Client(null, "Tortosa", format.parse("1994-11-17"), 1.8, Double.valueOf(77));
         et.begin();
         em.persist(c);
         et.commit();
@@ -94,7 +94,7 @@ public class ClientCRUDTest extends AbstractJPATest {
     @Test(expected = NoResultException.class)
     @SuppressWarnings("UnusedAssignment")
     public void testRemoveExistingClient() throws ParseException {
-        Client c = new Client("Emilia", "Rosales", format.parse("1998-7-10"), 1.51, 43);
+        Client c = new Client("Emilia", "Rosales", format.parse("1998-7-10"), 1.51, Double.valueOf(43));
         et.begin();
         em.persist(c);
         et.commit();

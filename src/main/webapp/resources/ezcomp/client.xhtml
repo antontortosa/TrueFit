@@ -63,7 +63,7 @@
                     <h:message for="clientName" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
-            <h:panelGroup layout="block">
+            <h:panelGroup layout="block" class="form-group">
                 <h:outputLabel class="col-lg-3 control-label" value="Surname: " for="clientSurname"/> 
                 <h:panelGroup layout="block" class="col-lg-8">
                     <h:inputText class="form-control" 
@@ -73,7 +73,7 @@
                     <h:message for="surname" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
-            <h:panelGroup layout="block">
+            <h:panelGroup layout="block" class="form-group">
                 <h:outputLabel class="col-lg-3 control-label" value="Birthdate: " for="birthDate"/> 
                 <h:panelGroup layout="block" class="col-lg-8">
                     <h:inputText p:type="date" 
@@ -87,7 +87,7 @@
                     <h:message for="birthDate" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
-            <h:panelGroup layout="block">
+            <h:panelGroup layout="block" class="form-group">
                 <h:outputLabel class="col-lg-3 control-label" value="Membership: " for="membership"/> 
                 <h:panelGroup layout="block" class="col-lg-8">
                     <h:selectOneMenu class="form-control"
@@ -104,8 +104,8 @@
                     <h:message for="membership" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
-            <h:panelGroup layout="block">
-                <h:outputLabel class="col-lg-3 control-label" value="Height: " for="height"/> 
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Height (m): " for="height"/> 
                 <h:panelGroup layout="block" class="col-lg-8">
                     <h:inputText id="height" 
                                  class="form-control"
@@ -115,8 +115,8 @@
                     <h:message for="height" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
-            <h:panelGroup layout="block">
-                <h:outputLabel class="col-lg-3 control-label" value="Weight: " for="weight"/> 
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Weight (kg): " for="weight"/> 
                 <h:panelGroup layout="block" class="col-lg-8">
                     <h:inputText id="weight" 
                                  class="form-control"
@@ -126,7 +126,7 @@
                     <h:message for="weight" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
-            <h:panelGroup layout="block">
+            <h:panelGroup layout="block" class="form-group">
                 <h:outputLabel class="col-lg-3 control-label" value="Location: " for="location"/> 
                 <h:panelGroup layout="block" class="col-lg-8">
                     <h:selectOneMenu class="form-control"
@@ -145,6 +145,26 @@
                                        itemValue="#{loc}"/>
                     </h:selectOneMenu>
                     <h:message for="location" errorClass="text-danger"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block" class="form-group">
+                <h:outputLabel class="col-lg-3 control-label" value="Trainer: " for="trainers"/> 
+                <h:panelGroup layout="block" class="col-lg-8">
+                    <h:selectOneMenu class="form-control"
+                                     readonly="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     disabled="#{cc.attrs.readonly ? 'true' : 'false'}"
+                                     id="trainers" 
+                                     value="#{cc.attrs.client.trainer}">
+                        <f:converter binding="#{trainerConverter}" />
+                        <f:selectItem itemLabel="No trainer selected"
+                                      itemValue="#{null}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems value="#{trainerController.allTrainers}" 
+                                       var="trainer" 
+                                       itemLabel="#{trainer.fullName}" 
+                                       itemValue="#{trainer}"/>
+                    </h:selectOneMenu>
+                    <h:message for="trainers" errorClass="text-danger"/>
                 </h:panelGroup>
             </h:panelGroup>
             <ui:fragment rendered="#{not cc.attrs.readonly}">

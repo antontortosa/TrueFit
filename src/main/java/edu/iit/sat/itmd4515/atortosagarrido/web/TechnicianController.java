@@ -5,6 +5,8 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.web;
 
+import edu.iit.sat.itmd4515.atortosagarrido.domain.EqStatus;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Technician;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import edu.iit.sat.itmd4515.atortosagarrido.service.EmployeeService;
@@ -52,6 +54,29 @@ public class TechnicianController {
             user = new User();
             this.technician = new Technician();
         } 
+    }
+    
+    public String setAsOS(Equipment equip){
+        equip.setStatus(EqStatus.ONSERVICE);
+        empSvc.update(this.technician);
+        return "/employees/technicians/equipments/allequipments.xhtml";
+    }
+    
+    public String setAsF(Equipment equip){
+        equip.setStatus(EqStatus.FIXING);
+        empSvc.update(this.technician);
+        return "/employees/technicians/equipments/allequipments.xhtml";
+    }
+    
+    public String setAsB(Equipment equip){
+        equip.setStatus(EqStatus.BROKEN);
+        empSvc.update(this.technician);
+        return "/employees/technicians/equipments/allequipments.xhtml";
+    }
+    
+    public String doSaveTechnician(){
+        empSvc.update(this.technician);
+        return "/employees/technicians/profile.xhtml";
     }
     
     //Utility

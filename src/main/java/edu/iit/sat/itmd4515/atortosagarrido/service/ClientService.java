@@ -44,6 +44,7 @@ public class ClientService extends AbstractService<Client> {
     @Override
     public void update(Client c){
         Client db = em.getReference(Client.class, c.getId());
+        LOG.log(Level.INFO, "Client Service Updating client {0}", db.toString());
         if(c.getName()!=null){
             db.setName(c.getName());
         }
@@ -60,13 +61,13 @@ public class ClientService extends AbstractService<Client> {
             db.setMembership(c.getMembership());
             em.merge(db.getMembership());
         }
-        if(c.getHeight()!=0.0){
+        if(c.getHeight()!=null){
             db.setHeight(c.getHeight());
         }
-        if(c.getWeight()!=0.0){
+        if(c.getWeight()!=null){
             db.setWeight(c.getWeight());
         }
-        if(c.getBodyFatPercentage()!=0.0){
+        if(c.getBodyFatPercentage()!=null){
             db.setBodyFatPercentage(c.getBodyFatPercentage());
         }
         if(c.getMainLocation()!=null){
@@ -79,7 +80,24 @@ public class ClientService extends AbstractService<Client> {
             db.setTrainingFocusId(c.getTrainingFocusId());
         }
         if(c.getTrainer()!=null){
+            //LOG.log(Level.INFO, "UPDATE CLIENT: New trainer {0} for the client {1}", new Object[]{c.getTrainer().getFullName(), c.toString()});
+            Trainer dbT_old = null;            
+            Trainer dbT_new = em.getReference(Trainer.class, c.getTrainer().getId());
+            //LOG.log(Level.INFO, "UPDATE CLIENT: The new trainer in the DB is: {0}", dbT_new.toString());
+            if(db.getTrainer()!=null){
+                dbT_old = em.getReference(Trainer.class, db.getTrainer().getId());
+                //LOG.log(Level.INFO, "UPDATE CLIENT: The db Client had a trainer who is : {0}", dbT_old.getFullName());
+            }
             db.setTrainer(c.getTrainer());
+            //LOG.log(Level.INFO, "UPDATE CLIENT: The client {0} has the new trainer {1}", new Object[]{db.toString(), db.getTrainer().getFullName()});
+            if(dbT_old!=null){
+                for(Client caux : dbT_old.getClients()){
+                    //LOG.log(Level.INFO, "UPDATE CLIENT: The old trainer has {0} as a client",caux.getFullName()) ;
+                }
+                //LOG.log(Level.INFO, "UPDATE CLIENT: The old trainer is merged : {0}" , dbT_old.getFullName());
+                em.merge(dbT_old);
+            }
+            //LOG.log(Level.INFO, "UPDATE CLIENT: The new trainer is merged : {0}", db.getTrainer().getFullName());
             em.merge(db.getTrainer());
         }
         if(c.getUser()!=null){

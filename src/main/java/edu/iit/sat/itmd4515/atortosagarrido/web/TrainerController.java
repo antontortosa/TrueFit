@@ -5,10 +5,12 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.web;
 
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Client;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Trainer;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import edu.iit.sat.itmd4515.atortosagarrido.service.EmployeeService;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -29,6 +31,9 @@ public class TrainerController {
     private Trainer trainer;
     
     private User user;
+    
+    private Client client;
+
     
     @Inject
     private SecurityContext securityContext;
@@ -51,6 +56,18 @@ public class TrainerController {
             user = new User();
             this.trainer = new Trainer();
         } 
+    }
+    
+    public String prepareViewClient(Client c){
+        LOG.log(Level.INFO, "inside prepareViewClient  with client {0}", c.toString());
+        this.client = c;
+        return "/employees/trainers/clients/viewclient.xhtml";
+    }
+    
+    public String doSaveTrainer(){
+        LOG.log(Level.INFO, "inside doSaveTrainer  with trainer {0}", this.trainer.toString());
+        empSvc.update(this.trainer);
+        return "/employees/trainers/profile.xhtml";
     }
     
     //Utility
@@ -93,6 +110,24 @@ public class TrainerController {
      */
     public void setTrainer(Trainer trainer) {
         this.trainer = trainer;
+    }
+    
+     /**
+     * Get the value of client
+     *
+     * @return the value of client
+     */
+    public Client getClient() {
+        return client;
+    }
+
+    /**
+     * Set the value of client
+     *
+     * @param client new value of client
+     */
+    public void setClient(Client client) {
+        this.client = client;
     }
 
 }

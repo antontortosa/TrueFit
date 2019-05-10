@@ -75,7 +75,7 @@ public class LocationCRUDTest extends AbstractJPATest{
     
     @Test
     public void addLocationToClient() throws ParseException{
-        Client c = new Client("Antoio", "Tortosa", format.parse("1994-11-17"), 1.8, 77);
+        Client c = new Client("Antoio", "Tortosa", format.parse("1994-11-17"), 1.8, Double.valueOf(77));
         Location l = em.createNamedQuery("Location.findByName",Location.class)
                 .setParameter("name", "Downtown center")
                 .getSingleResult();

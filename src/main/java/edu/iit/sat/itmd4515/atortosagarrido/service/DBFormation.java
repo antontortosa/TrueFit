@@ -96,7 +96,8 @@ public class DBFormation {
         User admin2 = new User("sauron", "pass", true);
         User client1 = new User("antontortosa", "pass", true);
         User client2 = new User("emrose", "pass", true);
-        User traienr1 = new User("ramonf", "pass", true);
+        User trainer1 = new User("ramonf", "pass", true);
+        User trainer2 = new User("radoc", "pass", true);
         User tech1 = new User("davidgl", "pass", true);
         //Persist groups in DB
         grpSv.create(adminGroup);
@@ -109,8 +110,10 @@ public class DBFormation {
         admin2.addGroup(adminGroup);
         client1.addGroup(clientGroup);
         client2.addGroup(clientGroup);
-        traienr1.addGroup(trainerGroup);
-        traienr1.addGroup(employeeGroup);
+        trainer1.addGroup(trainerGroup);
+        trainer1.addGroup(employeeGroup);
+        trainer2.addGroup(trainerGroup);
+        trainer2.addGroup(employeeGroup);
         tech1.addGroup(employeeGroup);
         tech1.addGroup(techGroup);
         //Persist the users in the DB
@@ -118,7 +121,8 @@ public class DBFormation {
         usrSv.create(admin2);
         usrSv.create(client1);
         usrSv.create(client2);
-        usrSv.create(traienr1);
+        usrSv.create(trainer1);
+        usrSv.create(trainer2);
         usrSv.create(tech1);
     }
 
@@ -128,7 +132,7 @@ public class DBFormation {
                     "Tortosa",
                     format.parse("1994-11-17"),
                     1.8,
-                    70);
+                    new Double(70));
             c1.setUser(usrSv.findByName("antontortosa"));
             c1.setMembership(memSv.findByName("VIP"));
             c1.setMainLocation(locSv.findByName("Chicago Lake View"));
@@ -136,7 +140,7 @@ public class DBFormation {
                     "Rosales",
                     format.parse("1998-07-10"),
                     1.5,
-                    45);
+                    new Double(45));
             c2.setUser(usrSv.findByName("emrose"));
             c2.setMembership(memSv.findByName("Gold"));
             c2.setMainLocation(locSv.findByName("Chicago Downtown"));
@@ -193,6 +197,14 @@ public class DBFormation {
             t1.setLocation(locSv.findByName("Chicago Downtown"));
             LOG.log(Level.INFO, "DBFormation is trying to persist Trainer {0}", t1.toString());
             empSv.create(t1);
+            Trainer t2 = new Trainer("Iñigo",
+                    "Rado",
+                    format.parse("1994-11-20"),
+                    45);
+            t2.setUser(usrSv.findByName("radoc"));
+            t2.setLocation(locSv.findByName("Chicago Lake View"));
+            LOG.log(Level.INFO, "DBFormation is trying to persist Trainer {0}", t1.toString());
+            empSv.create(t2);
         } catch (ParseException ex) {
             Logger.getLogger(DBFormation.class.getName()).log(Level.SEVERE, null, ex);
         }

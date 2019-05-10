@@ -21,33 +21,39 @@ import javax.validation.constraints.Positive;
  */
 @Entity
 @Table(
-        name="trainer"
+        name = "trainer"
 )
 @NamedQuery(name = "Trainer.findAll", query = "SELECT t FROM Trainer t")
-public class Trainer extends Employee{
-    
+public class Trainer extends Employee {
+
     @OneToMany(mappedBy = "trainer")
     private List<Client> clients = new ArrayList<>();
-    
+
     @Column(nullable = false, name = "cost_per_hour")
-    @Positive (message = "The cost must be a positive real number")
+    @Positive(message = "The cost must be a positive real number")
     private double costPerHour;
 
     public Trainer() {
         super();
     }
 
-    public Trainer(String name, String surname, Date birthDate,double costPerHour) {
-        super(name,surname,birthDate);
+    public Trainer(String name, String surname, Date birthDate, double costPerHour) {
+        super(name, surname, birthDate);
         this.costPerHour = costPerHour;
     }
-    
-    public void removeClient(Client c){
-        if(clients.contains(c)){
+
+    public void addClient(Client c) {
+        if (!clients.contains(c)) {
+            clients.add(c);
+        }
+    }
+
+    public void removeClient(Client c) {
+        if (clients.contains(c)) {
             clients.remove(c);
         }
     }
-    
+
     /**
      * Get the value of costPerHour
      *
@@ -65,7 +71,6 @@ public class Trainer extends Employee{
     public void setCostPerHour(double costPerHour) {
         this.costPerHour = costPerHour;
     }
-
 
     /**
      * Get the value of clients
@@ -85,5 +90,4 @@ public class Trainer extends Employee{
         this.clients = clients;
     }
 
-    
 }

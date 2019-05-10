@@ -127,6 +127,16 @@ public class EmployeeService extends AbstractService<Employee> {
                 .setParameter("username", username)
                 .getSingleResult();
     }
+    
+    public Employee findByFullName(String fullName) {
+        String[] splited = fullName.split("\\s+");
+        String name = splited[0].trim();
+        String surname = splited[1].trim();
+        return em.createNamedQuery("Employee.findByFullName", Employee.class)
+                .setParameter("name", name)
+                .setParameter("surname", surname)
+                .getSingleResult();
+    }
 
     public List<Administrative> findAllAdmins() {
         return em.createNamedQuery("Administrative.findAll", Administrative.class)
@@ -151,6 +161,7 @@ public class EmployeeService extends AbstractService<Employee> {
         for (Equipment eq : t.getEquipments()) {
             LOG.log(Level.INFO, "the new equipment is: {0}", eq.toString());
             eqAux = em.getReference(Equipment.class, eq.getId());
+            eqAux.setStatus(eq.getStatus());
             setDB.add(eqAux);
             eqAux.addTechnician((Technician)eDB);
         }

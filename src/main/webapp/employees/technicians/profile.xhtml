@@ -18,32 +18,20 @@
                     <p><strong>Username: </strong> #{loginController.remoteUser} </p>
                 </h:panelGroup>
                 <h:panelGroup layout="block">
-                    <p><strong>Full name: </strong> #{clientController.client.fullName}</p>
+                    <p><strong>Full name: </strong> #{technicianController.technician.fullName}</p>
                 </h:panelGroup>
                 <h:panelGroup layout="block">
                     <p><strong>Birth date: </strong>
-                        <h:outputText value="#{clientController.client.birthDate}" >
+                        <h:outputText value="#{technicianController.technician.birthDate}" >
                             <f:convertDateTime pattern="MM-dd-yyyy" />
                         </h:outputText>
                     </p>
                 </h:panelGroup>
-                <h:panelGroup layout="block">
-                    <p><strong>Type of membership:</strong>#{clientController.client.membership.name}</p>
+                <h:panelGroup layout="block" rendered="#{technicianController.technician.location != null}">
+                    <p><strong>Location</strong> #{technicianController.technician.location.name}</p>
                 </h:panelGroup>
                 <h:panelGroup layout="block">
-                    <p><strong>Height:</strong> #{clientController.client.height} m</p>
-                </h:panelGroup>
-                <h:panelGroup layout="block">
-                    <p><strong>Weight:</strong> #{clientController.client.weight} kg</p>
-                </h:panelGroup>
-                <h:panelGroup layout="block" rendered="#{clientController.client.trainer != null}">
-                    <p><strong>Trainer</strong> #{clientController.client.trainer.fullName}</p>
-                </h:panelGroup>
-                <h:panelGroup layout="block" rendered="#{clientController.client.trainer != null}">
-                    <p><strong>Location</strong> #{clientController.client.mainLocation.name}</p>
-                </h:panelGroup>
-                <h:panelGroup layout="block">
-                    <h:button value="Edit" outcome="/clients/user/edit.xhtml" />
+                    <h:button value="Edit" outcome="/employees/technicians/edit.xhtml" />
                 </h:panelGroup>
             </ui:define>
 
