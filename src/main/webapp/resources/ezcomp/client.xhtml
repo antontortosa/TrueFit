@@ -96,6 +96,10 @@
                                      id="membership" 
                                      value="#{cc.attrs.client.membership}">
                         <f:converter binding="#{membershipConverter}" />
+                        <f:validator validatorId="membershipValidator"/>
+                        <f:selectItem itemLabel="Select a Membership..."
+                                      itemValue="#{null}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{clientController.memberships}" 
                                        var="mem" 
                                        itemLabel="#{mem.name}" 

@@ -50,46 +50,46 @@ public class LoginController {
     private SecurityContext securityContext;
     @Inject
     private FacesContext facesContext;
-    
-    @EJB 
+
+    @EJB
     private UserService usrSvc;
-    
-    @EJB 
+
+    @EJB
     private GroupService grpSvc;
-    
+
     public LoginController() {
     }
 
     //Utlity methods
-    
     /**
      * Returns the authenticated username
+     *
      * @return the username of the authenticated user
      */
-    public String getRemoteUser(){
+    public String getRemoteUser() {
         return facesContext.getExternalContext().getRemoteUser();
     }
-    
+
     public boolean isAdmin() {
-         return securityContext.isCallerInRole("ADMIN_ROLE");
+        return securityContext.isCallerInRole("ADMIN_ROLE");
     }
-    
+
     public boolean isClient() {
-         return securityContext.isCallerInRole("CLIENT_ROLE");
+        return securityContext.isCallerInRole("CLIENT_ROLE");
     }
-    
+
     public boolean isTrainer() {
-         return securityContext.isCallerInRole("TRAINER_ROLE");
+        return securityContext.isCallerInRole("TRAINER_ROLE");
     }
-    
+
     public boolean isTech() {
-         return securityContext.isCallerInRole("TECH_ROLE");
+        return securityContext.isCallerInRole("TECH_ROLE");
     }
-    
+
     //Action methods
-    
     /**
      * Logic of the login procedure
+     *
      * @return the welcome page if login is successful. Error if fails
      */
     public String doLogin() {
@@ -115,23 +115,20 @@ public class LoginController {
                 LOG.info("NOT_DONE on Login");
                 return "/error.xhtml";
         }
-        if(isAdmin()){
+        if (isAdmin()) {
             return "/admin/welcome.xhtml?faces-redirect=true";
-        }
-        else if(isClient()){
+        } else if (isClient()) {
             return "clients/user/welcome.xhtml?faces-redirect=true";
-        }
-        else if(isTrainer()){
-         return "employees/trainers/welcome.xhtml?faces-redirect=true";
-        }
-        else{
-          return "employees/technicians/welcome.xhtml?faces-redirect=true";
+        } else if (isTrainer()) {
+            return "employees/trainers/welcome.xhtml?faces-redirect=true";
+        } else {
+            return "employees/technicians/welcome.xhtml?faces-redirect=true";
         }
     }
-    
-    public String doLogout(){
+
+    public String doLogout() {
         try {
-            HttpServletRequest req = (HttpServletRequest)facesContext.getExternalContext().getRequest();
+            HttpServletRequest req = (HttpServletRequest) facesContext.getExternalContext().getRequest();
             req.logout();
         } catch (ServletException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
@@ -175,7 +172,5 @@ public class LoginController {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    
 
 }

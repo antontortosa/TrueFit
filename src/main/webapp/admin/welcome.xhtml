@@ -8,9 +8,25 @@
     <ui:define name="title">
         Welcome page administrators
     </ui:define>
-    
+
     <ui:define name="mainContent">
-        
+        <h:panelGroup layout="block">
+            Hello #{administrativeController.adminstrative.fullName}
+        </h:panelGroup>
+        <ui:fragment rendered="#{administrativeController.adminstrative.location != null}">
+            <h:panelGroup>
+                At your current location (#{administrativeController.adminstrative.location.name}) there are:
+            </h:panelGroup>
+
+        </ui:fragment>
+        <h:panelGroup layout="block">
+            <br/>Among all locations (#{locationController.allLocations.size()}) there are
+            <p>#{clientController.allClients.size()} <h:link value="Clients" outcome="/admin/clients/allClients.xhtml"/></p>
+            <p>#{trainerController.allTrainers.size()} <h:link value="Trainers" outcome="/admin/employees/trainers/allTrainers.xhtml"/></p>
+            <p>#{technicianController.allTechnicians.size()} Technicians</p>
+            <p>#{equipmentController.allEquipments.size()} pieces of equipment</p>
+            <p>#{administrativeController.allAdministratives.size()} Administratives</p>
+        </h:panelGroup>   
     </ui:define>
 
 </ui:composition>

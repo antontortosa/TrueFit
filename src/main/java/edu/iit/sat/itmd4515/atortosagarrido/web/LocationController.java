@@ -34,7 +34,7 @@ public class LocationController {
     
     @PostConstruct
     private void postConstruct(){
-        LOG.info("inside PostConstruct");
+        LOG.info("LocationController -> inside PostConstruct");
         location = new Location();
     }
     

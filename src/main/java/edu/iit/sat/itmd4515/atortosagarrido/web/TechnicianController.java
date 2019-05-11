@@ -46,7 +46,7 @@ public class TechnicianController {
 
     @PostConstruct
     private void postConstruct(){
-        LOG.info("inside PostConstruct");
+        LOG.info("TechnicianController -> inside PostConstruct");
         if(loginController.getRemoteUser()!=null && securityContext.isCallerInRole("TECH_ROLE")){
             technician = (Technician)empSvc.findByUsername(loginController.getRemoteUser());
             user = technician.getUser();

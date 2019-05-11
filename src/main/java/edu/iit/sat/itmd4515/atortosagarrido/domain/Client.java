@@ -63,10 +63,12 @@ public class Client extends AbstractNamedEntity {
     private Membership membership;
 
     @Positive(message = "The height must be a positive real number")
+    @NotNull(message = "The height can't be null")
     @Column(nullable = false, name = "height_cl")
     private Double height;
 
     @Positive(message = "The weight must be a positive real number")
+    @NotNull(message = "The weight can't be null")
     @Column(nullable = false, name = "weight_cl")
     private Double weight;
 

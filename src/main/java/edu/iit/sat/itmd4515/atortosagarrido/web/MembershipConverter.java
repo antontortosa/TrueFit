@@ -30,12 +30,21 @@ public class MembershipConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        return memSvc.findByName(value);
+        if(value.equals("ERROR")){
+            return null;
+        }else{
+            return memSvc.findByName(value);
+        }     
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        return ((Membership)value).getName();
+        if(value!=null){
+            return ((Membership)value).getName();
+        }else{
+            return "ERROR";
+        }
+        
     }
     
 }

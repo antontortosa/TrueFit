@@ -63,7 +63,7 @@ public class ClientController {
 
     @PostConstruct
     private void postConstruct() {
-        LOG.info("inside PostConstruct");
+        LOG.info("ClientController -> inside PostConstruct");
         if (loginController.getRemoteUser() != null && securityContext.isCallerInRole("CLIENT_ROLE")) {
             client = clSvc.findByUsername(loginController.getRemoteUser());
             user = client.getUser();
@@ -76,7 +76,7 @@ public class ClientController {
     }
 
     public String clientCreatesClient() {
-        LOG.log(Level.INFO, "inside executeSaveClient{0}", client.toString());
+        LOG.log(Level.INFO, "ClientController -> inside executeSaveClient{0}", client.toString());
         //HttpServletRequest req =(HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         //username  = facesContext.getExternalContext().getRequestParameterMap().get("user");
         user.addGroup(grpSvc.findByName("CLIENT_GROUP"));
@@ -88,7 +88,7 @@ public class ClientController {
 
     //SAVE
     public String doSaveClient() {
-        LOG.log(Level.INFO, "inside doSaveClient with client {0}", client.toString());
+        LOG.log(Level.INFO, "ClientController -> inside doSaveClient with client {0}", client.toString());
 
         //UPDATE
         LOG.log(Level.INFO, "doSaveClient is going to call an update with client {0}", this.client.toString());
@@ -98,7 +98,7 @@ public class ClientController {
     }
     
     public String doSelectTrainer(Trainer t){
-        LOG.log(Level.INFO, "inside doSelectTraienr with trainer {0}", t!=null?t.getFullName():"no trainer");
+        LOG.log(Level.INFO, "ClientController -> inside doSelectTraienr with trainer {0}", t!=null?t.getFullName():"no trainer");
         this.trainer = t;
         this.client.setTrainer(this.trainer);
         clSvc.update(this.client);
@@ -106,7 +106,7 @@ public class ClientController {
     }
     
     public String doSelectLocation(Location l){
-        LOG.log(Level.INFO, "inside doSelectLocation with location {0}", l!=null?l.getName():"no location");
+        LOG.log(Level.INFO, "ClientController -> inside doSelectLocation with location {0}", l!=null?l.getName():"no location");
         this.client.setMainLocation(l);
         clSvc.update(this.client);
         return "/clients/user/training/locationhome.xhtml";
