@@ -5,12 +5,17 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.web;
 
-import edu.iit.sat.itmd4515.atortosagarrido.domain.EqStatus;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Equipment;
+import edu.iit.sat.itmd4515.atortosagarrido.domain.Reparation;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.Technician;
 import edu.iit.sat.itmd4515.atortosagarrido.domain.security.User;
 import edu.iit.sat.itmd4515.atortosagarrido.service.EmployeeService;
+import edu.iit.sat.itmd4515.atortosagarrido.service.ReparationService;
+import java.time.Instant;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -33,6 +38,8 @@ public class TechnicianController {
     
     private User user;
     
+    private Reparation reparation;
+    
     @Inject
     private SecurityContext securityContext;
     @Inject
@@ -40,6 +47,9 @@ public class TechnicianController {
     
     @EJB
     private EmployeeService empSvc;
+    
+    @EJB
+    private ReparationService repSvc;
 
     public TechnicianController() {
     }
@@ -54,23 +64,37 @@ public class TechnicianController {
             user = new User();
             this.technician = new Technician();
         } 
+        this.reparation = new Reparation();
     }
     
-    public String setAsOS(Equipment equip){
-        equip.setStatus(EqStatus.ONSERVICE);
-        empSvc.update(this.technician);
-        return "/employees/technicians/equipments/allequipments.xhtml";
+    /**
+     * Method to obtain all the reparations that haven't been finished yet by
+     * one technician
+     * @return a List with all the reparations still without end date
+     */
+    public List<Reparation> getAllOnGoingReparationsOfTech(){
+        return repSvc.findAllByTecOnGoing(this.technician.getId());
     }
     
-    public String setAsF(Equipment equip){
-        equip.setStatus(EqStatus.FIXING);
-        empSvc.update(this.technician);
-        return "/employees/technicians/equipments/allequipments.xhtml";
+    public List<Reparation> getAllReparationsOfTech(){
+        return repSvc.findAllByTec(this.technician.getId());
     }
     
-    public String setAsB(Equipment equip){
-        equip.setStatus(EqStatus.BROKEN);
-        empSvc.update(this.technician);
+    public String startReparation(Equipment equip){
+        LOG.log(Level.INFO, "TechnicianController -> inside startReparation with equipment {0} and trainer {1}", new Object[]{equip.getName(),this.technician.getFullName()});
+        this.reparation = new Reparation();
+        this.reparation.setTechnician(this.technician);
+        this.reparation.setEquipment(equip);
+        this.reparation.setDateStart(Date.from(Instant.now()));
+        repSvc.create(this.reparation);
+        return "/employees/technicians/equipments/allequipments.xhtml?faces-redirect=true";
+    }
+    public String finishReparation(Reparation rep){
+        LOG.log(Level.INFO, "TechnicianController -> inside finishReparation with reparation '{'{0}, {1}'}'", 
+                new Object[]{rep.getTechnician().getFullName(), rep.getEquipment().getName()});
+        this.reparation = rep;
+        this.reparation.setDateFinish(Date.from(Instant.now()));
+        repSvc.update(this.reparation);
         return "/employees/technicians/equipments/allequipments.xhtml";
     }
     
@@ -120,4 +144,21 @@ public class TechnicianController {
         this.user = user;
     }
 
+    /**
+     * Get the value of reparation
+     *
+     * @return the value of reparation
+     */
+    public Reparation getReparation() {
+        return reparation;
+    }
+
+    /**
+     * Set the value of reparation
+     *
+     * @param reparation new value of reparation
+     */
+    public void setReparation(Reparation reparation) {
+        this.reparation = reparation;
+    }
 }

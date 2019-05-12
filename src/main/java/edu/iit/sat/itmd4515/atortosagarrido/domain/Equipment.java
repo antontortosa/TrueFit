@@ -5,7 +5,9 @@
  */
 package edu.iit.sat.itmd4515.atortosagarrido.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -16,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -23,29 +26,29 @@ import javax.persistence.UniqueConstraint;
  *
  * @author antoniotortosa
  */
-
 @Entity
 @NamedQuery(name = "Equipment.findByLocation", query = "SELECT e FROM Equipment e WHERE e.location.name = :locName")
 @NamedQuery(name = "Equipment.findByName", query = "SELECT e FROM Equipment e WHERE e.name = :name")
 @NamedQuery(name = "Equipment.findAll", query = "SELECT e FROM Equipment e")
 @Table(
-        name="equipment",
+        name = "equipment",
         uniqueConstraints = @UniqueConstraint(columnNames = {"name"})
 )
-public class Equipment extends AbstractNamedEntity{
-    
-    
+public class Equipment extends AbstractNamedEntity {
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status_eq")
     private EqStatus status;
-    
+
     @ManyToMany(mappedBy = "equipments")
     private Set<Technician> technicians = new HashSet<>();
-    
+
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
 
+    @OneToMany(mappedBy = "equipment")
+    private List<Reparation> reparations;
 
     public Equipment() {
     }
@@ -54,7 +57,7 @@ public class Equipment extends AbstractNamedEntity{
         super(name);
         this.status = status;
     }
-    
+
     /**
      * Get the value of status
      *
@@ -80,8 +83,8 @@ public class Equipment extends AbstractNamedEntity{
     public void setTechnicians(Set<Technician> technicians) {
         this.technicians = technicians;
     }
-    
-     /**
+
+    /**
      * Get the value of location
      *
      * @return the value of location
@@ -98,27 +101,57 @@ public class Equipment extends AbstractNamedEntity{
     public void setLocation(Location location) {
         this.location = location;
     }
-    
-    public void addTechnician(Technician tc){
-        if(!technicians.contains(tc)){
+
+    /**
+     * Get the value of reparations
+     *
+     * @return the value of reparations
+     */
+    public List<Reparation> getReparations() {
+        return reparations;
+    }
+
+    /**
+     * Set the value of reparations
+     *
+     * @param reparations new value of reparations
+     */
+    public void setReparations(List<Reparation> reparations) {
+        this.reparations = reparations;
+    }
+
+    public void addTechnician(Technician tc) {
+        if (!technicians.contains(tc)) {
             technicians.add(tc);
             tc.addEquipment(this);
         }
     }
-    
-    public void removeTechTechnician(Technician tc){
-        if(technicians.contains(tc)){
+
+    public void removeTechTechnician(Technician tc) {
+        if (technicians.contains(tc)) {
             technicians.remove(tc);
-            tc.removeEquipment(this); 
+            tc.removeEquipment(this);
         }
     }
-    
+
     public void remove() {
         technicians.forEach((tc) -> {
             removeTechTechnician(tc);
         });
     }
-    
+
+    public void addReparation(Reparation r) {
+        if (!this.reparations.contains(r)) {
+            this.reparations.add(r);
+        }
+    }
+
+    public void removeReparation(Reparation r) {
+        if (this.reparations.contains(r)) {
+            this.reparations.remove(r);
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -154,10 +187,9 @@ public class Equipment extends AbstractNamedEntity{
 
     @Override
     public String toString() {
-        return "Equipment{" + "id=" + id + 
-                "\n name=" + name + 
-                "\n status=" + status + '}';
+        return "Equipment{" + "id=" + id
+                + "\n name=" + name
+                + "\n status=" + status + '}';
     }
-    
-    
+
 }

@@ -26,17 +26,9 @@
             </h:column>
             <h:column>
                 <h:form>
-                    <h:commandLink value="Set as On Service" action="#{technicianController.setAsOS(equip)}"/>
-                </h:form>
-            </h:column>
-            <h:column>
-                <h:form>
-                    <h:commandLink value="Set as Fixing" action="#{technicianController.setAsF(equip)}"/>
-                </h:form>
-            </h:column>
-            <h:column>
-                <h:form>
-                    <h:commandLink value="Set as Broken" action="#{technicianController.setAsB(equip)}"/>
+                    <ui:fragment rendered="#{equip.status.label == 'Broken'}">
+                        <h:commandLink value="Start a Reparation" action="#{technicianController.startReparation(equip)}"/>
+                    </ui:fragment>
                 </h:form>
             </h:column>
         </h:dataTable>

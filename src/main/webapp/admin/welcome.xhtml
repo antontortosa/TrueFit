@@ -20,12 +20,12 @@
 
         </ui:fragment>
         <h:panelGroup layout="block">
-            <br/>Among all locations (#{locationController.allLocations.size()}) there are
+            <br/>Among all <h:link value="Locations" outcome="/admin/locations/allLocations.xhtml"/> (#{locationController.allLocations.size()}) there are
             <p>#{clientController.allClients.size()} <h:link value="Clients" outcome="/admin/clients/allClients.xhtml"/></p>
             <p>#{trainerController.allTrainers.size()} <h:link value="Trainers" outcome="/admin/employees/trainers/allTrainers.xhtml"/></p>
-            <p>#{technicianController.allTechnicians.size()} Technicians</p>
-            <p>#{equipmentController.allEquipments.size()} pieces of equipment</p>
-            <p>#{administrativeController.allAdministratives.size()} Administratives</p>
+            <p>#{technicianController.allTechnicians.size()} <h:link value="Technicians" outcome="/admin/employees/techs/allTechnicians.xhtml"/></p>
+            <p>#{equipmentController.allEquipments.size()} <h:link value="Equipments" outcome="/admin/equipments/allEquipments.xhtml"/></p>
+            <p>#{administrativeController.allAdministratives.size()} <h:link value="Administratives" outcome="/admin/employees/admins/allAdmins.xhtml"/></p>
         </h:panelGroup>   
     </ui:define>
 

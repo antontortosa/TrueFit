@@ -102,7 +102,18 @@
                     </ui:fragment>
                     <ui:fragment id="techNav" rendered="#{loginController.tech}">
                         <li>
-                            <h:link value = "Equipment" outcome = "/employees/technicians/equipments/allequipments.xhtml"/>
+                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Equipment</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu">
+                                <li>
+                                    <h:link value = "All Equipment" outcome = "/employees/technicians/equipments/allequipments.xhtml"/>
+                                </li>
+                                <li>
+                                    <h:link value = "Fixing equipment" outcome = "/employees/technicians/equipments/fixing.xhtml"/>
+                                </li> 
+                            </ul>
+                        </li>
+                        <li>
+                            <h:link value = "Reparation history" outcome = "/employees/technicians/reparationhistory.xhtml"/>
                         </li>
                         <li>
                             <h:link value = "Profile" outcome = "/employees/technicians/profile.xhtml"/>

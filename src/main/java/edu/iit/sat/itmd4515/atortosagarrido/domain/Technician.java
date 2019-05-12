@@ -8,6 +8,7 @@ package edu.iit.sat.itmd4515.atortosagarrido.domain;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -36,6 +38,9 @@ public class Technician extends Employee{
         inverseJoinColumns = { @JoinColumn(name = "equipment_id") }
     )
     Set<Equipment> equipments = new HashSet<>();
+    
+    @OneToMany(mappedBy = "technician")
+    private List<Reparation> reparations;
     
     public Technician(){
         super();
@@ -63,6 +68,24 @@ public class Technician extends Employee{
         this.equipments = equipments;
     }
     
+    /**
+     * Get the value of reparations
+     *
+     * @return the value of reparations
+     */
+    public List<Reparation> getReparations() {
+        return reparations;
+    }
+
+    /**
+     * Set the value of reparations
+     *
+     * @param reparations new value of reparations
+     */
+    public void setReparations(List<Reparation> reparations) {
+        this.reparations = reparations;
+    }
+    
      public void addEquipment(Equipment eq) {
         if(!equipments.contains(eq)){
             equipments.add(eq);
@@ -82,6 +105,18 @@ public class Technician extends Employee{
         equipments.forEach((eq) -> {
             removeEquipment(eq);
         });
+    }
+    
+    public void addReparation(Reparation r) {
+        if (!this.reparations.contains(r)) {
+            this.reparations.add(r);
+        }
+    }
+
+    public void removeReparation(Reparation r) {
+        if (this.reparations.contains(r)) {
+            this.reparations.remove(r);
+        }
     }
 
     @Override
